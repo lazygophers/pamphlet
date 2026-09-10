@@ -16,7 +16,7 @@
 
 ## 为什么引擎全是可选依赖
 
-装 `@pamphlet/cli` 只得到**编译器本体**，一个引擎都不带。
+装 `@nekoleapuki/pamphlet-cli` 只得到**编译器本体**，一个引擎都不带。
 
 这不是懒，是算过账的：**全部引擎加起来约 340MB**。实测（`npm install` 六个引擎 + `du -sh node_modules`）是 **270 个包、189MB**，再叠上 Playwright + Chromium 约 150MB。
 

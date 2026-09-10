@@ -42,7 +42,7 @@ One 4GB Redis node, about $45 a month.
 ## 2. Compile
 
 ```bash
-npx @pamphlet/cli build plan.md
+npx @nekoleapuki/pamphlet-cli build plan.md
 ```
 
 `npx` ships with npm and means "download this package, run it once, don't leave it on my machine". The first run spends a dozen seconds downloading (measured: 86 packages, 15 seconds); after that npx has its own cache.
@@ -82,7 +82,7 @@ flowchart LR
 Compile again:
 
 ```bash
-npx @pamphlet/cli build plan.md
+npx @nekoleapuki/pamphlet-cli build plan.md
 ```
 
 **The first attempt fails**, with this diagnostic (compiler messages are Chinese-only for now):
@@ -105,7 +105,7 @@ Compile again and the diagram is in there — **as static SVG, with no diagram l
 ## 5. See where the bytes went
 
 ```bash
-npx @pamphlet/cli build plan.md --verbose
+npx @nekoleapuki/pamphlet-cli build plan.md --verbose
 ```
 
 ```
@@ -123,6 +123,6 @@ The segments do not overlap and add up to the whole file. Pamphlet **sets no siz
 
 ## Next
 
-- If you use it often, [install it](/en/start/install) so the command becomes `pamphlet` instead of `npx @pamphlet/cli`
+- If you use it often, [install it](/en/start/install) so the command becomes `pamphlet` instead of `npx @nekoleapuki/pamphlet-cli`
 - [The nine directives](/en/write/directives/) — callouts, tabs, collapsibles, steps
 - [What the output is](/en/design/output) — what it promises and what it does not

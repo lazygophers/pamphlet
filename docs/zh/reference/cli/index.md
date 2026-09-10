@@ -9,7 +9,7 @@ pamphlet extract <产物.html>        从产物反解出源文档
 pamphlet doctor                     各图表引擎装了没有
 ```
 
-没装的话前面加 `npx @pamphlet/cli`，例如 `npx @pamphlet/cli build 方案.md`。
+没装的话前面加 `npx @nekoleapuki/pamphlet-cli`，例如 `npx @nekoleapuki/pamphlet-cli build 方案.md`。
 
 ## 退出码
 

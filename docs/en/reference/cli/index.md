@@ -9,7 +9,7 @@ pamphlet extract <output.html>         recover the source from an output file
 pamphlet doctor                        which diagram engines are installed
 ```
 
-Without installing, prefix with `npx @pamphlet/cli`, e.g. `npx @pamphlet/cli build plan.md`.
+Without installing, prefix with `npx @nekoleapuki/pamphlet-cli`, e.g. `npx @nekoleapuki/pamphlet-cli build plan.md`.
 
 ## Exit codes
 

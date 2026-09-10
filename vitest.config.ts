@@ -7,9 +7,9 @@ export default defineConfig({
   resolve: {
     alias: {
       // 测试跑源码，不依赖 dist —— 否则每次改 runtime 都要先 build 才能跑测试
-      '@pamphlet/runtime': resolvePath('./packages/runtime/src/index.ts'),
-      '@pamphlet/themes': resolvePath('./packages/themes/src/index.ts'),
-      '@pamphlet/cli': resolvePath('./packages/pamphlet/src/index.ts'),
+      '@nekoleapuki/pamphlet-runtime': resolvePath('./packages/runtime/src/index.ts'),
+      '@nekoleapuki/pamphlet-themes': resolvePath('./packages/themes/src/index.ts'),
+      '@nekoleapuki/pamphlet-cli': resolvePath('./packages/pamphlet/src/index.ts'),
     },
   },
   test: {

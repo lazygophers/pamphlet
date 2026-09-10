@@ -3,10 +3,10 @@
 把一份 Markdown 编译成**一个能双击打开的 HTML 文件**。不联网、不带依赖、图是提前画好的静态 SVG、面板可以点、关掉 JavaScript 照样从头读到尾。
 
 ```bash
-npx @pamphlet/cli build 方案.md      # 得到 方案.html，发给谁都能直接打开
+npx @nekoleapuki/pamphlet-cli build 方案.md      # 得到 方案.html，发给谁都能直接打开
 ```
 
-不用先安装。想装到全局就 `npm i -g @pamphlet/cli`，之后命令名是 `pamphlet`。
+不用先安装。想装到全局就 `npm i -g @nekoleapuki/pamphlet-cli`，之后命令名是 `pamphlet`。
 
 ## 为什么不用现成的
 

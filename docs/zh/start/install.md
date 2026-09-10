@@ -3,7 +3,7 @@
 **不用装也能跑。**
 
 ```bash
-npx @pamphlet/cli build 方案.md
+npx @nekoleapuki/pamphlet-cli build 方案.md
 ```
 
 `npx` 是 npm 自带的一条命令，意思是「下载这个包、跑一次、不留在我电脑里」。第一次会花十几秒下载（实测 86 个依赖、15 秒），之后 npx 自己有缓存。
@@ -13,18 +13,18 @@ npx @pamphlet/cli build 方案.md
 常用的话装到全局，命令名就是 `pamphlet`，不用每次打那一长串：
 
 ```bash
-npm i -g @pamphlet/cli
+npm i -g @nekoleapuki/pamphlet-cli
 pamphlet build 方案.md
 ```
 
 或者只装进某个项目：
 
 ```bash
-pnpm add -D @pamphlet/cli
+pnpm add -D @nekoleapuki/pamphlet-cli
 ```
 
 :::info 包名和命令名不一样
-npm 上的包叫 `@pamphlet/cli`，装完之后的命令叫 `pamphlet`。
+npm 上的包叫 `@nekoleapuki/pamphlet-cli`，装完之后的命令叫 `pamphlet`。
 
 不叫 `pamphlet` 是因为那个名字在 npm 上**被别人 2018 年就占了**（<https://www.npmjs.com/package/pamphlet>，最新版本 4.0.0），不是废弃包，拿不回来。
 :::

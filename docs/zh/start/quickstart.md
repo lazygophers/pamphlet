@@ -42,7 +42,7 @@ Redis 单节点 4GB，月成本约 ¥320。
 ## 2. 编译
 
 ```bash
-npx @pamphlet/cli build 方案.md
+npx @nekoleapuki/pamphlet-cli build 方案.md
 ```
 
 `npx` 是 npm 自带的命令，意思是「下载这个包、跑一次、不留在电脑里」。第一次要花十几秒下载（实测 86 个依赖、15 秒），之后有缓存。
@@ -82,7 +82,7 @@ flowchart LR
 再编译一次：
 
 ```bash
-npx @pamphlet/cli build 方案.md
+npx @nekoleapuki/pamphlet-cli build 方案.md
 ```
 
 **第一次会失败**，得到这样一条诊断：
@@ -105,7 +105,7 @@ npm i -g mermaid-isomorphic playwright && npx playwright install chromium
 ## 5. 看看体积花在哪
 
 ```bash
-npx @pamphlet/cli build 方案.md --verbose
+npx @nekoleapuki/pamphlet-cli build 方案.md --verbose
 ```
 
 ```
@@ -123,6 +123,6 @@ npx @pamphlet/cli build 方案.md --verbose
 
 ## 接下来
 
-- 常用的话[装到本地](/start/install)，命令名就变成 `pamphlet`，不用每次打 `npx @pamphlet/cli`
+- 常用的话[装到本地](/start/install)，命令名就变成 `pamphlet`，不用每次打 `npx @nekoleapuki/pamphlet-cli`
 - [九个指令怎么写](/write/directives/) —— 提示块、标签页、折叠、步骤
 - [产物是什么样的](/design/output) —— 它承诺什么、不承诺什么

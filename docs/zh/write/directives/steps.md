@@ -29,7 +29,7 @@
 1. **装依赖**
 
    ```bash
-   npm i -g @pamphlet/cli
+   npm i -g @nekoleapuki/pamphlet-cli
    ```
 
 2. **编译**

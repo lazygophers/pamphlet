@@ -5,12 +5,12 @@
 不用。
 
 ```bash
-npx @pamphlet/cli build 方案.md
+npx @nekoleapuki/pamphlet-cli build 方案.md
 ```
 
 `npx` 会下载、跑一次、不留在电脑里。常用的话再[装到本地](/start/install)。
 
-## 为什么命令叫 `pamphlet`，包叫 `@pamphlet/cli`
+## 为什么命令叫 `pamphlet`，包叫 `@nekoleapuki/pamphlet-cli`
 
 不带命名空间的 `pamphlet` 在 npm 上**被别人 2018 年就占了**（<https://www.npmjs.com/package/pamphlet>，最新 4.0.0），不是废弃包，拿不回来。
 

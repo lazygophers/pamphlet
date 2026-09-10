@@ -53,7 +53,7 @@ Without it, the search order is: the first `#` heading in the document → the l
 :::warning This field currently does nothing
 `theme` is parsed and validated (a non-string reports `DOC-103`), but **no code reads it**.
 
-`@pamphlet/themes` defines three built-in theme names (`default` / `tech-dark` / `minimal`) that are not wired into the compiler yet.
+`@nekoleapuki/pamphlet-themes` defines three built-in theme names (`default` / `tech-dark` / `minimal`) that are not wired into the compiler yet.
 
 The only way to restyle today is [Changing the theme colours](/en/howto/theme).
 :::

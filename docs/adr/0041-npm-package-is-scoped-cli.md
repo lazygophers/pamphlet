@@ -1,5 +1,7 @@
 # npm 上叫 `@pamphlet/cli`，入口是 `npx` 而不是先安装
 
+> **已被 [0044](./0044-npm-scope-is-the-username-scope.md) 取代。** 本文漏查了一件事：`@pamphlet` 这个作用域并不属于本账号，往它发布会得到误导性的 `404`。下面的内容保留为当时的记录，名字以 0044 为准。
+
 发到 npm 的包名是 **`@pamphlet/cli`**，可执行文件名仍然是 `pamphlet`。文档和 README 的第一条命令一律写成：
 
 ```bash

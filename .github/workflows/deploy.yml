@@ -28,7 +28,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       # demo.md 里有一张 mermaid 图，而 Mermaid 必须用真实浏览器的布局引擎
       # 算文字尺寸（ADR-0004）。少了这一步 demo:build 会以 DIAG-301 失败。
-      - run: pnpm --filter @pamphlet/cli exec playwright install --with-deps chromium
+      - run: pnpm --filter @nekoleapuki/pamphlet-cli exec playwright install --with-deps chromium
       # 示例产物由 Pamphlet 自己编译（ADR-0029）：编译失败就构建失败。
       # 这一层是免费的集成测试——颜色替换规则随引擎升级静默失效这类问题，
       # 单元测试兜不住，真实编译一遍能兜住。

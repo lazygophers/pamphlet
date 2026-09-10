@@ -3,7 +3,7 @@
 Pamphlet compiles one Markdown file into **one HTML file you can double-click open**.
 
 ```bash
-npx @pamphlet/cli build plan.md      # gives you plan.html, openable by anyone you send it to
+npx @nekoleapuki/pamphlet-cli build plan.md      # gives you plan.html, openable by anyone you send it to
 ```
 
 The output contains no `<link>`, no `<script src>`, no CDN reference. Diagrams were rendered to static SVG at compile time and inlined, fonts are subset data URIs, images are base64. Offline, over `file://`, copied around on a USB stick — the behaviour is identical.

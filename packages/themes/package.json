@@ -1,5 +1,5 @@
 {
-  "name": "@pamphlet/themes",
+  "name": "@nekoleapuki/pamphlet-themes",
   "version": "0.0.1",
   "description": "Pamphlet 的内置主题：纯数据的 design token（语义层 18 个 + 元素层派生）",
   "type": "module",

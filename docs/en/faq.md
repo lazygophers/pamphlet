@@ -5,12 +5,12 @@
 No.
 
 ```bash
-npx @pamphlet/cli build plan.md
+npx @nekoleapuki/pamphlet-cli build plan.md
 ```
 
 `npx` downloads it, runs it once, and leaves nothing behind. If you use it often, [install it](/en/start/install).
 
-## Why is the command `pamphlet` but the package `@pamphlet/cli`
+## Why is the command `pamphlet` but the package `@nekoleapuki/pamphlet-cli`
 
 The unscoped name `pamphlet` **was taken in 2018** (<https://www.npmjs.com/package/pamphlet>, latest 4.0.0). It is not an abandoned package and cannot be reclaimed.
 

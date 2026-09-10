@@ -5,7 +5,7 @@
 用 `pamphlet lint` —— 它只检查语法、报诊断，**不产出任何文件**。
 
 ```bash
-npx @pamphlet/cli lint "docs/**/*.md"
+npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md"
 ```
 
 退出码非 `0` 就是有问题，CI 直接据此判断，不必解析输出。
@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npx @pamphlet/cli lint "docs/**/*.md"
+      - run: npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md"
 ```
 
 **通配符必须加引号** —— 不加的话 shell 会先抢着展开，而 `bash` 默认不支持 `**` 递归匹配，结果是只检查了一层却没有任何报错。详见[图片与资源](/write/assets)。
@@ -33,7 +33,7 @@ jobs:
 ## 把警告也当成失败
 
 ```bash
-npx @pamphlet/cli lint "docs/**/*.md" --fail-on-warn
+npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md" --fail-on-warn
 ```
 
 默认只有 `error` 让退出码变 `1`，`warning` 不影响。加这个开关之后警告也算失败。
@@ -45,7 +45,7 @@ npx @pamphlet/cli lint "docs/**/*.md" --fail-on-warn
 `lint` 只检查不产出。要真的编译，用 `build`：
 
 ```yaml
-      - run: npx @pamphlet/cli build "docs/**/*.md" --continue-on-error
+      - run: npx @nekoleapuki/pamphlet-cli build "docs/**/*.md" --continue-on-error
 ```
 
 `--continue-on-error` 让某一份出错后继续编译剩下的，退出码仍按「有没有失败」决定。不加的话第一份出错就停。
@@ -57,7 +57,7 @@ Mermaid 要真实浏览器，CI 镜像里得先装 Chromium：
 ```yaml
       - run: npm i -g mermaid-isomorphic playwright
       - run: npx playwright install --with-deps chromium
-      - run: npx @pamphlet/cli build "docs/**/*.md"
+      - run: npx @nekoleapuki/pamphlet-cli build "docs/**/*.md"
 ```
 
 `--with-deps` 会连系统依赖一起装（Linux 上必需）。这一步约 1 分钟。
@@ -67,7 +67,7 @@ Mermaid 要真实浏览器，CI 镜像里得先装 Chromium：
 ## 结构化输出给编辑器插件用
 
 ```bash
-npx @pamphlet/cli lint "docs/**/*.md" --format json
+npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md" --format json
 ```
 
 输出 `{ reports, failed }`。

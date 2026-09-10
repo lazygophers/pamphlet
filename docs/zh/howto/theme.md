@@ -1,7 +1,7 @@
 # 换一套主题色
 
 :::warning 目前只有一条路
-frontmatter 的 `theme` 字段**还没接进编译器** —— 写了会被校验但没有任何代码读它。`@pamphlet/themes` 里那三个内置主题名（`default` / `tech-dark` / `minimal`）也还没接上。
+frontmatter 的 `theme` 字段**还没接进编译器** —— 写了会被校验但没有任何代码读它。`@nekoleapuki/pamphlet-themes` 里那三个内置主题名（`default` / `tech-dark` / `minimal`）也还没接上。
 
 现在唯一能改的办法是往源文档里写一段 `<style>` 覆盖 CSS 变量。
 :::

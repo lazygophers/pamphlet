@@ -5,7 +5,7 @@
  */
 
 import { createHash } from 'node:crypto'
-import { assembleRuntime, LIVE_RELOAD } from '@pamphlet/runtime'
+import { assembleRuntime, LIVE_RELOAD } from '@nekoleapuki/pamphlet-runtime'
 import type { Heading } from 'mdast'
 import type { ParseResult } from '../parse.js'
 import type { Diagnostic } from '../diagnostics.js'

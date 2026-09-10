@@ -29,7 +29,7 @@ List items can hold paragraphs, code blocks and images as long as the indentatio
 1. **Install**
 
    ```bash
-   npm i -g @pamphlet/cli
+   npm i -g @nekoleapuki/pamphlet-cli
    ```
 
 2. **Compile**

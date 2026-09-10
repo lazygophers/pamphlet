@@ -1,5 +1,5 @@
 {
-  "name": "@pamphlet/cli",
+  "name": "@nekoleapuki/pamphlet-cli",
   "version": "0.0.1",
   "description": "把一份 Markdown 编译成自包含的单文件 HTML：不联网、图预渲染成静态 SVG、无 JavaScript 可降级",
   "type": "module",
@@ -21,7 +21,7 @@
     "prepublishOnly": "tsc -b"
   },
   "dependencies": {
-    "@pamphlet/runtime": "workspace:*",
+    "@nekoleapuki/pamphlet-runtime": "workspace:*",
     "mdast-util-directive": "^3.0.0",
     "mdast-util-from-markdown": "^2.0.2",
     "mdast-util-frontmatter": "^2.0.1",

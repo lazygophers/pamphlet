@@ -1,8 +1,8 @@
-# @pamphlet/runtime
+# @nekoleapuki/pamphlet-runtime
 
 一本 pamphlet 里那段负责交互的 JavaScript：约 1KB 内核 + 六个互相独立的特性片段。
 
-**你多半不需要单独装它。** 它是 [`@pamphlet/cli`](https://www.npmjs.com/package/@pamphlet/cli) 的内部依赖，编译时由 cli 按需拼接进产物。
+**你多半不需要单独装它。** 它是 [`@nekoleapuki/pamphlet-cli`](https://www.npmjs.com/package/@nekoleapuki/pamphlet-cli) 的内部依赖，编译时由 cli 按需拼接进产物。
 
 ## 它为什么长这样
 

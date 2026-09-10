@@ -1,4 +1,4 @@
-# @pamphlet/themes
+# @nekoleapuki/pamphlet-themes
 
 Pamphlet 的内置主题：**纯数据**的 design token。
 

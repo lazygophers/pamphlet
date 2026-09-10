@@ -127,7 +127,7 @@ importers:
 
   packages/pamphlet:
     dependencies:
-      '@pamphlet/runtime':
+      '@nekoleapuki/pamphlet-runtime':
         specifier: workspace:*
         version: link:../runtime
       mdast-util-directive:

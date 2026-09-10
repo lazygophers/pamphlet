@@ -5,7 +5,7 @@ The goal: when someone breaks a source file, find out **before merging** rather 
 Use `pamphlet lint` — it checks syntax and reports diagnostics, and **writes no files**.
 
 ```bash
-npx @pamphlet/cli lint "docs/**/*.md"
+npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md"
 ```
 
 A non-zero exit code means something is wrong; CI can judge on that alone without parsing output.
@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npx @pamphlet/cli lint "docs/**/*.md"
+      - run: npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md"
 ```
 
 **Quote the glob.** Unquoted, the shell expands first, and `bash` does not match `**` recursively by default — so you check one level and nothing tells you. See [Images and assets](/en/write/assets).
@@ -33,7 +33,7 @@ jobs:
 ## Treat warnings as failures
 
 ```bash
-npx @pamphlet/cli lint "docs/**/*.md" --fail-on-warn
+npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md" --fail-on-warn
 ```
 
 By default only `error` sets the exit code to `1`; `warning` does not. This flag makes warnings count.
@@ -45,7 +45,7 @@ Worth adding **from day one on a new project** — warnings are all "works now, 
 `lint` only checks. To actually compile, use `build`:
 
 ```yaml
-      - run: npx @pamphlet/cli build "docs/**/*.md" --continue-on-error
+      - run: npx @nekoleapuki/pamphlet-cli build "docs/**/*.md" --continue-on-error
 ```
 
 `--continue-on-error` keeps going after a failure, with the exit code still reflecting whether anything failed. Without it, the first failure stops the run.
@@ -57,7 +57,7 @@ Mermaid needs a real browser, so the CI image needs Chromium first:
 ```yaml
       - run: npm i -g mermaid-isomorphic playwright
       - run: npx playwright install --with-deps chromium
-      - run: npx @pamphlet/cli build "docs/**/*.md"
+      - run: npx @nekoleapuki/pamphlet-cli build "docs/**/*.md"
 ```
 
 `--with-deps` installs the system libraries too (required on Linux). That step takes about a minute.
@@ -67,7 +67,7 @@ Mermaid needs a real browser, so the CI image needs Chromium first:
 ## Structured output for editor plugins
 
 ```bash
-npx @pamphlet/cli lint "docs/**/*.md" --format json
+npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md" --format json
 ```
 
 Emits `{ reports, failed }`.

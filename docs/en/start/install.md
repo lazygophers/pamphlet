@@ -3,7 +3,7 @@
 **You do not have to install it.**
 
 ```bash
-npx @pamphlet/cli build plan.md
+npx @nekoleapuki/pamphlet-cli build plan.md
 ```
 
 `npx` ships with npm and means "download this package, run it once, don't leave it on my machine". The first run spends a dozen seconds downloading (measured: 86 packages, 15 seconds); after that npx has its own cache.
@@ -13,18 +13,18 @@ npx @pamphlet/cli build plan.md
 If you use it often, install it globally and the command is just `pamphlet`:
 
 ```bash
-npm i -g @pamphlet/cli
+npm i -g @nekoleapuki/pamphlet-cli
 pamphlet build plan.md
 ```
 
 Or per project:
 
 ```bash
-pnpm add -D @pamphlet/cli
+pnpm add -D @nekoleapuki/pamphlet-cli
 ```
 
 :::info The package name and the command name differ
-The npm package is `@pamphlet/cli`; the installed command is `pamphlet`.
+The npm package is `@nekoleapuki/pamphlet-cli`; the installed command is `pamphlet`.
 
 It is not published as `pamphlet` because **that name was taken in 2018** (<https://www.npmjs.com/package/pamphlet>, latest 4.0.0). It is not an abandoned package and cannot be reclaimed.
 :::

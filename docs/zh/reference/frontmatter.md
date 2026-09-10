@@ -53,7 +53,7 @@ title: 架构方案
 :::warning 这个字段目前不起作用
 `theme` 会被解析和校验（不是字符串报 `DOC-103`），但**没有任何代码读它**。
 
-`@pamphlet/themes` 里定义了三个内置主题名（`default` / `tech-dark` / `minimal`），但还没有接进编译器。
+`@nekoleapuki/pamphlet-themes` 里定义了三个内置主题名（`default` / `tech-dark` / `minimal`），但还没有接进编译器。
 
 现在能改样式的唯一办法见[换一套主题色](/howto/theme)。
 :::

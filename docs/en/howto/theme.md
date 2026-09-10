@@ -1,7 +1,7 @@
 # Changing the theme colours
 
 :::warning There is currently exactly one way
-The `theme` frontmatter field is **not wired into the compiler** — it is validated but no code reads it. The three built-in theme names in `@pamphlet/themes` (`default` / `tech-dark` / `minimal`) are not wired up either.
+The `theme` frontmatter field is **not wired into the compiler** — it is validated but no code reads it. The three built-in theme names in `@nekoleapuki/pamphlet-themes` (`default` / `tech-dark` / `minimal`) are not wired up either.
 
 The only way today is a `<style>` block in the source file overriding CSS variables.
 :::

@@ -16,7 +16,7 @@ The fence languages are recognised, but **the engines are not written yet**. Usi
 
 ## Why every engine is optional
 
-Installing `@pamphlet/cli` gives you **the compiler only**, with no engine attached.
+Installing `@nekoleapuki/pamphlet-cli` gives you **the compiler only**, with no engine attached.
 
 That is not laziness, it is arithmetic: **all the engines together weigh about 340MB**. Measured (`npm install` of six engines plus `du -sh node_modules`): **270 packages, 189MB**, plus Playwright and Chromium at about 150MB.
 
