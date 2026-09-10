@@ -36,11 +36,11 @@ describe('选哪一套', () => {
   })
 
   it('frontmatter 指定了就用它', () => {
-    expect(selectTheme({ frontmatter: 'notebook' }).theme.name).toBe('notebook')
+    expect(selectTheme({ frontmatter: 'fiction' }).theme.name).toBe('fiction')
   })
 
   it('CLI 覆盖 frontmatter', () => {
-    expect(selectTheme({ cli: 'receipt', frontmatter: 'notebook' }).theme.name).toBe('receipt')
+    expect(selectTheme({ cli: 'incident', frontmatter: 'fiction' }).theme.name).toBe('incident')
   })
 
   it('名字不认识时报 DOC-106 并退回 default', () => {

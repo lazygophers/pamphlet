@@ -206,181 +206,6 @@ pre{border:1px solid var(--pf-border)}
 th{font-family:var(--pf-font-mono);font-size:.85em;letter-spacing:.05em;text-transform:uppercase}
 `.trim()
 
-// ── notebook ─────────────────────────────────────────────────────────────
-// 横线笔记本。纸底色、横格线、便签式提示块、手写感的衬线标题。
-// 横格线用 repeating-linear-gradient 画，不引任何图片——自包含照旧成立。
-
-const notebookLight: ThemeTokens = {
-  bg: '#fbf7ec',
-  'bg-subtle': '#f3ecd9',
-  fg: '#2f2a20',
-  'fg-muted': '#7a7059',
-  primary: '#1f6f8b',
-  border: '#ddd2b8',
-  info: '#1f6f8b',
-  tip: '#4a7c37',
-  warn: '#b5761f',
-  danger: '#b4432e',
-  'font-sans': SANS,
-  'font-mono': MONO,
-  ...METRICS,
-  'line-height': '2',
-  radius: '2px',
-}
-
-const notebookDark: ThemeTokens = {
-  ...notebookLight,
-  bg: '#211d17',
-  'bg-subtle': '#2a251d',
-  fg: '#ece3d1',
-  'fg-muted': '#a0977f',
-  primary: '#6fb6cd',
-  border: '#3a3328',
-  info: '#6fb6cd',
-  tip: '#8cbf72',
-  warn: '#dda44f',
-  danger: '#e0785f',
-}
-
-const notebookCss = `
-/* 横格纸：一条 32px 的重复渐变，配合 line-height 2 让文字正好坐在线上 */
-body{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,var(--pf-border) 31px,var(--pf-border) 32px);background-attachment:local}
-.pf-doc{max-width:68rem;background:none}
-h1,h2,h3{font-family:${SERIF};font-weight:600}
-h1{border-bottom:2px solid var(--pf-primary);padding-bottom:var(--pf-space-2);display:inline-block}
-h2{color:var(--pf-primary)}
-/* 提示块做成便签：整块底色、右上角折角、轻微倾斜 */
-.pf-callout{border-left:none;border:1px solid var(--pf-border);background:var(--pf-bg-subtle);box-shadow:2px 2px 0 var(--pf-border);position:relative}
-.pf-callout-title{font-family:${SERIF};font-weight:700}
-.pf-callout-info{background:color-mix(in oklch,var(--pf-info) 10%,var(--pf-bg-subtle))}
-.pf-callout-tip{background:color-mix(in oklch,var(--pf-tip) 10%,var(--pf-bg-subtle))}
-.pf-callout-warn{background:color-mix(in oklch,var(--pf-warn) 12%,var(--pf-bg-subtle))}
-.pf-callout-danger{background:color-mix(in oklch,var(--pf-danger) 10%,var(--pf-bg-subtle))}
-/* Tab 做成索引标签 */
-.pf-tab-list{gap:var(--pf-space-1);border-bottom:2px solid var(--pf-border)}
-.pf-tab-button{background:var(--pf-bg-subtle);border:1px solid var(--pf-border);border-bottom:none;border-radius:var(--pf-radius) var(--pf-radius) 0 0;font-family:${SERIF}}
-.pf-tab-button[aria-selected="true"]{background:var(--pf-bg);border-bottom:2px solid var(--pf-bg);margin-bottom:-2px}
-.pf-collapse{background:var(--pf-bg-subtle);box-shadow:2px 2px 0 var(--pf-border)}
-.pf-collapse>summary{font-family:${SERIF}}
-/* 步骤改成手绘感的圆圈：描边不填色 */
-.pf-steps li::before{background:var(--pf-bg);color:var(--pf-primary);border:2px solid var(--pf-primary);font-family:${SERIF};font-weight:700}
-.pf-toc{border:1px solid var(--pf-border);box-shadow:2px 2px 0 var(--pf-border)}
-blockquote{background:var(--pf-bg-subtle);padding:var(--pf-space-2) var(--pf-space-3);border-left-width:4px}
-`.trim()
-
-// ── receipt ──────────────────────────────────────────────────────────────
-// 小票 / 发票。全等宽、窄栏、虚线分隔、居中标题。
-
-const receiptLight: ThemeTokens = {
-  bg: '#f5f4f0',
-  'bg-subtle': '#ebe9e3',
-  fg: '#1c1c1a',
-  'fg-muted': '#6e6d68',
-  primary: '#1c1c1a',
-  border: '#9c9a93',
-  info: '#3a5a80',
-  tip: '#3d6b45',
-  warn: '#8a6320',
-  danger: '#96322a',
-  'font-sans': MONO,
-  'font-mono': MONO,
-  ...METRICS,
-  'line-height': '1.6',
-  radius: '0px',
-}
-
-const receiptDark: ThemeTokens = {
-  ...receiptLight,
-  bg: '#17171a',
-  'bg-subtle': '#1f1f23',
-  fg: '#e4e3de',
-  'fg-muted': '#94938d',
-  primary: '#e4e3de',
-  border: '#4a4a50',
-}
-
-const receiptCss = `
-.pf-doc{max-width:48rem;padding:var(--pf-space-4) var(--pf-space-4);background:var(--pf-bg);border-left:1px dashed var(--pf-border);border-right:1px dashed var(--pf-border)}
-h1,h2,h3{text-align:center;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:1.05rem}
-h1{font-size:1.35rem;border-top:1px dashed var(--pf-border);border-bottom:1px dashed var(--pf-border);padding:var(--pf-space-2) 0}
-h2::before,h2::after{content:" ── "}
-/* 提示块做成虚线框加方括号标题 */
-.pf-callout{border:1px dashed var(--pf-border);border-left-width:1px;background:none;border-radius:0}
-.pf-callout-title{text-align:center;letter-spacing:.1em;text-transform:uppercase;font-size:.85em}
-.pf-callout-title::before{content:"[ "}.pf-callout-title::after{content:" ]"}
-/* Tab 做成方括号切换 */
-.pf-tab-list{border-bottom:1px dashed var(--pf-border);justify-content:center}
-.pf-tab-button{border-bottom:none;font-size:.85em;letter-spacing:.06em;text-transform:uppercase}
-.pf-tab-button[aria-selected="true"]::before{content:"› "}
-.pf-collapse{border:1px dashed var(--pf-border);border-radius:0}
-/* 步骤改成方框序号 */
-.pf-steps li::before{border-radius:0;background:none;color:var(--pf-fg);border:1px solid var(--pf-border);font-size:.75em}
-.pf-toc{background:none;border-top:1px dashed var(--pf-border);border-bottom:1px dashed var(--pf-border);border-radius:0}
-table{font-size:.9em}
-th,td{border:none;border-bottom:1px dashed var(--pf-border);padding-left:0}
-th{background:none;text-transform:uppercase;letter-spacing:.06em;font-size:.8em}
-pre{border:1px dashed var(--pf-border);background:none}
-`.trim()
-
-// ── glass ────────────────────────────────────────────────────────────────
-// 玻璃拟态。彩色光晕背景 + 半透明磨砂面板。
-// backdrop-filter 不被支持时会退化成普通半透明底色——内容照常可读。
-
-const glassLight: ThemeTokens = {
-  bg: '#eef1f8',
-  'bg-subtle': '#ffffff',
-  fg: '#1b1f2a',
-  'fg-muted': '#5c6478',
-  primary: '#5b5bd6',
-  border: '#ffffff',
-  info: '#3b74d6',
-  tip: '#2f9e6b',
-  warn: '#c98a1b',
-  danger: '#d64545',
-  'font-sans': SANS,
-  'font-mono': MONO,
-  ...METRICS,
-  radius: '16px',
-}
-
-const glassDark: ThemeTokens = {
-  ...glassLight,
-  bg: '#0f1220',
-  'bg-subtle': '#1a1f33',
-  fg: '#e8ebf5',
-  'fg-muted': '#9aa2bd',
-  primary: '#8f8ff5',
-  border: '#2b3350',
-  info: '#6b9ef0',
-  tip: '#4fc38c',
-  warn: '#e0aa45',
-  danger: '#f07070',
-}
-
-const glassCss = `
-/* 光晕背景：三团径向渐变，纯 CSS，不引图片 */
-body{background-image:radial-gradient(60rem 40rem at 12% -10%,color-mix(in oklch,var(--pf-primary) 28%,transparent),transparent 60%),radial-gradient(50rem 34rem at 88% 8%,color-mix(in oklch,var(--pf-info) 24%,transparent),transparent 60%),radial-gradient(46rem 30rem at 50% 110%,color-mix(in oklch,var(--pf-tip) 18%,transparent),transparent 60%);background-attachment:fixed}
-.pf-doc{max-width:76rem;margin-top:var(--pf-space-4);margin-bottom:var(--pf-space-4);padding:var(--pf-space-4);background:color-mix(in oklch,var(--pf-bg-subtle) 62%,transparent);backdrop-filter:blur(20px) saturate(140%);border:1px solid color-mix(in oklch,var(--pf-border) 45%,transparent);border-radius:calc(var(--pf-radius) * 1.5);box-shadow:0 24px 60px -20px rgba(10,14,30,.35)}
-h1,h2,h3{letter-spacing:-.02em}
-/* 面板类元素统一磨砂 */
-.pf-callout,.pf-collapse,pre,blockquote{background:color-mix(in oklch,var(--pf-bg-subtle) 55%,transparent);backdrop-filter:blur(12px);border:1px solid color-mix(in oklch,var(--pf-border) 40%,transparent);border-radius:var(--pf-radius)}
-.pf-callout{border-left-width:1px}
-.pf-callout-info{box-shadow:inset 3px 0 0 var(--pf-info)}
-.pf-callout-tip{box-shadow:inset 3px 0 0 var(--pf-tip)}
-.pf-callout-warn{box-shadow:inset 3px 0 0 var(--pf-warn)}
-.pf-callout-danger{box-shadow:inset 3px 0 0 var(--pf-danger)}
-/* Tab 做成胶囊，选中的一颗浮起来 */
-.pf-tab-list{border-bottom:none;gap:var(--pf-space-1);padding:var(--pf-space-1);background:color-mix(in oklch,var(--pf-bg-subtle) 45%,transparent);border-radius:999px;display:inline-flex}
-.pf-tab-button{border-bottom:none;border-radius:999px;padding:var(--pf-space-1) var(--pf-space-3)}
-.pf-tab-button[aria-selected="true"]{background:var(--pf-bg-subtle);box-shadow:0 4px 14px -4px rgba(10,14,30,.4)}
-.pf-steps li::before{box-shadow:0 4px 12px -4px color-mix(in oklch,var(--pf-primary) 70%,transparent)}
-table{border-collapse:separate;border-spacing:0;border-radius:var(--pf-radius);overflow:hidden}
-th{background:color-mix(in oklch,var(--pf-bg-subtle) 70%,transparent)}
-`.trim()
-
-
-// ══ 候选方向（等用户选定后再决定去留）════════════════════════════════════
-
 // ── editorial ────────────────────────────────────────────────────────────
 // 编辑部。大号衬线标题、章节数字、细分隔线、单一强调色，像一本杂志的内页。
 
@@ -581,6 +406,411 @@ pre{background:var(--pf-bg-subtle);border-left:2px solid var(--pf-border);font-s
 `.trim()
 
 
+// ══ 按文档类型分的主题 ══════════════════════════════════════════════════
+// 判据是「这一套对应哪一类真实文档」，不是「这一套好不好看」。
+// 只换配色的不算一套主题——两套并排如果只有颜色不同，就该合并。
+
+// ── fiction ──────────────────────────────────────────────────────────────
+// 小说、随笔、叙事章节。为长时间连续阅读排的版：窄栏、首行缩进、
+// 段间不留空、场景分隔用居中的三点。侧边菜单退到最淡，不抢注意力。
+
+const fictionLight: ThemeTokens = {
+  bg: '#faf6ef',
+  'bg-subtle': '#f2ece1',
+  fg: '#26221c',
+  'fg-muted': '#7d7568',
+  primary: '#7a4a2b',
+  border: '#e0d8c9',
+  info: '#5a6b7d',
+  tip: '#4f6b4a',
+  warn: '#8a6a2a',
+  danger: '#8f3b30',
+  'font-sans': SERIF,
+  'font-mono': MONO,
+  ...METRICS,
+  'line-height': '1.95',
+  radius: '0px',
+}
+
+const fictionDark: ThemeTokens = {
+  ...fictionLight,
+  bg: '#1a1714',
+  'bg-subtle': '#221e1a',
+  fg: '#e6ded1',
+  'fg-muted': '#9a9083',
+  primary: '#c99062',
+  border: '#332d26',
+  danger: '#d4796b',
+}
+
+const fictionCss = `
+.pf-layout{grid-template-columns:11rem minmax(0,38rem);justify-content:center;gap:calc(var(--pf-space-4) * 2);max-width:60rem}
+.pf-layout .pf-doc{padding-top:calc(var(--pf-space-4) * 2)}
+h1{font-size:2.3rem;font-weight:400;text-align:center;letter-spacing:.08em;margin-bottom:calc(var(--pf-space-4) * 1.5)}
+h1::after{content:"";display:block;width:3rem;border-top:1px solid var(--pf-border);margin:var(--pf-space-3) auto 0}
+h2{font-size:1.25rem;font-weight:400;text-align:center;letter-spacing:.12em;margin-top:calc(var(--pf-space-4) * 2)}
+h3{font-size:1.05rem;font-weight:400;font-style:italic}
+/* 中文小说的排法：段落首行缩进两字，段间不再留空 */
+.pf-doc p{text-indent:2em;margin-bottom:0}
+.pf-doc>p:first-of-type{text-indent:0}
+.pf-doc>p:first-of-type::first-letter{font-size:2.6em;float:left;line-height:1;padding:.08em .12em 0 0;color:var(--pf-primary)}
+/* 场景分隔线换成居中的三点 */
+hr{border:none;text-align:center;margin:calc(var(--pf-space-4) * 1.2) 0}
+hr::before{content:"· · ·";letter-spacing:.6em;color:var(--pf-fg-muted)}
+/* 提示块变成作者旁白：缩进、小一号、不加框 */
+.pf-callout{background:none;border:none;padding:var(--pf-space-2) var(--pf-space-4);font-size:.94em;color:var(--pf-fg-muted);font-style:italic}
+.pf-callout p{text-indent:0}
+.pf-callout-title{font-style:normal;font-size:.8em;letter-spacing:.14em;color:var(--pf-primary)}
+blockquote{border-left:none;text-align:center;font-style:italic;padding:var(--pf-space-3) var(--pf-space-4);color:var(--pf-fg-muted)}
+blockquote p{text-indent:0}
+.pf-tab-list{border-bottom:1px solid var(--pf-border);justify-content:center;gap:var(--pf-space-4)}
+.pf-tab-button{border-bottom:none;font-style:italic}
+.pf-tab-button[aria-selected="true"]{color:var(--pf-primary)}
+.pf-collapse{border:none;border-top:1px solid var(--pf-border);padding-left:0;padding-right:0}
+.pf-steps li::before{background:none;border:none;color:var(--pf-fg-muted);font-style:italic}
+.pf-steps li{padding-left:var(--pf-space-4)}
+.pf-toc-side{font-size:.8em}
+.pf-toc-side a{color:var(--pf-fg-muted);text-align:right;font-style:italic}
+table{font-size:.9em}
+`.trim()
+
+// ── manual ───────────────────────────────────────────────────────────────
+// 技术文档、参考手册、API 说明。代码块是主角：给它色条和呼吸空间；
+// 标题带锚点标记方便深链；表格斑马纹，长表格扫得动。
+
+const manualLight: ThemeTokens = {
+  bg: '#ffffff',
+  'bg-subtle': '#f5f7fa',
+  fg: '#16202b',
+  'fg-muted': '#5f6b7a',
+  primary: '#0b6bcb',
+  border: '#dde3ea',
+  info: '#0b6bcb',
+  tip: '#127a4b',
+  warn: '#9a6a12',
+  danger: '#c02a35',
+  'font-sans': SANS,
+  'font-mono': MONO,
+  ...METRICS,
+  'line-height': '1.72',
+  radius: '5px',
+}
+
+const manualDark: ThemeTokens = {
+  ...manualLight,
+  bg: '#0f141a',
+  'bg-subtle': '#161d26',
+  fg: '#dbe3ec',
+  'fg-muted': '#8b97a6',
+  primary: '#5aa9f5',
+  border: '#232d39',
+  info: '#5aa9f5',
+  tip: '#4bc98a',
+  warn: '#d9a441',
+  danger: '#e8656f',
+}
+
+const manualCss = `
+.pf-layout{grid-template-columns:16rem minmax(0,1fr);max-width:88rem;gap:var(--pf-space-4)}
+.pf-toc-side{border-right:1px solid var(--pf-border)}
+.pf-toc-side a{border-radius:0;border-left:2px solid transparent}
+.pf-toc-side a:hover{border-left-color:var(--pf-primary)}
+h1{font-size:2.1rem;font-weight:700;letter-spacing:-.02em}
+h2{font-size:1.4rem;font-weight:650;border-bottom:1px solid var(--pf-border);padding-bottom:var(--pf-space-2)}
+h2::after{content:" #";color:var(--pf-primary);opacity:0;font-weight:400}
+h2:hover::after{opacity:.5}
+h3{font-size:1.08rem;font-weight:650;color:var(--pf-fg)}
+/* 代码块是主角：左侧一条主色、更大的内边距 */
+pre{border:1px solid var(--pf-border);border-left:3px solid var(--pf-primary);padding:var(--pf-space-3) var(--pf-space-4)}
+code{border:1px solid var(--pf-border)}
+pre code{border:none}
+/* 提示块：整块淡底 + 左侧色条，四种分得开 */
+.pf-callout{border-left-width:4px;padding:var(--pf-space-3) var(--pf-space-4)}
+.pf-callout-title{font-size:.82rem;letter-spacing:.06em;text-transform:uppercase}
+.pf-callout-info{background:color-mix(in oklch,var(--pf-info) 8%,var(--pf-bg-subtle))}
+.pf-callout-tip{background:color-mix(in oklch,var(--pf-tip) 8%,var(--pf-bg-subtle))}
+.pf-callout-warn{background:color-mix(in oklch,var(--pf-warn) 10%,var(--pf-bg-subtle))}
+.pf-callout-danger{background:color-mix(in oklch,var(--pf-danger) 8%,var(--pf-bg-subtle))}
+/* Tab 做成文件夹标签：长表格里切换实现语言常用 */
+.pf-tab-list{gap:0;border-bottom:1px solid var(--pf-border)}
+.pf-tab-button{border:1px solid transparent;border-bottom:none;border-radius:var(--pf-radius) var(--pf-radius) 0 0;margin-bottom:-1px;font-size:.9em}
+.pf-tab-button[aria-selected="true"]{background:var(--pf-bg-subtle);border-color:var(--pf-border);border-bottom-color:var(--pf-bg-subtle);font-weight:600}
+/* 长表格要扫得动：斑马纹 + 表头吸顶 */
+tbody tr:nth-child(even){background:var(--pf-bg-subtle)}
+th{position:sticky;top:0;z-index:1;font-size:.85em;letter-spacing:.04em}
+td,th{padding:var(--pf-space-2) var(--pf-space-3)}
+.pf-steps li::before{border-radius:var(--pf-radius)}
+`.trim()
+
+// ── prd ──────────────────────────────────────────────────────────────────
+// 需求文档。每一节是一条可被引用的需求：编号、验收清单、优先级。
+// 任务列表放大成真正能看的验收项，提示块变成「约束」。
+
+const prdLight: ThemeTokens = {
+  bg: '#fdfdfe',
+  'bg-subtle': '#f4f5f9',
+  fg: '#1b1d29',
+  'fg-muted': '#646a80',
+  primary: '#4b40c4',
+  border: '#e0e2ec',
+  info: '#3a6fd8',
+  tip: '#1f8a5b',
+  warn: '#9c6a10',
+  danger: '#c33346',
+  'font-sans': SANS,
+  'font-mono': MONO,
+  ...METRICS,
+  radius: '8px',
+}
+
+const prdDark: ThemeTokens = {
+  ...prdLight,
+  bg: '#101119',
+  'bg-subtle': '#181a25',
+  fg: '#e6e7f0',
+  'fg-muted': '#9297ad',
+  primary: '#9b90ff',
+  border: '#262939',
+  info: '#7aa5f0',
+  tip: '#4cc78d',
+  warn: '#dba63f',
+  danger: '#f0697c',
+}
+
+const prdCss = `
+.pf-layout{grid-template-columns:16rem minmax(0,1fr);max-width:82rem}
+h1{font-size:2.2rem;font-weight:700;letter-spacing:-.02em}
+body{counter-reset:pf-req}
+/* 每个二级标题是一条需求：带编号徽章 */
+h2{counter-increment:pf-req;font-size:1.35rem;font-weight:650;display:flex;align-items:center;gap:var(--pf-space-3);margin-top:calc(var(--pf-space-4) * 1.4)}
+h2::before{content:"R" counter(pf-req,decimal-leading-zero);flex:none;font-family:var(--pf-font-mono);font-size:.72rem;letter-spacing:.06em;color:var(--pf-primary);background:color-mix(in oklch,var(--pf-primary) 12%,transparent);border:1px solid color-mix(in oklch,var(--pf-primary) 30%,transparent);border-radius:999px;padding:.25em .7em}
+h3{font-size:1.05rem;font-weight:650;color:var(--pf-fg-muted);text-transform:uppercase;letter-spacing:.06em}
+/* 提示块 = 约束条款，整块卡片 */
+.pf-callout{border-left:none;border:1px solid var(--pf-border);box-shadow:0 1px 2px rgba(20,22,40,.05);padding:var(--pf-space-3) var(--pf-space-4)}
+.pf-callout-title{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+.pf-callout-info{border-color:color-mix(in oklch,var(--pf-info) 40%,var(--pf-border))}.pf-callout-info .pf-callout-title{color:var(--pf-info)}
+.pf-callout-tip{border-color:color-mix(in oklch,var(--pf-tip) 40%,var(--pf-border))}.pf-callout-tip .pf-callout-title{color:var(--pf-tip)}
+.pf-callout-warn{border-color:color-mix(in oklch,var(--pf-warn) 45%,var(--pf-border));background:color-mix(in oklch,var(--pf-warn) 7%,var(--pf-bg-subtle))}.pf-callout-warn .pf-callout-title{color:var(--pf-warn)}
+.pf-callout-danger{border-color:color-mix(in oklch,var(--pf-danger) 45%,var(--pf-border));background:color-mix(in oklch,var(--pf-danger) 6%,var(--pf-bg-subtle))}.pf-callout-danger .pf-callout-title{color:var(--pf-danger)}
+/* 验收清单：把任务列表放大成真的能看的东西 */
+.pf-doc input[type="checkbox"]{width:1.05em;height:1.05em;margin-right:.5em;accent-color:var(--pf-primary);vertical-align:-.12em}
+.pf-doc li:has(> input[type="checkbox"]){list-style:none;margin-left:-1.4em;padding:var(--pf-space-1) 0;border-bottom:1px dashed var(--pf-border)}
+/* Tab 做成分段控件：不同角色 / 不同场景来回切 */
+.pf-tab-list{border-bottom:none;gap:var(--pf-space-1);background:var(--pf-bg-subtle);border-radius:999px;padding:3px;display:inline-flex}
+.pf-tab-button{border-bottom:none;border-radius:999px;font-size:.88em;font-weight:600}
+.pf-tab-button[aria-selected="true"]{background:var(--pf-bg);color:var(--pf-primary);box-shadow:0 1px 3px rgba(20,22,40,.12)}
+.pf-steps li::before{border-radius:999px;font-weight:700}
+.pf-collapse{border-radius:var(--pf-radius);background:var(--pf-bg-subtle)}
+table{border-collapse:separate;border-spacing:0;border:1px solid var(--pf-border);border-radius:var(--pf-radius);overflow:hidden}
+th,td{border:none;border-bottom:1px solid var(--pf-border)}
+tbody tr:last-child td{border-bottom:none}
+th{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pf-fg-muted)}
+td:first-child{font-weight:600}
+`.trim()
+
+// ── architecture ─────────────────────────────────────────────────────────
+// 系统设计文档。图是主角：给它最宽的画布、边框和图注位；
+// 引用块变成「决策记录」，表格是三线表，适合摆取舍对比。
+
+const architectureLight: ThemeTokens = {
+  bg: '#fcfcfb',
+  'bg-subtle': '#f1f2ef',
+  fg: '#1a1c1a',
+  'fg-muted': '#61665f',
+  primary: '#136b5f',
+  border: '#dcdedb',
+  info: '#2f5f8a',
+  tip: '#136b5f',
+  warn: '#8d6516',
+  danger: '#a83a2c',
+  'font-sans': SANS,
+  'font-mono': MONO,
+  ...METRICS,
+  radius: '2px',
+}
+
+const architectureDark: ThemeTokens = {
+  ...architectureLight,
+  bg: '#101312',
+  'bg-subtle': '#171b1a',
+  fg: '#e3e7e3',
+  'fg-muted': '#939a92',
+  primary: '#4fbfab',
+  border: '#242927',
+  info: '#6ea3d8',
+  tip: '#4fbfab',
+  warn: '#d3a44f',
+  danger: '#e0705f',
+}
+
+const architectureCss = `
+.pf-layout{grid-template-columns:15rem minmax(0,1fr);max-width:94rem;gap:var(--pf-space-4)}
+h1{font-size:2rem;font-weight:600;letter-spacing:-.01em}
+body{counter-reset:pf-sec}
+h2{counter-increment:pf-sec;font-size:1.3rem;font-weight:600;border-left:3px solid var(--pf-primary);padding-left:var(--pf-space-3);margin-top:calc(var(--pf-space-4) * 1.3)}
+h2::before{content:"§" counter(pf-sec) "  ";color:var(--pf-primary);font-weight:400}
+h3{font-size:1.05rem;font-weight:600}
+/* 图是主角：给它边框、底色和更大的上下留白 */
+.pf-diagram{border:1px solid var(--pf-border);background:var(--pf-bg-subtle);padding:var(--pf-space-4);margin:var(--pf-space-4) 0;border-radius:var(--pf-radius)}
+/* 引用块 = 决策记录 */
+blockquote{border-left:3px solid var(--pf-primary);background:var(--pf-bg-subtle);padding:var(--pf-space-3) var(--pf-space-4);color:var(--pf-fg)}
+blockquote::before{content:"决策";display:block;font-family:var(--pf-font-mono);font-size:.68rem;letter-spacing:.16em;color:var(--pf-primary);margin-bottom:var(--pf-space-1)}
+.pf-callout{border-left-width:3px;background:none;border-top:1px solid var(--pf-border);border-bottom:1px solid var(--pf-border);border-radius:0;padding:var(--pf-space-3)}
+.pf-callout-title{font-family:var(--pf-font-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+.pf-callout-info .pf-callout-title{color:var(--pf-info)}
+.pf-callout-tip .pf-callout-title{color:var(--pf-tip)}
+.pf-callout-warn .pf-callout-title{color:var(--pf-warn)}
+.pf-callout-danger .pf-callout-title{color:var(--pf-danger)}
+/* 取舍对比用三线表 */
+th{background:none;border:none;border-top:2px solid var(--pf-fg);border-bottom:1px solid var(--pf-fg);font-weight:600;font-size:.88em}
+td{border:none;border-bottom:1px solid var(--pf-border)}
+tbody tr:last-child td{border-bottom:2px solid var(--pf-fg)}
+.pf-tab-list{border-bottom:1px solid var(--pf-border);gap:var(--pf-space-2)}
+.pf-tab-button{border-bottom:2px solid transparent;font-size:.9em;font-weight:600}
+.pf-steps li::before{border-radius:2px;background:var(--pf-primary)}
+.pf-collapse{border-radius:var(--pf-radius)}
+.pf-toc-side a{border-radius:0}
+`.trim()
+
+// ── blueprint ────────────────────────────────────────────────────────────
+// 详细设计文档。极高密度：三级编号、紧凑表格、等宽标题，
+// 一屏尽量多放字段。给「一条条对着实现」的人看的。
+
+const blueprintLight: ThemeTokens = {
+  bg: '#fbfbfc',
+  'bg-subtle': '#eef0f3',
+  fg: '#15181d',
+  'fg-muted': '#5c626c',
+  primary: '#2b4c7e',
+  border: '#d8dbe1',
+  info: '#2b4c7e',
+  tip: '#1f7350',
+  warn: '#8a6414',
+  danger: '#b23a3a',
+  'font-sans': SANS,
+  'font-mono': MONO,
+  ...METRICS,
+  'line-height': '1.6',
+  'space-3': '12px',
+  'space-4': '24px',
+  radius: '2px',
+}
+
+const blueprintDark: ThemeTokens = {
+  ...blueprintLight,
+  bg: '#0e1116',
+  'bg-subtle': '#151a21',
+  fg: '#dfe3e9',
+  'fg-muted': '#8d95a1',
+  primary: '#7aa5dd',
+  border: '#222831',
+  info: '#7aa5dd',
+  tip: '#4cb98a',
+  warn: '#d0a447',
+  danger: '#e0706f',
+}
+
+const blueprintCss = `
+.pf-layout{grid-template-columns:17rem minmax(0,1fr);max-width:92rem;gap:var(--pf-space-3)}
+.pf-toc-side{border-right:1px solid var(--pf-border);font-size:.82em}
+.pf-toc-side a{padding:2px var(--pf-space-2);border-radius:0}
+/* 三级编号：1 / 1.1 / 1.1.1，对着实现时能准确指出是哪一条 */
+body{counter-reset:b2}
+h1{font-size:1.7rem;font-weight:700;font-family:var(--pf-font-mono);letter-spacing:-.02em}
+h2{counter-increment:b2;counter-reset:b3;font-size:1.15rem;font-weight:700;font-family:var(--pf-font-mono);border-bottom:2px solid var(--pf-border);padding-bottom:var(--pf-space-1);margin-top:var(--pf-space-4)}
+h2::before{content:counter(b2) ". ";color:var(--pf-primary)}
+h3{counter-increment:b3;counter-reset:b4;font-size:.98rem;font-weight:700;font-family:var(--pf-font-mono)}
+h3::before{content:counter(b2) "." counter(b3) " ";color:var(--pf-fg-muted)}
+h4{counter-increment:b4;font-size:.9rem;font-family:var(--pf-font-mono)}
+h4::before{content:counter(b2) "." counter(b3) "." counter(b4) " ";color:var(--pf-fg-muted)}
+/* 字段表要密：小字号、窄内边距、首列等宽 */
+table{font-size:.82em}
+th,td{padding:3px var(--pf-space-2);border-color:var(--pf-border)}
+th{background:var(--pf-bg-subtle);font-family:var(--pf-font-mono);font-size:.74rem;letter-spacing:.04em;text-transform:uppercase}
+td:first-child{font-family:var(--pf-font-mono);white-space:nowrap}
+.pf-callout{border-left-width:3px;padding:var(--pf-space-2) var(--pf-space-3);font-size:.9em;border-radius:0}
+.pf-callout-title{font-family:var(--pf-font-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.pf-callout-info .pf-callout-title{color:var(--pf-info)}
+.pf-callout-tip .pf-callout-title{color:var(--pf-tip)}
+.pf-callout-warn .pf-callout-title{color:var(--pf-warn)}
+.pf-callout-danger .pf-callout-title{color:var(--pf-danger)}
+.pf-tab-list{border-bottom:1px solid var(--pf-border);gap:0}
+.pf-tab-button{font-family:var(--pf-font-mono);font-size:.8em;padding:var(--pf-space-1) var(--pf-space-3);border:1px solid transparent;border-bottom:none;margin-bottom:-1px}
+.pf-tab-button[aria-selected="true"]{background:var(--pf-bg-subtle);border-color:var(--pf-border);border-bottom-color:var(--pf-bg-subtle)}
+.pf-steps li{margin-bottom:var(--pf-space-1)}
+.pf-steps li::before{border-radius:2px;width:18px;height:18px;font-size:.68em;background:var(--pf-bg-subtle);color:var(--pf-primary);border:1px solid var(--pf-border)}
+pre{font-size:.82em;padding:var(--pf-space-2) var(--pf-space-3);border:1px solid var(--pf-border)}
+.pf-collapse{padding:var(--pf-space-1) var(--pf-space-3);border-radius:0}
+`.trim()
+
+// ── incident ─────────────────────────────────────────────────────────────
+// 故障报告、复盘。时间线是骨架：步骤变成带竖线的时间轴，
+// danger / warn 最醒目，顶部的影响面表格一眼看完。
+
+const incidentLight: ThemeTokens = {
+  bg: '#fffdfd',
+  'bg-subtle': '#f7f2f2',
+  fg: '#1c1718',
+  'fg-muted': '#6c6163',
+  primary: '#b3261e',
+  border: '#e6dcdc',
+  info: '#2f5f8a',
+  tip: '#20744c',
+  warn: '#a06a10',
+  danger: '#b3261e',
+  'font-sans': SANS,
+  'font-mono': MONO,
+  ...METRICS,
+  radius: '4px',
+}
+
+const incidentDark: ThemeTokens = {
+  ...incidentLight,
+  bg: '#141010',
+  'bg-subtle': '#1d1717',
+  fg: '#eae2e2',
+  'fg-muted': '#a29494',
+  primary: '#f2776b',
+  border: '#2d2323',
+  info: '#79a6d4',
+  tip: '#4fb583',
+  warn: '#d9a94a',
+  danger: '#f2776b',
+}
+
+const incidentCss = `
+.pf-layout{grid-template-columns:15rem minmax(0,1fr);max-width:84rem}
+h1{font-size:2rem;font-weight:700}
+h1::before{content:"事故报告";display:block;font-family:var(--pf-font-mono);font-size:.7rem;letter-spacing:.2em;color:var(--pf-danger);margin-bottom:var(--pf-space-2)}
+h2{font-size:1.25rem;font-weight:700;border-left:4px solid var(--pf-danger);padding-left:var(--pf-space-3)}
+h3{font-size:1.02rem;font-weight:650}
+/* 步骤 = 时间轴：左边一条竖线，节点是实心圆 */
+.pf-steps{border-left:2px solid var(--pf-border);margin-left:10px;padding-left:var(--pf-space-4)}
+.pf-steps li{padding-left:var(--pf-space-3)}
+.pf-steps li::before{left:calc(var(--pf-space-4) * -1 - 11px);width:12px;height:12px;top:.45em;background:var(--pf-danger);color:transparent;border:2px solid var(--pf-bg);box-shadow:0 0 0 2px var(--pf-danger)}
+/* 严重的两种提示块要压过一切 */
+.pf-callout{border-left-width:4px;padding:var(--pf-space-3) var(--pf-space-4)}
+.pf-callout-title{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.pf-callout-danger{background:color-mix(in oklch,var(--pf-danger) 10%,var(--pf-bg-subtle));border-color:var(--pf-danger)}
+.pf-callout-danger .pf-callout-title{color:var(--pf-danger)}
+.pf-callout-warn{background:color-mix(in oklch,var(--pf-warn) 12%,var(--pf-bg-subtle))}
+.pf-callout-warn .pf-callout-title{color:var(--pf-warn)}
+.pf-callout-info .pf-callout-title{color:var(--pf-info)}
+.pf-callout-tip .pf-callout-title{color:var(--pf-tip)}
+/* 影响面表格：首列是字段名，等宽对齐 */
+th{background:var(--pf-bg-subtle);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--pf-fg-muted)}
+td:first-child{font-weight:600}
+td:not(:first-child){font-family:var(--pf-font-mono);font-size:.92em}
+.pf-tab-list{border-bottom:2px solid var(--pf-border);gap:var(--pf-space-3)}
+.pf-tab-button{border-bottom:2px solid transparent;font-weight:600;font-size:.9em;margin-bottom:-2px}
+.pf-tab-button[aria-selected="true"]{border-bottom-color:var(--pf-danger);color:var(--pf-danger)}
+.pf-collapse{border-left:3px solid var(--pf-border)}
+blockquote{border-left-width:4px;background:var(--pf-bg-subtle);padding:var(--pf-space-3) var(--pf-space-4)}
+.pf-toc-side a{border-left:2px solid transparent;border-radius:0}
+.pf-toc-side a:hover{border-left-color:var(--pf-danger)}
+`.trim()
+
+
 export const THEMES: Record<string, Theme> = {
   default: {
     name: 'default',
@@ -603,20 +833,6 @@ export const THEMES: Record<string, Theme> = {
     dark: techDark,
     css: techCss,
   },
-  notebook: {
-    name: 'notebook',
-    label: '笔记本：纸底色、横格线、便签式提示块',
-    light: notebookLight,
-    dark: notebookDark,
-    css: notebookCss,
-  },
-  receipt: {
-    name: 'receipt',
-    label: '小票：全等宽、窄栏、虚线分隔、居中标题',
-    light: receiptLight,
-    dark: receiptDark,
-    css: receiptCss,
-  },
   editorial: {
     name: 'editorial',
     label: '编辑部：大号衬线标题、章节编号、细分隔线，像杂志内页',
@@ -638,12 +854,47 @@ export const THEMES: Record<string, Theme> = {
     dark: paperDark,
     css: paperCss,
   },
-  glass: {
-    name: 'glass',
-    label: '玻璃拟态：光晕背景、磨砂面板、胶囊 Tab',
-    light: glassLight,
-    dark: glassDark,
-    css: glassCss,
+  fiction: {
+    name: 'fiction',
+    label: '小说：窄栏、首行缩进、段间不留空，为连续阅读排的版',
+    light: fictionLight,
+    dark: fictionDark,
+    css: fictionCss,
+  },
+  manual: {
+    name: 'manual',
+    label: '技术文档：代码块是主角、表头吸顶、斑马纹长表格',
+    light: manualLight,
+    dark: manualDark,
+    css: manualCss,
+  },
+  prd: {
+    name: 'prd',
+    label: '需求文档：每节一条带编号的需求、验收清单、约束卡片',
+    light: prdLight,
+    dark: prdDark,
+    css: prdCss,
+  },
+  architecture: {
+    name: 'architecture',
+    label: '系统设计：图占最宽画布、引用块是决策记录、三线表摆取舍',
+    light: architectureLight,
+    dark: architectureDark,
+    css: architectureCss,
+  },
+  blueprint: {
+    name: 'blueprint',
+    label: '详细设计：三级编号、紧凑字段表、等宽标题，密度优先',
+    light: blueprintLight,
+    dark: blueprintDark,
+    css: blueprintCss,
+  },
+  incident: {
+    name: 'incident',
+    label: '故障报告：步骤变时间轴、危险色压过一切、影响面表格',
+    light: incidentLight,
+    dark: incidentDark,
+    css: incidentCss,
   },
 }
 

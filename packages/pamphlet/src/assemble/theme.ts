@@ -104,7 +104,12 @@ th{background:var(--pf-table-header-bg)}
 img{max-width:100%;height:auto}
 hr{border:none;border-top:1px solid var(--pf-border);margin:var(--pf-space-4) 0}
 .pf-diagram{margin:var(--pf-space-3) 0;overflow-x:auto}
-.pf-diagram svg{max-width:100%;height:auto}
+/* 图不缩放：Mermaid 的标签装在 foreignObject 里，SVG 一旦被压到自然宽度以下，
+   浏览器会把标签裁掉字（实测「查数据库」变成「查数」）。宁可横向滚动，
+   也不能让读者看到一份缺字的图——.pf-diagram 上本来就有 overflow-x:auto。 */
+/* !important 是为了压过 Mermaid 写在 svg 标签上的 style="max-width:...px"——
+   那是行内样式，普通规则盖不掉它。 */
+.pf-diagram svg{width:max-content!important;max-width:none!important;height:auto}
 .pf-diagram-failed{border:1px dashed var(--pf-danger);padding:var(--pf-space-3);border-radius:var(--pf-radius);color:var(--pf-danger)}
 .pf-callout{border-left:3px solid var(--pf-border);background:var(--pf-bg-subtle);padding:var(--pf-space-3);border-radius:var(--pf-radius);margin:0 0 var(--pf-space-3)}
 .pf-callout>:last-child{margin-bottom:0}
