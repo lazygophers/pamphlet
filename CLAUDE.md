@@ -13,3 +13,17 @@
 ## 术语与设计决策
 
 术语表在 `CONTEXT.md`，设计决策在 `docs/adr/`。改动碰到哪条决策就去读那份 ADR，不确定就新写一份而不是偷偷改旧的。
+
+## Agent skills
+
+### Issue tracker
+
+Issues 存本地 markdown：`.scratch/<feature-slug>/issues/NN-<slug>.md`（每 ticket 一个文件）。见 `docs/agents/issue-tracker.md`。
+
+### Triage labels
+
+默认五角色，标签串等于角色名（`needs-triage` / `needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`）。见 `docs/agents/triage-labels.md`。
+
+### Domain docs
+
+single-context：根目录 `CONTEXT.md` + `docs/adr/`，所有 packages 共享。见 `docs/agents/domain.md`。
