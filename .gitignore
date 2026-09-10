@@ -18,3 +18,6 @@ doc_build/
 
 # 示例产物由 Pamphlet 现编（pnpm demo:build），不进版本库
 docs/public/demo/
+
+# 主题截图由真实编译现截（pnpm themes:shots），不进版本库
+docs/public/themes/

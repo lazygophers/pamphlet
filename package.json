@@ -12,7 +12,8 @@
     "typecheck": "tsc -b",
     "lint": "tsc -b --pretty false",
     "docs:dev": "rspress dev",
-    "docs:build": "rspress build",
+    "docs:build": "pnpm themes:shots && rspress build",
+    "themes:shots": "pnpm -r build && node packages/pamphlet/scripts/theme-shots.mjs",
     "docs:preview": "rspress preview",
     "demo:build": "pnpm -r build && node packages/pamphlet/dist/bin.js build examples/demo.md -o docs/public/demo/index.html"
   },
