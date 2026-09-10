@@ -130,6 +130,9 @@ importers:
       '@nekoleapuki/pamphlet-runtime':
         specifier: workspace:*
         version: link:../runtime
+      '@nekoleapuki/pamphlet-themes':
+        specifier: workspace:*
+        version: link:../themes
       mdast-util-directive:
         specifier: ^3.0.0
         version: 3.1.0(supports-color@7.2.0)

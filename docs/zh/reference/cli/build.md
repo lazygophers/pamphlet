@@ -14,6 +14,7 @@ pamphlet build "docs/**/*.md" --continue-on-error
 | 选项 | 说明 |
 |---|---|
 | `-o <路径>`、`--out <路径>` | 产物写到哪。只在编译单份时可用；配多份报错退出 `2` |
+| `--theme <名字>` | 换一套主题，压过 frontmatter。见[内置主题](/reference/themes) |
 | `--font <字体文件>` | 内嵌字体，只留文档用到的字 |
 | `--verbose` | 打印体积归因 |
 | `--no-embed-source` | 不内嵌源文档 |

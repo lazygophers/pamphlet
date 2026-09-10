@@ -10,6 +10,7 @@ import { basename, dirname, extname, resolve } from 'node:path'
 import { parse } from './parse.js'
 import { renderDiagrams } from './diagrams/index.js'
 import { assemble, type AssembleResult } from './assemble/index.js'
+import { selectTheme } from './theme-select.js'
 import type { Diagnostic } from './diagnostics.js'
 
 export interface CompileOptions {
@@ -22,6 +23,8 @@ export interface CompileOptions {
   /** 单个资源的字节上限 */
   assetLimitBytes?: number
   embedSource?: boolean
+  /** `--theme`，压过 frontmatter 里的 `theme:`（ADR-0046） */
+  theme?: string
 }
 
 export interface CompileResult extends AssembleResult {
@@ -33,6 +36,12 @@ export async function compileFile(path: string, options: CompileOptions = {}): P
   const source = await readFile(path, 'utf8')
   const parsed = parse(source)
   const diagnostics: Diagnostic[] = [...parsed.diagnostics]
+
+  const theme = selectTheme({
+    ...(options.theme === undefined ? {} : { cli: options.theme }),
+    ...(parsed.frontmatter.theme === undefined ? {} : { frontmatter: parsed.frontmatter.theme }),
+  })
+  diagnostics.push(...theme.diagnostics)
 
   const diagrams = await renderDiagrams(
     parsed.ast,
@@ -46,6 +55,9 @@ export async function compileFile(path: string, options: CompileOptions = {}): P
     { ...parsed, diagnostics: [] },
     {
       readAsset: async (asset) => new Uint8Array(await readFile(resolve(base, asset))),
+      light: theme.theme.light,
+      dark: theme.theme.dark,
+      themeCss: theme.theme.css,
       ...(options.font === undefined
         ? {}
         : { font: { family: fontFamily(options.font), path: resolve(base, options.font) } }),

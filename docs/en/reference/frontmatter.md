@@ -23,7 +23,7 @@ Six of them. Anything else reports a `DOC-102` warning listing this set — **ne
 |---|---|---|---|
 | `spec` | integer | omitted = no check | Minimum compiler syntax version this document needs |
 | `title` | string | the first `#` heading | The output's `<title>` |
-| `theme` | string | — | ⚠️ see below |
+| `theme` | string | `default` | Which built-in theme to use |
 | `lang` | string | `zh-CN` | The output's `<html lang="…">` |
 | `toc` | boolean or object | off | Table of contents |
 | `engines` | object | — | ⚠️ not implemented |
@@ -50,13 +50,15 @@ Without it, the search order is: the first `#` heading in the document → the l
 
 ## theme
 
-:::warning This field currently does nothing
-`theme` is parsed and validated (a non-string reports `DOC-103`), but **no code reads it**.
+```yaml
+theme: notebook
+```
 
-`@nekoleapuki/pamphlet-themes` defines three built-in theme names (`default` / `tech-dark` / `minimal`) that are not wired into the compiler yet.
+Six built-in themes: `default` / `minimal` / `tech-dark` / `notebook` / `receipt` / `glass`. See [Built-in themes](/en/reference/themes) for what each looks like.
 
-The only way to restyle today is [Changing the theme colours](/en/howto/theme).
-:::
+**The `--theme` flag overrides this field** — a one-off intent should beat the document's standing setting.
+
+An unknown name reports `DOC-106` and **falls back to `default`, still producing output**: a wrong theme only affects how it looks; the content is fine.
 
 ## lang
 

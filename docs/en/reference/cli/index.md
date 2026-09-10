@@ -29,6 +29,7 @@ Running `pamphlet` with no arguments prints usage and exits `2` — "you didn't 
 | Option | Applies to | Meaning |
 |---|---|---|
 | `-o <path>`, `--out <path>` | `build` | Where the output goes. Single file only; several sources errors with `2` |
+| `--theme <name>` | `build` `serve` | Switch theme, **overriding frontmatter `theme`**. The six are in [Built-in themes](/en/reference/themes) |
 | `--font <font file>` | `build` | Embed this font, **keeping only the glyphs used** |
 | `--verbose` | `build` | Print a size breakdown after compiling |
 | `--no-embed-source` | `build` | Do not embed the source (`extract` stops working) |

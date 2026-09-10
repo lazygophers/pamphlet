@@ -90,7 +90,7 @@ const ELEMENT_LAYER = `
 const BASE_CSS = `
 *{box-sizing:border-box}
 body{margin:0;background:var(--pf-bg);color:var(--pf-fg);font-family:var(--pf-font-sans);line-height:var(--pf-line-height);-webkit-text-size-adjust:100%}
-.pf-doc{max-width:52rem;margin:0 auto;padding:var(--pf-space-4) var(--pf-space-3)}
+.pf-doc{max-width:72rem;margin:0 auto;padding:var(--pf-space-4) var(--pf-space-4)}
 h1,h2,h3,h4,h5,h6{line-height:1.35;margin:var(--pf-space-4) 0 var(--pf-space-2)}
 p,ul,ol,blockquote,table,figure,pre{margin:0 0 var(--pf-space-3)}
 a{color:var(--pf-link)}
@@ -156,10 +156,31 @@ const FEATURE_CSS: Record<string, string> = {
 .pf-toc{background:var(--pf-bg-subtle);border-radius:var(--pf-radius);padding:var(--pf-space-3) var(--pf-space-4);margin:0 0 var(--pf-space-4)}
 .pf-toc ol{margin:0;padding-left:var(--pf-space-4)}
 .pf-toc>ol{padding-left:var(--pf-space-3)}
+/* 常驻侧边菜单：纯 CSS sticky，零 JavaScript（ADR-0022） */
+.pf-layout{display:grid;grid-template-columns:15rem minmax(0,1fr);gap:var(--pf-space-4);max-width:84rem;margin:0 auto;align-items:start}
+.pf-layout .pf-doc{max-width:none;margin:0;padding-left:0}
+.pf-toc-side{position:sticky;top:0;max-height:100vh;overflow-y:auto;margin:0;background:none;border-radius:0;padding:var(--pf-space-4) var(--pf-space-3);font-size:.92em}
+.pf-toc-side ol{list-style:none;padding-left:0}
+.pf-toc-side ol ol{padding-left:var(--pf-space-3)}
+.pf-toc-side li{margin:0 0 var(--pf-space-1)}
+.pf-toc-side a{display:block;padding:var(--pf-space-1) var(--pf-space-2);border-radius:calc(var(--pf-radius) / 2);color:var(--pf-fg-muted);text-decoration:none}
+.pf-toc-side a:hover{color:var(--pf-fg);background:var(--pf-bg-subtle)}
+/* 窄屏没有并排的空间：菜单退回文档开头，正常滚动 */
+@media (max-width:60rem){.pf-layout{display:block;padding:0 var(--pf-space-3)}.pf-toc-side{position:static;max-height:none;padding:var(--pf-space-3) 0;border-bottom:1px solid var(--pf-border)}.pf-layout .pf-doc{padding:var(--pf-space-3) 0}}
 `,
 }
 
-export function styleSheet(features: ReadonlySet<string>, light = LIGHT, dark = DARK): string {
+/**
+ * `themeCss` 追加在最后，所以主题只写想改的那几条，没写到的地方沿用基础版式。
+ * 追加而不是替换是有意的（ADR-0046）：无 JavaScript 时的降级行为写在 BASE_CSS
+ * 和 FEATURE_CSS 里，替换掉就等于每套主题都要自己重新保证一遍那条承诺。
+ */
+export function styleSheet(
+  features: ReadonlySet<string>,
+  light = LIGHT,
+  dark = DARK,
+  themeCss = '',
+): string {
   const featureCss = [...features]
     .sort()
     .map((feature) => FEATURE_CSS[feature] ?? '')
@@ -171,6 +192,7 @@ export function styleSheet(features: ReadonlySet<string>, light = LIGHT, dark = 
     `:root[data-pf-theme="light"]{${variables(light)}}`,
     BASE_CSS,
     featureCss.trim(),
+    themeCss,
   ]
     .filter((part) => part !== '')
     .join('\n')

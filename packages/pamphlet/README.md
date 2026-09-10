@@ -22,6 +22,14 @@ pamphlet build 方案.md
 | **交互可点** | Tab 可切换、折叠块可展开、图表可缩放拖动 |
 | **无 JavaScript 可降级** | 关掉 JavaScript，Tab 变成全部展开、折叠块变成原生 `<details>`，内容一个字不丢 |
 
+## 六套主题
+
+```bash
+npx @nekoleapuki/pamphlet-cli build 方案.md --theme notebook
+```
+
+`default` / `minimal` / `tech-dark` / `notebook` / `receipt` / `glass`，每套都是独立的配色**和版式**。也可以写进 frontmatter 的 `theme:`，`--theme` 会压过它。各自长什么样见[内置主题](https://lazygophers.github.io/pamphlet/reference/themes.html)。
+
 ## 六个命令
 
 ```

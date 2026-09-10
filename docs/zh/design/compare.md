@@ -49,7 +49,7 @@ pandoc 方案.md --embed-resources --standalone -o 方案.html
 | 自包含 | Typora 有开关；Obsidian 取决于插件 | ✅ 默认且强制 |
 | 标签页 / 折叠块 | ❌（Obsidian 的 callout 只在自家生效） | ✅ |
 | 图表 | Mermaid 通常内联成 SVG | ✅ 且跟随主题变色 |
-| 语法检查 | ❌ | ✅ `pamphlet lint` + 19 条诊断码 |
+| 语法检查 | ❌ | ✅ `pamphlet lint` + 20 条诊断码 |
 | 还原源文档 | ❌ | ✅ `pamphlet extract` |
 
 **什么时候选编辑器导出**：你本来就在用它写作，偶尔导出一份，不需要重复做。

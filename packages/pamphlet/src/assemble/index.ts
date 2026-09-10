@@ -22,6 +22,8 @@ export interface AssembleOptions {
   basePath?: string
   light?: ThemeTokens
   dark?: ThemeTokens
+  /** 主题自带的那段样式，追加在基础版式之后（ADR-0046） */
+  themeCss?: string
   assetLimitBytes?: number
   embedSource?: boolean
   /** 指定一个字体文件，子集化后内嵌进产物 */
@@ -88,6 +90,7 @@ export async function assemble(
     ctx.features,
     withFont(options.light ?? LIGHT),
     withFont(options.dark ?? DARK),
+    options.themeCss ?? '',
   )
   const css = font.css + styleText
 
@@ -110,7 +113,9 @@ export async function assemble(
     `<style>${css}</style>`,
     '</head>',
     '<body>',
-    `<main class="pf-doc">${toc.html}${body}</main>`,
+    toc.enabled && toc.position === 'side'
+      ? `<div class="pf-layout">${toc.html}<main class="pf-doc">${body}</main></div>`
+      : `<main class="pf-doc">${toc.html}${body}</main>`,
     ...(script === '' ? [] : [`<script>${script}</script>`]),
     '</body>',
     '</html>',

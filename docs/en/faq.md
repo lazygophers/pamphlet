@@ -49,9 +49,13 @@ With equal counts, the first `:::` closes the outer one.
 
 ## Can I change the fonts and colours
 
-Yes, but there is currently one way: a `<style>` block in the source file overriding CSS variables. See [Changing the theme colours](/en/howto/theme).
+Yes. The six [built-in themes](/en/reference/themes) each carry their own palette and layout:
 
-The `theme` frontmatter field is **not wired into the compiler** and does nothing.
+```bash
+pamphlet build plan.md --theme notebook
+```
+
+You can also put it in frontmatter so it travels with the document (`--theme` overrides it). To change just a colour or two, see [Changing the theme colours](/en/howto/theme).
 
 ## Why did the HTML I pasted break the page
 

@@ -66,7 +66,7 @@ Using a planned one reports `DIAG-301` and fails the build.
 |---|---|---|
 | `spec` | integer | omitted = no check |
 | `title` | string | the first `#` heading |
-| `theme` | string | ⚠️ not wired up |
+| `theme` | string | `default` |
 | `lang` | string | `zh-CN` |
 | `toc` | boolean or object | off |
 | `engines` | object | ⚠️ not implemented |

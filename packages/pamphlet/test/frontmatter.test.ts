@@ -66,11 +66,10 @@ describe('frontmatter', () => {
     expect(result.diagnostics).toEqual([])
   })
 
-  it('toc.position: side 报「尚未实现」而不是静默降级（ADR-0022）', () => {
+  it('toc.position: side 是常驻侧边菜单，不再报「尚未实现」（ADR-0022）', () => {
     const result = parseFrontmatter(['toc:', '  position: side'].join('\n'), START)
-    const error = result.diagnostics.find((d) => d.code === 'DOC-104')
-    expect(error?.severity).toBe('error')
-    expect(result.frontmatter.toc?.position).toBeUndefined()
+    expect(result.diagnostics).toEqual([])
+    expect(result.frontmatter.toc?.position).toBe('side')
   })
 
   it('toc.deep 越界报错', () => {

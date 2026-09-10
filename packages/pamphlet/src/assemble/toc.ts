@@ -12,10 +12,12 @@ import { escapeAttribute, escapeHtml, type RenderContext } from './html.js'
 export interface TocPlan {
   enabled: boolean
   html: string
+  /** side = 常驻侧边菜单（缺省）；top = 放在正文开头 */
+  position: 'top' | 'side'
 }
 
 export function renderToc(ctx: RenderContext, config: TocConfig | undefined): TocPlan {
-  if (config?.enable !== true) return { enabled: false, html: '' }
+  if (config?.enable !== true) return { enabled: false, html: '', position: 'side' }
 
   const maxDepth = config.deep ?? 2
   const skipTabs = config.skipTabs ?? true
@@ -23,7 +25,8 @@ export function renderToc(ctx: RenderContext, config: TocConfig | undefined): To
   const entries = ctx.headings.filter(
     (heading) => heading.depth <= maxDepth && heading.depth > 1 && !(skipTabs && heading.fromTab),
   )
-  if (entries.length === 0) return { enabled: false, html: '' }
+  const position = config.position ?? 'side'
+  if (entries.length === 0) return { enabled: false, html: '', position }
 
   const minDepth = Math.min(...entries.map((entry) => entry.depth))
   let html = ''
@@ -46,5 +49,6 @@ export function renderToc(ctx: RenderContext, config: TocConfig | undefined): To
   }
   html += '</ol>'
 
-  return { enabled: true, html: `<nav class="pf-toc" aria-label="目录">${html}</nav>` }
+  const cls = position === 'side' ? 'pf-toc pf-toc-side' : 'pf-toc'
+  return { enabled: true, html: `<nav class="${cls}" aria-label="目录">${html}</nav>`, position }
 }

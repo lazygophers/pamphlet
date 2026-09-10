@@ -49,7 +49,7 @@ Sources <https://typora.io/>, <https://help.obsidian.md/export> (checked 2026-09
 | Self-contained | Typora has a switch; Obsidian depends on a plugin | ✅ default and enforced |
 | Tabs / collapsibles | ❌ (Obsidian callouts only work inside Obsidian) | ✅ |
 | Diagrams | Mermaid usually inlined as SVG | ✅ and it follows the theme |
-| Syntax checking | ❌ | ✅ `pamphlet lint` plus 19 diagnostic codes |
+| Syntax checking | ❌ | ✅ `pamphlet lint` plus 20 diagnostic codes |
 | Recovering the source | ❌ | ✅ `pamphlet extract` |
 
 **Choose the editor export** when you already write in it and export one file occasionally, with nothing to repeat.

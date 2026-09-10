@@ -87,6 +87,18 @@ Alternatives are in [GFM extensions](/en/write/markdown/gfm).
 
 The reference and the definition **each report once**, and an orphan definition (with no reference) reports too.
 
+### DOC-106
+
+**The named theme does not exist.** Severity `error`.
+
+`--theme` or the frontmatter `theme:` names something unknown. The hint lists all six built-in theme names.
+
+**It errors without stopping the compile**: it falls back to `default` and still writes the output — a wrong theme only affects how it looks; the content is fine.
+
+An error rather than a warning, because silently substituting a theme would let you believe the one you wrote took effect.
+
+See [Built-in themes](/en/reference/themes).
+
 ---
 
 ## DIR-2xx container directives

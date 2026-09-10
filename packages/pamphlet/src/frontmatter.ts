@@ -189,16 +189,6 @@ function parseToc(value: unknown, start: Point): { toc?: TocConfig; diagnostics:
         )
         continue
       }
-      if (item === 'side') {
-        // 报「尚未实现」而不是静默降级为 top（ADR-0022）
-        diagnostics.push(
-          diagnostic('DOC-104', 'error', 'toc.position: side（粘性侧边栏）尚未实现', {
-            start,
-            hint: '暂时用 position: top，目录会放在正文开头',
-          }),
-        )
-        continue
-      }
       toc.position = item
       continue
     }

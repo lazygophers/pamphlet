@@ -49,9 +49,13 @@ Mermaid 必须用真实浏览器的布局引擎算文字宽度，jsdom 没实现
 
 ## 能改字体和颜色吗
 
-能，但目前只有一条路：往源文档里写一段 `<style>` 覆盖 CSS 变量。见[换一套主题色](/howto/theme)。
+能。六套[内置主题](/reference/themes)各有独立的配色和版式：
 
-frontmatter 的 `theme` 字段**还没接进编译器**，写了不起作用。
+```bash
+pamphlet build 方案.md --theme notebook
+```
+
+也可以写进 frontmatter 让它跟着文档走（`--theme` 会压过它）。只想动一两个颜色的话再走[换一套主题色](/howto/theme)。
 
 ## 为什么我贴的 HTML 把整个页面搞乱了
 

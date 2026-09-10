@@ -81,7 +81,7 @@ export interface TocConfig {
   deep?: number
   /** 目录是否跳过 Tab 生成的标题，默认 true */
   skipTabs?: boolean
-  /** top = 正文开头（已实现）；side = 粘性侧边栏（尚未实现） */
+  /** side = 常驻侧边菜单（缺省，桌面优先）；top = 目录放在正文开头 */
   position?: 'top' | 'side'
 }
 

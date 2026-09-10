@@ -319,7 +319,7 @@ describe('seam 7：目录（ADR-0022）', () => {
 
   it('开了 toc 时插一段带锚点的嵌套列表', async () => {
     const { html } = await build(doc('toc: true'))
-    expect(html).toContain('class="pf-toc"')
+    expect(html).toContain('class="pf-toc pf-toc-side"')
     expect(html).toContain('href="#甲章"')
     expect(html).toContain('href="#乙章"')
   })
@@ -631,7 +631,7 @@ describe('渲染的其余分支', () => {
     const { html } = await build(
       '---\ntoc:\n  enable: true\n  deep: 4\n---\n\n# 顶\n\n## 甲\n\n#### 深\n\n## 乙\n',
     )
-    const toc = /<nav class="pf-toc"[^>]*>([\s\S]*?)<\/nav>/.exec(html)?.[1] ?? ''
+    const toc = /<nav class="pf-toc[^"]*"[^>]*>([\s\S]*?)<\/nav>/.exec(html)?.[1] ?? ''
     expect(toc.match(/<ol>/g)?.length).toBe(toc.match(/<\/ol>/g)?.length)
   })
 })
@@ -694,7 +694,7 @@ describe('渲染的兜底分支', () => {
 
   it('目录只收一级时不产生嵌套的 ol', async () => {
     const { html } = await build('---\ntoc:\n  enable: true\n---\n\n# 顶\n\n## 甲\n\n## 乙\n')
-    const toc = /<nav class="pf-toc"[^>]*>([\s\S]*?)<\/nav>/.exec(html)?.[1] ?? ''
+    const toc = /<nav class="pf-toc[^"]*"[^>]*>([\s\S]*?)<\/nav>/.exec(html)?.[1] ?? ''
     expect(toc.match(/<ol>/g)?.length).toBe(1)
   })
 
@@ -782,7 +782,7 @@ describe('样式与体积报告的边角', () => {
 
   it('目录里同级标题连排时不产生多余的 ol', async () => {
     const { html } = await build('---\ntoc:\n  enable: true\n---\n\n# 顶\n\n## 甲\n\n## 乙\n\n## 丙\n')
-    const toc = /<nav class="pf-toc"[^>]*>([\s\S]*?)<\/nav>/.exec(html)?.[1] ?? ''
+    const toc = /<nav class="pf-toc[^"]*"[^>]*>([\s\S]*?)<\/nav>/.exec(html)?.[1] ?? ''
     expect(toc.match(/<ol>/g)?.length).toBe(1)
     expect(toc.match(/<li>/g)?.length).toBe(3)
   })

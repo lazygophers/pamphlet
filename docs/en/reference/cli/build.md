@@ -14,6 +14,7 @@ Output goes **next to the source file** by default: `plan.md` → `plan.html`.
 | Option | Meaning |
 |---|---|
 | `-o <path>`, `--out <path>` | Where the output goes. Single file only; several sources errors with `2` |
+| `--theme <name>` | Switch theme, overriding frontmatter. See [Built-in themes](/en/reference/themes) |
 | `--font <font file>` | Embed a font, keeping only the glyphs used |
 | `--verbose` | Print a size breakdown |
 | `--no-embed-source` | Do not embed the source |

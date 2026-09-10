@@ -23,7 +23,7 @@ toc:
 |---|---|---|---|
 | `spec` | 整数 | 不填 = 不检查 | 这份文档要求的最低编译器语法版本 |
 | `title` | 字符串 | 第一个 `#` 标题 | 产物的 `<title>` |
-| `theme` | 字符串 | — | ⚠️ 见下方说明 |
+| `theme` | 字符串 | `default` | 用哪一套内置主题 |
 | `lang` | 字符串 | `zh-CN` | 产物 `<html lang="…">` |
 | `toc` | 布尔或对象 | 关 | 目录 |
 | `engines` | 对象 | — | ⚠️ 尚未实现 |
@@ -50,13 +50,15 @@ title: 架构方案
 
 ## theme
 
-:::warning 这个字段目前不起作用
-`theme` 会被解析和校验（不是字符串报 `DOC-103`），但**没有任何代码读它**。
+```yaml
+theme: notebook
+```
 
-`@nekoleapuki/pamphlet-themes` 里定义了三个内置主题名（`default` / `tech-dark` / `minimal`），但还没有接进编译器。
+六套内置主题：`default` / `minimal` / `tech-dark` / `notebook` / `receipt` / `glass`，每套长什么样见[内置主题](/reference/themes)。
 
-现在能改样式的唯一办法见[换一套主题色](/howto/theme)。
-:::
+**命令行的 `--theme` 压过这个字段** —— 一次性的意图应该能盖过文档的长期设定。
+
+名字不认识报 `DOC-106`，**退回 `default` 继续编译**：主题错了只影响长相，内容是对的。
 
 ## lang
 

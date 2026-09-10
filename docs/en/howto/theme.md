@@ -1,10 +1,12 @@
 # Changing the theme colours
 
-:::warning There is currently exactly one way
-The `theme` frontmatter field is **not wired into the compiler** — it is validated but no code reads it. The three built-in theme names in `@nekoleapuki/pamphlet-themes` (`default` / `tech-dark` / `minimal`) are not wired up either.
+**Check whether a built-in will do first**: the six [built-in themes](/en/reference/themes) each carry their own palette *and* layout, and one flag switches between them.
 
-The only way today is a `<style>` block in the source file overriding CSS variables.
-:::
+```bash
+pamphlet build plan.md --theme notebook
+```
+
+This page is about **tweaking when none of them quite fits** — a `<style>` block in the source file overriding CSS variables. The two combine: pick a theme, then override a value or two.
 
 ## Change the accent colour
 
@@ -77,6 +79,6 @@ Hard-coded colours in engine output that could not be substituted report `DIAG-3
 It can override the whole theme system, including parts you did not intend to touch. A misspelled variable name produces no warning of any kind.
 :::
 
-- **Every document repeats it.** There is no shared config; the source file carries all configuration.
+- **Every document repeats it.** There is no shared config; the source file carries all configuration. To swap a whole theme, use `--theme` or frontmatter instead of repeating this.
 - **It affects the output, not the source's readability.** On GitHub that `<style>` shows up as plain text.
 - **Variable names may change during 0.x.** Renaming is expensive (substitution rules, built-in themes and docs must change together), but nothing is promised.
