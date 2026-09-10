@@ -179,8 +179,10 @@ function renderNode(node: RootContent, ctx: RenderContext, headingOffset: number
 function renderCode(node: Code, ctx: RenderContext): string {
   const data = (node as Code & { data?: DiagramData }).data
   if (data?.svg) {
-    // 图表管线已经渲染并换过色，这里只内联进去
-    return `<figure class="pf-diagram">${data.svg}</figure>`
+    // 图表管线已经渲染并换过色，这里只内联进去。
+    // 有图才带上缩放：`data-pf-zoom` 是运行时那个片段的挂载点。
+    ctx.features.add('diagram-zoom')
+    return `<figure class="pf-diagram" data-pf-zoom>${data.svg}</figure>`
   }
   if (data?.failed) {
     return `<figure class="pf-diagram pf-diagram-failed"><p>这张图没画出来：${escapeHtml(data.failed.reason)}</p><pre><code>${escapeHtml(node.value)}</code></pre></figure>`

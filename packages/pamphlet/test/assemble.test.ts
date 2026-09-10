@@ -733,3 +733,28 @@ describe('表格与列表的其余形态', () => {
     expect(html).toContain('title="标题乙"')
   })
 })
+
+describe('深浅色与图表缩放', () => {
+  it('跟随系统深浅色靠纯 CSS，不需要一行 JavaScript', async () => {
+    const { html } = await build('就一句话')
+    expect(html).toContain('@media (prefers-color-scheme:dark)')
+    // 纯文字文档仍然一个 <script> 都没有（ADR-0012）
+    expect(html).not.toContain('<script>')
+  })
+
+  it('有图才有缩放，没图一个字节都不放', async () => {
+    const plain = await build('# 标题\n\n正文')
+    expect(plain.html).not.toContain('data-pf-feature="diagram-zoom"')
+
+    const parsed = parse('正文\n')
+    parsed.ast.children.push({
+      type: 'code',
+      lang: 'mermaid',
+      value: 'graph TD; A-->B',
+      data: { svg: '<svg xmlns="http://www.w3.org/2000/svg"><text>甲</text></svg>' },
+    } as never)
+    const withDiagram = await assemble(parsed)
+    expect(withDiagram.html).toContain('data-pf-feature="diagram-zoom"')
+    expect(withDiagram.html).toContain('<figure class="pf-diagram" data-pf-zoom>')
+  })
+})
