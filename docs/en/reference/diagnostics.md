@@ -91,7 +91,7 @@ The reference and the definition **each report once**, and an orphan definition 
 
 **The named theme does not exist.** Severity `error`.
 
-`--theme` or the frontmatter `theme:` names something unknown. The hint lists every built-in theme name.
+`--theme` or the frontmatter `theme:` names something unknown. The hint lists every built-in theme, one per line, **each name followed by the kind of document it suits**, so you can pick without opening the docs.
 
 **It errors without stopping the compile**: it falls back to `default` and still writes the output — a wrong theme only affects how it looks; the content is fine.
 

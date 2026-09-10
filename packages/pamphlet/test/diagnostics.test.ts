@@ -29,6 +29,24 @@ describe('诊断格式化', () => {
     expect(text).not.toContain('-->')
   })
 
+  // DOC-106 要一行一套地列十二套主题，续行不缩进就会看起来像另一条诊断
+  it('多行建议的续行挂在 `=` 底下', () => {
+    const hint = ['能用的是：', '  a  第一套', '  b  第二套'].join('\n')
+    expect(format(diagnostic('DOC-106', 'error', '没有叫 zzz 的主题', { hint }))).toContain(
+      ['  = 能用的是：', '      a  第一套', '      b  第二套'].join('\n'),
+    )
+  })
+
+  it('带位置时多行建议按位置那一列缩进', () => {
+    const text = format(
+      diagnostic('DOC-106', 'error', '没有叫 zzz 的主题', {
+        start: { line: 2, column: 1 },
+        hint: '能用的是：\n  a  第一套',
+      }),
+    )
+    expect(text).toContain(['  = 能用的是：', '      a  第一套'].join('\n'))
+  })
+
   it('没有建议时不打印建议那一行', () => {
     const text = format(diagnostic('DOC-102', 'warning', '只有消息'))
     expect(text).not.toContain('=')
