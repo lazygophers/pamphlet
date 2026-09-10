@@ -26,6 +26,17 @@ describe('token 清单两边一致', () => {
       expect(Object.keys(theme.dark).sort(), `${name} 的暗色`).toEqual([...SEMANTIC_TOKENS].sort())
     }
   })
+
+  // 说明是诊断和文档站共用的那一份数据（ADR-0047）。少一句，
+  // 英文站上就会出现一个空格子，而那种缺失没人会去逐行核对
+  it('每一套主题的中英说明都在，且不是同一句', () => {
+    for (const name of BUILTIN_THEMES) {
+      const theme = THEMES[name]!
+      expect(theme.label.length, `${name} 的中文说明`).toBeGreaterThan(0)
+      expect(theme.labelEn.length, `${name} 的英文说明`).toBeGreaterThan(0)
+      expect(theme.labelEn, `${name} 的英文说明不该是中文那句`).not.toBe(theme.label)
+    }
+  })
 })
 
 describe('选哪一套', () => {
@@ -50,6 +61,18 @@ describe('选哪一套', () => {
     expect(result.diagnostics[0]?.severity).toBe('error')
     // 提示里要把能用的名字列全，否则作者只知道错了不知道该写什么
     for (const name of BUILTIN_THEMES) expect(result.diagnostics[0]?.hint).toContain(name)
+  })
+
+  // 光有名字，作者还是得去翻文档才知道该挑哪个（ADR-0047）
+  it('提示里每个名字后面跟着它那一句说明，一套一行', () => {
+    const hint = selectTheme({ cli: 'zzz' }).diagnostics[0]!.hint!
+    for (const name of BUILTIN_THEMES) {
+      const line = hint.split('\n').find((row) => row.trimStart().startsWith(name))
+      expect(line, `${name} 应该独占一行`).toBeDefined()
+      expect(line).toContain(THEMES[name]!.label)
+    }
+    // 一行标题 + 一套一行
+    expect(hint.split('\n')).toHaveLength(BUILTIN_THEMES.length + 1)
   })
 
   it('CLI 传了不认识的名字同样报错', () => {

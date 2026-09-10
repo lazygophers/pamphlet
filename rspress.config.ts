@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from '@rspress/core'
 
 /**
@@ -31,7 +32,20 @@ export default defineConfig({
   route: {
     // ADR 是内部设计记录，只在 GitHub 上留档，不进站点。
     // 不写这一条它们会被自动注册成 39 个页面（Rspress 的约定式路由）。
-    exclude: ['adr/**/*'],
+    // `components/` 里是给页面用的 React 组件，不是页面。约定式路由连 .tsx
+    // 一起注册，注册进去 SSG 会当页面渲染它，然后拿不到页面元数据直接构建失败。
+    exclude: ['adr/**/*', 'components/**/*'],
+  },
+  builderConfig: {
+    resolve: {
+      alias: {
+        // 主题一览表直接从注册表生成（ADR-0047）。指到源码而不是 dist，
+        // 否则建站前得先 build 主题包，忘了就悄悄用上一次的旧数据。
+        '@nekoleapuki/pamphlet-themes': fileURLToPath(
+          new URL('./packages/themes/src/index.ts', import.meta.url),
+        ),
+      },
+    },
   },
   themeConfig: {
     socialLinks: [

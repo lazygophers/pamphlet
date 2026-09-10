@@ -41,8 +41,13 @@ export type ThemeTokens = Record<SemanticToken, string>
 export interface Theme {
   /** frontmatter 的 `theme:` 和 CLI 的 `--theme` 填的就是它 */
   name: string
-  /** 一句话说清它长什么样，`pamphlet doctor` 之类的地方要列出来 */
+  /** 一句话说清它适合哪一类文档，诊断提示和文档站都从这里取（ADR-0047） */
   label: string
+  /**
+   * `label` 的英文版。文档站是双语的，而诊断只说中文——
+   * 两边都指着同一条数据，就必须两种语言都在这条数据里（ADR-0047）。
+   */
+  labelEn: string
   light: ThemeTokens
   dark: ThemeTokens
   /** 追加在基础版式之后的样式。空字符串表示这套主题只换配色 */
@@ -815,6 +820,7 @@ export const THEMES: Record<string, Theme> = {
   default: {
     name: 'default',
     label: '通用中性：GitHub 那套色，最不抢内容',
+    labelEn: "Anything: GitHub's neutral palette, the least likely to compete with your content",
     light: defaultLight,
     dark: defaultDark,
     css: '',
@@ -822,6 +828,8 @@ export const THEMES: Record<string, Theme> = {
   minimal: {
     name: 'minimal',
     label: '极简：黑白灰、窄栏、衬线标题、大留白',
+    labelEn:
+      'Short pieces and one-pagers: black, white and grey, a narrow column, serif headings, generous whitespace',
     light: minimalLight,
     dark: minimalDark,
     css: minimalCss,
@@ -829,6 +837,7 @@ export const THEMES: Record<string, Theme> = {
   'tech-dark': {
     name: 'tech-dark',
     label: '技术风：等宽标题、方角、青色强调',
+    labelEn: 'Technical content, dark by preference: monospace headings, sharp corners, a cyan accent',
     light: techLight,
     dark: techDark,
     css: techCss,
@@ -836,6 +845,8 @@ export const THEMES: Record<string, Theme> = {
   editorial: {
     name: 'editorial',
     label: '编辑部：大号衬线标题、章节编号、细分隔线，像杂志内页',
+    labelEn:
+      'Formal proposals: a large serif display, numbered sections, hairline rules — a magazine spread',
     light: editorialLight,
     dark: editorialDark,
     css: editorialCss,
@@ -843,6 +854,8 @@ export const THEMES: Record<string, Theme> = {
   console: {
     name: 'console',
     label: '控制台：等宽为骨、高密度、状态色，像一块盯着看的面板',
+    labelEn:
+      'Runbooks and dashboard docs: monospace throughout, dense, status colours — a panel you keep an eye on',
     light: consoleLight,
     dark: consoleDark,
     css: consoleCss,
@@ -850,6 +863,8 @@ export const THEMES: Record<string, Theme> = {
   paper: {
     name: 'paper',
     label: '学术：窄正文列 + 边注、编号标题、无圆角，像一篇论文',
+    labelEn:
+      'Research notes: a narrow column with margin notes, numbered headings, square corners — a paper',
     light: paperLight,
     dark: paperDark,
     css: paperCss,
@@ -857,6 +872,8 @@ export const THEMES: Record<string, Theme> = {
   fiction: {
     name: 'fiction',
     label: '小说：窄栏、首行缩进、段间不留空，为连续阅读排的版',
+    labelEn:
+      'Novel chapters: a narrow column, first-line indents, no gap between paragraphs — set for continuous reading',
     light: fictionLight,
     dark: fictionDark,
     css: fictionCss,
@@ -864,6 +881,7 @@ export const THEMES: Record<string, Theme> = {
   manual: {
     name: 'manual',
     label: '技术文档：代码块是主角、表头吸顶、斑马纹长表格',
+    labelEn: 'Technical docs: code blocks lead, sticky table headers, zebra-striped long tables',
     light: manualLight,
     dark: manualDark,
     css: manualCss,
@@ -871,6 +889,8 @@ export const THEMES: Record<string, Theme> = {
   prd: {
     name: 'prd',
     label: '需求文档：每节一条带编号的需求、验收清单、约束卡片',
+    labelEn:
+      'Product requirements: one numbered requirement per section, acceptance checklists, constraint cards',
     light: prdLight,
     dark: prdDark,
     css: prdCss,
@@ -878,6 +898,8 @@ export const THEMES: Record<string, Theme> = {
   architecture: {
     name: 'architecture',
     label: '系统设计：图占最宽画布、引用块是决策记录、三线表摆取舍',
+    labelEn:
+      'System design: the widest canvas for diagrams, block quotes as decision records, booktabs for trade-offs',
     light: architectureLight,
     dark: architectureDark,
     css: architectureCss,
@@ -885,6 +907,8 @@ export const THEMES: Record<string, Theme> = {
   blueprint: {
     name: 'blueprint',
     label: '详细设计：三级编号、紧凑字段表、等宽标题，密度优先',
+    labelEn:
+      'Detailed design: three-level numbering, tight field tables, monospace headings — density first',
     light: blueprintLight,
     dark: blueprintDark,
     css: blueprintCss,
@@ -892,6 +916,8 @@ export const THEMES: Record<string, Theme> = {
   incident: {
     name: 'incident',
     label: '故障报告：步骤变时间轴、危险色压过一切、影响面表格',
+    labelEn:
+      'Incident reports: steps become a timeline, danger outranks everything else, an impact table',
     light: incidentLight,
     dark: incidentDark,
     css: incidentCss,

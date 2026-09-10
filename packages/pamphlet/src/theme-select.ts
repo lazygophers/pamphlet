@@ -13,6 +13,21 @@ export interface ThemeSelection {
   diagnostics: Diagnostic[]
 }
 
+/** 名字排成一列，说明才对得齐；主题名都是 ASCII，`padEnd` 数出来的宽度就是终端宽度 */
+const NAME_WIDTH = Math.max(...BUILTIN_THEMES.map((name) => name.length)) + 2
+
+/**
+ * 十二套主题挤成一行没人读得完，所以一套一行、名字对齐成一列。
+ * 每行后面跟着这套主题的 `label`——作者要的不是「有哪些名字」，
+ * 是「我这份文档该写哪个」，光有名字他还得去翻文档。
+ */
+function availableThemes(): string {
+  return [
+    `能用的是这 ${BUILTIN_THEMES.length} 套：`,
+    ...BUILTIN_THEMES.map((name) => `  ${name.padEnd(NAME_WIDTH)}${THEMES[name]!.label}`),
+  ].join('\n')
+}
+
 export function selectTheme(options: { cli?: string; frontmatter?: string }): ThemeSelection {
   const requested = options.cli ?? options.frontmatter
   if (requested === undefined) return { theme: THEMES[DEFAULT_THEME]!, diagnostics: [] }
@@ -26,7 +41,7 @@ export function selectTheme(options: { cli?: string; frontmatter?: string }): Th
     theme: THEMES[DEFAULT_THEME]!,
     diagnostics: [
       diagnostic('DOC-106', 'error', `没有叫 ${requested} 的主题`, {
-        hint: `能用的是：${BUILTIN_THEMES.join(' / ')}`,
+        hint: availableThemes(),
       }),
     ],
   }

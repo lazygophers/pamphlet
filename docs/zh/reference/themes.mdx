@@ -1,3 +1,5 @@
+import { ThemeTable } from '../../components/ThemeTable'
+
 # 内置主题
 
 十二套，**按文档类型分，不按审美分**。每套都是独立的配色**和版式** —— 正文宽度、标题体系、提示块形态、Tab 形态、表格线各不相同。
@@ -20,20 +22,9 @@ theme: incident
 
 ## 一览
 
-| 主题 | 写什么用它 |
-|---|---|
-| [`default`](#default) | 拿不准就用它 |
-| [`minimal`](#minimal) | 短文、随笔、一页纸的东西 |
-| [`tech-dark`](#tech-dark) | 暗色偏好的技术内容 |
-| [`editorial`](#editorial) | 正式提案、白皮书 |
-| [`console`](#console) | 运维手册、面板说明 |
-| [`paper`](#paper) | 研究记录、论文式写作 |
-| [`fiction`](#fiction) | 小说章节、叙事 |
-| [`manual`](#manual) | 技术文档、API 手册 |
-| [`prd`](#prd) | 需求文档 |
-| [`architecture`](#architecture) | 系统设计文档 |
-| [`blueprint`](#blueprint) | 详细设计文档 |
-| [`incident`](#incident) | 故障报告、复盘 |
+这张表**是主题清单本身生成的**，不是照着抄的第二份：每一行的说明就是 `DOC-106` 诊断里印出来的那一句（[ADR-0047](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0047-theme-label-is-bilingual-data.md)）。
+
+<ThemeTable lang="zh" />
 
 ---
 
