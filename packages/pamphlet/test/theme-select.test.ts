@@ -21,7 +21,7 @@ describe('token 清单两边一致', () => {
 
   it('每一套内置主题的两份配色都是完整的 18 个 token', () => {
     for (const name of BUILTIN_THEMES) {
-      const theme = THEMES[name]!
+      const theme = THEMES[name]
       expect(Object.keys(theme.light).sort(), `${name} 的亮色`).toEqual([...SEMANTIC_TOKENS].sort())
       expect(Object.keys(theme.dark).sort(), `${name} 的暗色`).toEqual([...SEMANTIC_TOKENS].sort())
     }
@@ -31,10 +31,10 @@ describe('token 清单两边一致', () => {
   // 英文站上就会出现一个空格子，而那种缺失没人会去逐行核对
   it('每一套主题的中英说明都在，且不是同一句', () => {
     for (const name of BUILTIN_THEMES) {
-      const theme = THEMES[name]!
-      expect(theme.label.length, `${name} 的中文说明`).toBeGreaterThan(0)
-      expect(theme.labelEn.length, `${name} 的英文说明`).toBeGreaterThan(0)
-      expect(theme.labelEn, `${name} 的英文说明不该是中文那句`).not.toBe(theme.label)
+      const theme = THEMES[name]
+      expect(theme.purpose.zh.length, `${name} 的中文说明`).toBeGreaterThan(0)
+      expect(theme.purpose.en.length, `${name} 的英文说明`).toBeGreaterThan(0)
+      expect(theme.purpose.en, `${name} 的英文说明不该是中文那句`).not.toBe(theme.purpose.zh)
     }
   })
 })
@@ -69,7 +69,7 @@ describe('选哪一套', () => {
     for (const name of BUILTIN_THEMES) {
       const line = hint.split('\n').find((row) => row.trimStart().startsWith(name))
       expect(line, `${name} 应该独占一行`).toBeDefined()
-      expect(line).toContain(THEMES[name]!.label)
+      expect(line).toContain(THEMES[name].purpose.zh)
     }
     // 一行标题 + 一套一行
     expect(hint.split('\n')).toHaveLength(BUILTIN_THEMES.length + 1)

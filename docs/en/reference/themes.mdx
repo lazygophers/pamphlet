@@ -1,8 +1,8 @@
-import { ThemeTable } from '../../components/ThemeTable'
+import { ThemeTable, ThemeGallery } from '../../components/Themes'
 
 # Built-in themes
 
-Twelve of them, **sorted by what the document is, not by how it looks**. Each carries its own palette *and* its own layout — body width, heading system, callout shape, tab shape and table rules all differ.
+The built-in themes are **sorted by what the document is, not by how it looks**. Each carries its own palette *and* its own layout — body width, heading system, callout shape, tab shape and table rules all differ.
 
 ```bash
 pamphlet build plan.md --theme incident
@@ -22,89 +22,19 @@ An unknown name reports `DOC-106` and **falls back to `default`, still producing
 
 ## At a glance
 
-This table **is generated from the theme registry**, not copied from it: every row is the theme's own one-line description, the same record the `DOC-106` diagnostic prints — the diagnostic prints the Chinese side of it, because compiler diagnostics are Chinese-only ([ADR-0047](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0047-theme-label-is-bilingual-data.md)).
+This table **is generated from the theme registry**, not copied from it: every row is the theme's own one-line description, the same record the `DOC-106` diagnostic prints — the diagnostic prints the Chinese side of it, because compiler diagnostics are Chinese-only ([ADR-0047](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0047-theme-purpose-is-bilingual-data.md)).
 
 <ThemeTable lang="en" />
 
 ---
 
-## default
-
-Neutral. It is the fallback, so it is the hardest to get wrong and the least likely to compete with your content.
-
-![the default theme](/themes/default.png)
-
-## minimal
-
-Black, white, grey and one hairline. A narrow column, generous whitespace, serif headings, square corners. Callouts shrink to a rule plus a small label.
-
-![the minimal theme](/themes/minimal.png)
-
-## tech-dark
-
-Monospace headings, sharp corners, a cyan accent, the `##` marker shown before the heading. Callouts are filled blocks with a coloured top rule.
-
-![the tech-dark theme](/themes/tech-dark.png)
-
-## editorial
-
-A magazine spread. A 3.2rem serif display, `01` `02` section numbers, masthead-style tabs, pull quotes framed by rules, tables with rules only top and bottom.
-
-![the editorial theme](/themes/editorial.png)
-
-## console
-
-A panel you keep an eye on. Monospace throughout, a ruled sidebar, bracketed callout labels, segmented-control tabs, dense tables.
-
-![the console theme](/themes/console.png)
-
-## paper
-
-A paper. Serif body, `1.` `2.` numbered sections, italic third-level headings, callouts as margin notes, booktabs-style rules.
-
-![the paper theme](/themes/paper.png)
-
-## fiction
-
-Set for continuous reading: a narrow column, **first-line indents and no gap between paragraphs**, a drop cap, and scene breaks as centred dots. Callouts become authorial asides.
-
-![the fiction theme](/themes/fiction.png)
-
-## manual
-
-Code blocks lead: a coloured rule down the left and more padding. **Sticky table headers** and zebra striping for long tables, folder-tab switching.
-
-![the manual theme](/themes/manual.png)
-
-## prd
-
-Every second-level heading is **a numbered requirement with an `R01` badge**. Acceptance lists are real checkboxes, callouts become constraint cards, tabs are pill segments.
-
-![the prd theme](/themes/prd.png)
-
-## architecture
-
-Diagrams get the widest canvas (94rem) and a frame. Block quotes render as decision records, tables are booktabs, headings carry a `§` number.
-
-![the architecture theme](/themes/architecture.png)
-
-## blueprint
-
-Density first. **Three-level numbering `1` / `1.1` / `1.1.1`**, monospace headings, tight field tables — for the person implementing it line by line.
-
-![the blueprint theme](/themes/blueprint.png)
-
-## incident
-
-**Steps become a timeline** (a rule with red nodes). The title carries an "incident report" eyebrow, `danger` outranks everything else on the page, and the impact table reads at a glance.
-
-![the incident theme](/themes/incident.png)
+<ThemeGallery lang="en" />
 
 ---
 
 ## Every theme holds the same line
 
-A theme may change the layout, but **these four apply to all twelve alike**, pinned by browser-level tests per theme:
+A theme may change the layout, but **these four apply to every one of them alike**, pinned by browser-level tests per theme:
 
 | The line | How it is checked |
 |---|---|

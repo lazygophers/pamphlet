@@ -11,7 +11,7 @@
     "test": "vitest run",
     "typecheck": "tsc -b",
     "lint": "tsc -b --pretty false",
-    "docs:dev": "rspress dev",
+    "docs:dev": "pnpm themes:shots && rspress dev",
     "docs:build": "pnpm themes:shots && rspress build",
     "themes:shots": "pnpm -r build && node packages/pamphlet/scripts/theme-shots.mjs",
     "docs:preview": "rspress preview",
@@ -20,6 +20,7 @@
   "devDependencies": {
     "@rspress/core": "^2.0.21",
     "@types/node": "^22.10.0",
+    "@types/react": "^19.2.18",
     "@vitest/coverage-v8": "^5.0.0",
     "typescript": "^5.7.0",
     "vitest": "^5.0.0"

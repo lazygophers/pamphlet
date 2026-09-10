@@ -5,7 +5,7 @@
 ```ts
 interface Theme {
   name: string
-  label: string
+  purpose: Record<'zh' | 'en', string>  // 一句话说清它适合哪一类文档（0047）
   light: ThemeTokens   // 18 个语义 token 的值
   dark: ThemeTokens
   css: string          // 追加在基础版式之后的样式

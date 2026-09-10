@@ -18,7 +18,9 @@ import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { chromium } from 'playwright'
 import { BUILTIN_THEMES } from '@nekoleapuki/pamphlet-themes'
-import { compileFile } from '../dist/compile.js'
+// 走包声明的那个入口（package.json 的 `exports` 只有 `.`），不越过包边界去摸 dist 里的模块：
+// 内部文件怎么拆是包自己的事，深进去引一个没导出的路径，改一次内部结构就断
+import { compileFile } from '../dist/index.js'
 
 /**
  * 拿示例文档当样本，是因为主题之间的差别正落在它里面这些东西上：
