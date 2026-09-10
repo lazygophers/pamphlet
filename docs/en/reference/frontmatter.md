@@ -51,10 +51,10 @@ Without it, the search order is: the first `#` heading in the document → the l
 ## theme
 
 ```yaml
-theme: notebook
+theme: editorial
 ```
 
-Six built-in themes: `default` / `minimal` / `tech-dark` / `notebook` / `receipt` / `glass`. See [Built-in themes](/en/reference/themes) for what each looks like.
+Twelve built-in themes, sorted by document type. See [Built-in themes](/en/reference/themes) for what each looks like.
 
 **The `--theme` flag overrides this field** — a one-off intent should beat the document's standing setting.
 

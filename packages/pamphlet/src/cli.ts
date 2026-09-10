@@ -36,7 +36,7 @@ const USAGE = `pamphlet — 把一份 Markdown 编译成自包含的单文件 HT
 选项
   -o <路径>              产物写到哪（只在编译单份时可用）
   --theme <名字>         换一套主题，压过 frontmatter 里的 theme
-                         default / minimal / tech-dark / notebook / receipt / glass
+                         十二套，见 pamphlet 文档站的「内置主题」
   --font <字体文件>      内嵌这个字体，只留文档用到的字
   --verbose              编译后打印体积归因
   --no-embed-source      产物里不内嵌源文档（extract 就用不了了）

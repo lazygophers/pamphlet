@@ -49,10 +49,10 @@ With equal counts, the first `:::` closes the outer one.
 
 ## Can I change the fonts and colours
 
-Yes. The six [built-in themes](/en/reference/themes) each carry their own palette and layout:
+Yes. The twelve [built-in themes](/en/reference/themes) are sorted by document type, each with its own palette and layout:
 
 ```bash
-pamphlet build plan.md --theme notebook
+pamphlet build plan.md --theme fiction
 ```
 
 You can also put it in frontmatter so it travels with the document (`--theme` overrides it). To change just a colour or two, see [Changing the theme colours](/en/howto/theme).

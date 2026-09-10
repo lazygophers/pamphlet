@@ -51,10 +51,10 @@ title: 架构方案
 ## theme
 
 ```yaml
-theme: notebook
+theme: editorial
 ```
 
-六套内置主题：`default` / `minimal` / `tech-dark` / `notebook` / `receipt` / `glass`，每套长什么样见[内置主题](/reference/themes)。
+十二套内置主题按文档类型分，每套长什么样见[内置主题](/reference/themes)。
 
 **命令行的 `--theme` 压过这个字段** —— 一次性的意图应该能盖过文档的长期设定。
 

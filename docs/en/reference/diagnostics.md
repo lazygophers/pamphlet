@@ -91,7 +91,7 @@ The reference and the definition **each report once**, and an orphan definition 
 
 **The named theme does not exist.** Severity `error`.
 
-`--theme` or the frontmatter `theme:` names something unknown. The hint lists all six built-in theme names.
+`--theme` or the frontmatter `theme:` names something unknown. The hint lists every built-in theme name.
 
 **It errors without stopping the compile**: it falls back to `default` and still writes the output — a wrong theme only affects how it looks; the content is fine.
 

@@ -53,7 +53,7 @@ AGPL-3.0-or-later，见 [LICENSE](./LICENSE)。
 **<https://lazygophers.github.io/pamphlet/>**（[English](https://lazygophers.github.io/pamphlet/en/)）
 
 - [快速开始](https://lazygophers.github.io/pamphlet/start/quickstart) —— 十分钟得到第一个产物
-- [内置主题](https://lazygophers.github.io/pamphlet/reference/themes) —— 六套独立的配色与版式，`--theme notebook` 一行换掉
+- [内置主题](https://lazygophers.github.io/pamphlet/reference/themes) —— 十二套按文档类型分的配色与版式，`--theme editorial` 一行换掉
 - [语法速查表](https://lazygophers.github.io/pamphlet/reference/syntax) —— 九个容器指令 + 八种图表围栏
 - [命令行](https://lazygophers.github.io/pamphlet/reference/cli/) —— 六个命令与退出码
 - [产物是什么样的](https://lazygophers.github.io/pamphlet/design/output) —— 它承诺什么、不承诺什么

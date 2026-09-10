@@ -1,70 +1,119 @@
 # 内置主题
 
-六套，每套都是**独立的配色加独立的版式** —— 不只是换颜色，正文宽度、标题体系、提示块和 Tab 的形态都不一样。
+十二套，**按文档类型分，不按审美分**。每套都是独立的配色**和版式** —— 正文宽度、标题体系、提示块形态、Tab 形态、表格线各不相同。
 
 ```bash
-pamphlet build 方案.md --theme notebook
+pamphlet build 方案.md --theme incident
 ```
 
 或者写进源文档，让它跟着文档走：
 
 ```yaml
 ---
-theme: notebook
+theme: incident
 ---
 ```
 
-**`--theme` 压过 frontmatter。** 命令行是「这一次编译」的意图，frontmatter 是「这份文档一贯的样子」—— 一次性的意图应该能盖过长期设定，批量出一版预览时不必去改每一份源文档。
+**`--theme` 压过 frontmatter。** 命令行是「这一次编译」的意图，frontmatter 是「这份文档一贯的样子」—— 一次性的意图应该能盖过长期设定。
 
-名字写错报 `DOC-106`，**退回 `default` 继续编译** —— 主题错了只影响长相，内容是对的。
+名字写错报 `DOC-106`，**退回 `default` 继续编译**：主题错了只影响长相，内容是对的。
+
+## 一览
+
+| 主题 | 写什么用它 |
+|---|---|
+| [`default`](#default) | 拿不准就用它 |
+| [`minimal`](#minimal) | 短文、随笔、一页纸的东西 |
+| [`tech-dark`](#tech-dark) | 暗色偏好的技术内容 |
+| [`editorial`](#editorial) | 正式提案、白皮书 |
+| [`console`](#console) | 运维手册、面板说明 |
+| [`paper`](#paper) | 研究记录、论文式写作 |
+| [`fiction`](#fiction) | 小说章节、叙事 |
+| [`manual`](#manual) | 技术文档、API 手册 |
+| [`prd`](#prd) | 需求文档 |
+| [`architecture`](#architecture) | 系统设计文档 |
+| [`blueprint`](#blueprint) | 详细设计文档 |
+| [`incident`](#incident) | 故障报告、复盘 |
 
 ---
 
 ## default
 
-通用中性，GitHub 那套色。它是缺省值，所以最不容易出错、最不抢内容。
+通用中性。缺省值，所以最不容易出错、最不抢内容。
 
 ![default 主题](/themes/default.png)
 
 ## minimal
 
-只有黑白灰和一条细线。窄栏（38rem）、大留白、衬线标题、直角。提示块退成一条左线加一行小标题，不要底色。
+只有黑白灰和一条细线。窄栏、大留白、衬线标题、直角。提示块退成一条左线加一行小标题。
 
 ![minimal 主题](/themes/minimal.png)
 
 ## tech-dark
 
-等宽标题、方角、青色强调。`##` 标记直接显示在标题前面。提示块做成整块底色加顶部标记条，四种颜色分得开。
+等宽标题、方角、青色强调，`##` 标记显示在标题前。提示块整块底色加顶部色条。
 
 ![tech-dark 主题](/themes/tech-dark.png)
 
-## notebook
+## editorial
 
-横格纸底色，行高 2 让文字正好坐在线上。衬线标题、便签式提示块（带一点投影）、索引标签式的 Tab。
+杂志内页。3.2rem 衬线大标题、`01` `02` 章节编号、报头式 Tab、引言居中横线包夹、表格只留上下粗线。
 
-横格线是 `repeating-linear-gradient` 画的，**不引任何图片** —— 自包含照旧成立。
+![editorial 主题](/themes/editorial.png)
 
-![notebook 主题](/themes/notebook.png)
+## console
 
-## receipt
+盯着看的面板。全等宽、带竖线的菜单栏、方括号标签的提示块、分段控件式 Tab、高密度表格。
 
-小票。全等宽字体、34rem 窄栏、虚线分隔、居中大写标题。提示块是虚线框加方括号标题，步骤是方框序号。
+![console 主题](/themes/console.png)
 
-![receipt 主题](/themes/receipt.png)
+## paper
 
-## glass
+论文。衬线正文、`1.` `2.` 编号标题、斜体三级标题、提示块变边注、三线表。
 
-玻璃拟态。彩色光晕背景 + 磨砂半透明面板 + 胶囊 Tab。
+![paper 主题](/themes/paper.png)
 
-光晕是三团径向渐变，纯 CSS。`backdrop-filter` 不被支持时磨砂退化成普通半透明底色，内容照常可读。
+## fiction
 
-![glass 主题](/themes/glass.png)
+为连续阅读排的版：窄栏、**首行缩进两字、段间不留空**、首字下沉、场景分隔是居中三点。提示块变成作者旁白。
+
+![fiction 主题](/themes/fiction.png)
+
+## manual
+
+代码块是主角：左侧色条、更大的内边距。**长表格的表头吸顶**、斑马纹，文件夹标签式 Tab。
+
+![manual 主题](/themes/manual.png)
+
+## prd
+
+每个二级标题是**一条带 `R01` 徽章的需求**。验收清单是真的复选框，提示块变成约束卡片，Tab 是胶囊分段控件。
+
+![prd 主题](/themes/prd.png)
+
+## architecture
+
+图占最宽的画布（94rem）并带边框。引用块渲染成「决策」记录，表格是三线表，标题带 `§` 编号。
+
+![architecture 主题](/themes/architecture.png)
+
+## blueprint
+
+密度优先。**三级编号 `1` / `1.1` / `1.1.1`**、等宽标题、紧凑字段表 —— 给「一条条对着实现」的人看的。
+
+![blueprint 主题](/themes/blueprint.png)
+
+## incident
+
+**步骤变时间轴**（竖线 + 红点）。标题带「事故报告」眉批，`danger` 压过页面上其它一切，影响面表格一眼看完。
+
+![incident 主题](/themes/incident.png)
 
 ---
 
 ## 每一套都守同一条底线
 
-主题能改布局，但**这四条对六套一视同仁**，有 24 条浏览器层测试钉着（`test/theme-degradation.test.ts`）：
+主题能改布局，但**这四条对十二套一视同仁**，有浏览器层测试逐套钉着：
 
 | 底线 | 怎么验的 |
 |---|---|
@@ -73,11 +122,24 @@ theme: notebook
 | 正文字号 ≥ 14px | 读 `getComputedStyle` |
 | 有 JavaScript 时只显示选中面板，点得动 | 真的点一下再断言 |
 
-**新增主题必须过这四关**，不是可选项。
+**新增主题必须过这四关**，不是可选项 —— 测试遍历主题清单，加一套就自动被覆盖。
+
+## 侧边菜单
+
+目录缺省是**常驻侧边菜单**，纯 CSS sticky，零 JavaScript：
+
+```yaml
+---
+toc:
+  enable: true
+---
+```
+
+窄屏（< 60rem）自动退回文档顶部。想放回正文开头写 `toc: { position: top }`，详见 [frontmatter 参考](/reference/frontmatter)。
 
 ## 自己改一点
 
-不想整套换、只想动一两个颜色，走[换一套主题色](/howto/theme) —— 往源文档里写一段 `<style>` 覆盖 CSS 变量。两条路可以叠加：先 `--theme glass` 再覆盖 `--pf-primary`。
+不想整套换、只想动一两个颜色，走[换一套主题色](/howto/theme)。两条路可以叠加：先 `--theme paper` 再覆盖 `--pf-primary`。
 
 全部 18 个语义 token 和 16 个元素 token 见[主题 token](/reference/theme-tokens)。
 

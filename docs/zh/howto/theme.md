@@ -1,9 +1,9 @@
 # 换一套主题色
 
-**先看够不够用**：六套[内置主题](/reference/themes)各有独立的配色和版式，一行就能换。
+**先看够不够用**：十二套[内置主题](/reference/themes)按文档类型分，各有独立的配色和版式，一行就能换。
 
 ```bash
-pamphlet build 方案.md --theme notebook
+pamphlet build 方案.md --theme editorial
 ```
 
 这一页讲的是**内置主题不够用时怎么微调** —— 往源文档里写一段 `<style>` 覆盖 CSS 变量。两条路可以叠加：先选一套主题，再盖掉其中一两个值。

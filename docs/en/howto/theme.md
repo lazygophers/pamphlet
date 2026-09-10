@@ -1,9 +1,9 @@
 # Changing the theme colours
 
-**Check whether a built-in will do first**: the six [built-in themes](/en/reference/themes) each carry their own palette *and* layout, and one flag switches between them.
+**Check whether a built-in will do first**: the twelve [built-in themes](/en/reference/themes) are sorted by document type, each with its own palette *and* layout, and one flag switches between them.
 
 ```bash
-pamphlet build plan.md --theme notebook
+pamphlet build plan.md --theme editorial
 ```
 
 This page is about **tweaking when none of them quite fits** — a `<style>` block in the source file overriding CSS variables. The two combine: pick a theme, then override a value or two.
