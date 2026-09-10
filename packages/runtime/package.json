@@ -1,0 +1,10 @@
+{
+  "name": "@pamphlet/runtime",
+  "version": "0.0.0",
+  "description": "一本 pamphlet 里那段负责交互的 JavaScript：约 1KB 内核 + 六个互相独立的特性片段",
+  "type": "module",
+  "license": "MIT",
+  "exports": { ".": "./dist/index.js" },
+  "files": ["dist"],
+  "scripts": { "build": "tsc -b" }
+}

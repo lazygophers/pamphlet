@@ -1,0 +1,21 @@
+{
+  "name": "pamphlet-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.3.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "vitest run",
+    "typecheck": "tsc -b",
+    "lint": "tsc -b --pretty false"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@vitest/coverage-v8": "^3.2.7",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

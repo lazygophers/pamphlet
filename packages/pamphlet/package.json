@@ -1,0 +1,43 @@
+{
+  "name": "pamphlet",
+  "version": "0.0.0",
+  "description": "把一份 Markdown 编译成自包含的单文件 HTML",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "pamphlet": "./dist/bin.js"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@pamphlet/runtime": "workspace:*",
+    "mdast-util-directive": "^3.0.0",
+    "mdast-util-from-markdown": "^2.0.2",
+    "mdast-util-frontmatter": "^2.0.1",
+    "mdast-util-gfm": "^3.0.0",
+    "micromark-extension-directive": "^3.0.2",
+    "micromark-extension-frontmatter": "^2.0.0",
+    "micromark-extension-gfm": "^3.0.0",
+    "subset-font": "^2.7.0",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@terrastruct/d2": "^0.1.33",
+    "@types/fontkit": "^2.0.9",
+    "@types/mdast": "^4.0.4",
+    "@types/unist": "^3.0.3",
+    "fontkit": "^2.0.4",
+    "mermaid-isomorphic": "^3.1.0",
+    "playwright": "^1.63.0"
+  }
+}

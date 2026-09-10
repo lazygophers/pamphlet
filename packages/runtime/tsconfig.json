@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "lib": ["ES2018", "DOM"],
+    "target": "ES2018"
+  },
+  "include": ["src"]
+}

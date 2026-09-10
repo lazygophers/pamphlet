@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Pamphlet 方案追问 · 总结</title>
+<style>
+  :root{
+    --bg:#0d1117; --surface:#161b22; --surface-2:#1c2128;
+    --fg:#e6edf3; --fg-muted:#9198a1; --fg-dim:#6e7681;
+    --border:#30363d; --accent:#58a6ff;
+    --good:#3fb950; --warn:#d29922; --danger:#f85149;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"PingFang SC","Microsoft YaHei UI",-apple-system,system-ui,sans-serif;
+    --r:10px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);
+       line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:48px 24px 96px}
+  h1{font-size:32px;line-height:1.3;margin:0 0 8px}
+  h2{font-size:22px;margin:56px 0 4px;padding-top:24px;border-top:1px solid var(--border)}
+  h2 .n{color:var(--fg-dim);font-family:var(--mono);font-size:15px;margin-right:10px}
+  h3{font-size:16px;margin:28px 0 8px;color:var(--fg)}
+  p{margin:8px 0 16px;color:var(--fg-muted)}
+  .lede{font-size:17px;color:var(--fg);max-width:70ch}
+  code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);
+       padding:.15em .4em;border-radius:5px;color:#a5d6ff}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid #58a6ff40}
+  a:hover{border-bottom-color:var(--accent)}
+
+  .kpis{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 8px}
+  .kpi{flex:1 1 150px;background:var(--surface);border:1px solid var(--border);
+       border-radius:var(--r);padding:18px 20px}
+  .kpi b{display:block;font-size:34px;line-height:1.1;font-variant-numeric:tabular-nums}
+  .kpi span{font-size:13px;color:var(--fg-muted)}
+
+  table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:14.5px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);
+        vertical-align:top}
+  th{color:var(--fg-dim);font-weight:600;font-size:13px;letter-spacing:.02em}
+  tbody tr:hover{background:var(--surface)}
+  td.mono,th.mono{font-family:var(--mono);font-size:13px;white-space:nowrap}
+
+  .card{background:var(--surface);border:1px solid var(--border);
+        border-radius:var(--r);padding:18px 20px;margin:14px 0}
+  .card.warn{border-left:3px solid var(--warn)}
+  .card.danger{border-left:3px solid var(--danger)}
+  .card.good{border-left:3px solid var(--good)}
+  .card h3{margin-top:0}
+  .card p:last-child{margin-bottom:0}
+  .tag{display:inline-block;font-family:var(--mono);font-size:11px;
+       padding:2px 8px;border-radius:20px;border:1px solid var(--border);
+       color:var(--fg-muted);background:var(--surface-2);margin-right:6px}
+
+  .copyable{position:relative;background:var(--surface-2);border:1px solid var(--border);
+            border-radius:var(--r);padding:16px 18px;margin:14px 0}
+  .copyable pre{margin:0;font-family:var(--mono);font-size:13px;line-height:1.7;
+                white-space:pre-wrap;color:var(--fg)}
+  .copybtn{position:absolute;top:10px;right:10px;background:var(--surface);
+           color:var(--fg-muted);border:1px solid var(--border);border-radius:7px;
+           padding:5px 11px;font-size:12px;font-family:var(--sans);cursor:pointer}
+  .copybtn:hover{color:var(--fg);border-color:var(--fg-dim)}
+  .copybtn.done{color:var(--good);border-color:var(--good)}
+
+  figure{margin:20px 0;background:var(--surface);border:1px solid var(--border);
+         border-radius:var(--r);padding:20px;overflow-x:auto}
+  figcaption{font-size:13px;color:var(--fg-dim);margin-top:12px}
+  svg text{font-family:var(--sans)}
+
+  ul{color:var(--fg-muted);padding-left:22px}
+  li{margin:6px 0}
+  li b{color:var(--fg)}
+  .foot{margin-top:64px;padding-top:20px;border-top:1px solid var(--border);
+        color:var(--fg-dim);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Pamphlet（小册）· 方案追问总结</h1>
+<p class="lede">一个把 <b>单份 Markdown 文件</b>编译成<b>自包含单文件 HTML</b> 的编译器。17 轮追问之后，设计树的分支已经走完；这份报告是全部结论的索引，以及四处「原方案假设被事实推翻」的记录。</p>
+
+<div class="kpis">
+  <div class="kpi"><b>17</b><span>轮追问</span></div>
+  <div class="kpi"><b>70</b><span>项已定决策</span></div>
+  <div class="kpi"><b>37</b><span>份 ADR</span></div>
+  <div class="kpi"><b>4</b><span>处假设被推翻</span></div>
+  <div class="kpi"><b>10</b><span>条实测取得的事实</span></div>
+</div>
+
+<h2><span class="n">01</span>最有价值的部分：四处被事实推翻的原方案假设</h2>
+<p>这些不是意见分歧，是原设计文档里写着、但经查证不成立的技术判断。每一条都改变了后续的方案。</p>
+
+<div class="card danger">
+  <h3><span class="tag">§2.2</span>「Node 内 Mermaid + jsdom 即可预渲染，无需 Puppeteer」——不成立</h3>
+  <p>Mermaid 组织成员当面否定：Mermaid 依赖真实浏览器的排版引擎计算尺寸与位置，jsdom 未实现 <code>SVGTextElement.getBBox()</code>，量不出文字尺寸就排不了版。
+  出处：<a href="https://github.com/mermaid-js/mermaid/issues/3886#issuecomment-1341694822">mermaid#3886</a>。</p>
+  <p><b>连带作废三处</b>：技术选型表里「Mermaid 互操作零成本 ★★★★★」这个 TypeScript 加分项、「规避 45s 构建恶化」的论据、风险登记册里 R1 的等级。<b>改后方案</b>：走官方的 mermaid-isomorphic + Playwright（首次约 150MB Chromium），列为可选依赖 → <a href="./adr/0004-mermaid-via-headless-browser.md">ADR-0004</a>。</p>
+</div>
+
+<div class="card danger">
+  <h3><span class="tag">§7.2</span><code>:::tab 部署视图 | 成本视图</code> 这个写法是非法的</h3>
+  <p>原文档声称「沿用 micromark-extension-directive 风格」，但那个扩展的语法规定是 <code>:::name[label]{attrs}</code>，<b>名字后面不允许跟没有括号包裹的自由文本</b>。所以那一行解析不出来。
+  出处：<a href="https://github.com/micromark/micromark-extension-directive">官方 README</a>。</p>
+  <p><b>改后方案</b>：真嵌套、外层用更多冒号，零自定义语法 → <a href="./adr/0013-tab-syntax-is-nested-directives.md">ADR-0013</a>。</p>
+</div>
+
+<div class="card danger">
+  <h3><span class="tag">FR-6</span>「SVG 用 currentColor / CSS 变量，切主题不重编译」——对一半引擎不成立</h3>
+  <p>Mermaid 的 <code>themeVariables</code> 不接受 <code>var(--x)</code>（sanitize 正则会清空非十六进制值，官方 open issue #6677、#6860），输出 SVG 里是硬编码颜色；Graphviz 把未知色名当错误处理。只有 MathJax v3 天然用 <code>currentColor</code>，d2 只能跟随系统亮暗。</p>
+  <p><b>改后方案</b>：构建期后处理，把硬编码色替换成带兜底值的 CSS 变量 → <a href="./adr/0016-diagram-theming-by-post-processing.md">ADR-0016</a>。<b>必要配套</b>：golden 快照必须覆盖「每引擎 × 亮暗」，因为替换规则会随引擎升级<b>静默失效</b>。</p>
+</div>
+
+<div class="card danger">
+  <h3><span class="tag">§12</span>「服务端 nonce 不可得时用 sha256」——「不可得」不是偶发，是必然</h3>
+  <p>CSP 规范要求 nonce 每次响应唯一、由 CSPRNG 生成、至少 128 bit 熵。静态文件没有「每次响应」这个概念，写死即公开。所以哈希不是备选方案，是唯一方案。</p>
+  <p>顺带查明另外两条：<b>运行时不能用</b> <code>&lt;script type="module"&gt;</code>（module script 按规范走 CORS 抓取，<code>file://</code> 无 origin，双击打开直接失效）；Service Worker 在 <code>file://</code> 完全不可用 → <a href="./adr/0017-strict-csp-in-artifact.md">ADR-0017</a>。</p>
+</div>
+
+<h2><span class="n">02</span>我自己跑的实测（不是查来的）</h2>
+<p>调研有若干条查不到权威结论，事实是我的活，所以写了探针页和脚本实跑。</p>
+
+<h3><code>file://</code> 双击打开时到底什么能用（Chrome / macOS）</h3>
+<table>
+  <thead><tr><th>能力</th><th>结果</th><th>为什么要测</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;meta&gt;</code> 注入的 CSP</td><td><b style="color:var(--good)">生效</b></td><td>规范没说 <code>file://</code> 下的行为，查不到权威结论</td></tr>
+    <tr><td><code>script-src 'sha256-…'</code></td><td><b style="color:var(--good)">双向都对</b>：匹配的执行，未加哈希的被拦</td><td>产物的唯一安全防线</td></tr>
+    <tr><td><code>location.hash</code> 深链</td><td><b style="color:var(--good)">可用</b></td><td>Tab 深链依赖它</td></tr>
+    <tr><td>data URI 字体</td><td><b style="color:var(--good)">可用</b>（真 TTF 转 base64 验的）</td><td>自包含承诺依赖它</td></tr>
+    <tr><td><code>prefers-color-scheme</code></td><td><b style="color:var(--good)">正常</b></td><td>暗色模式跟随系统</td></tr>
+    <tr><td><code>localStorage</code></td><td>Chrome 可用；<b style="color:var(--warn)">Firefox 阻塞、Safari 抛 <code>SecurityError</code></b></td><td>主题记忆 → 改为 try/catch 静默降级</td></tr>
+  </tbody>
+</table>
+
+<h3>中文字体子集化：调研说这是最大未验证风险，实测证明它便宜</h3>
+<p>调研结论是「CID-keyed OTF（思源黑体那类）在 Node 生态没有权威成功案例」。我下了真字体跑：</p>
+<table>
+  <thead><tr><th>字体 / 字符集</th><th class="mono">输出 woff2</th><th class="mono">占原体积</th><th class="mono">耗时</th></tr></thead>
+  <tbody>
+    <tr><td>思源黑体 SC（15.8MB）· 218 字</td><td class="mono">68.1KB</td><td class="mono">0.42%</td><td class="mono">496ms</td></tr>
+    <tr><td>思源黑体 SC（15.8MB）· 1500 字</td><td class="mono">418.5KB</td><td class="mono">2.59%</td><td class="mono">1480ms</td></tr>
+    <tr><td>Noto Sans SC（7.9MB）· 1500 字</td><td class="mono">259.7KB</td><td class="mono">3.19%</td><td class="mono">1242ms</td></tr>
+  </tbody>
+</table>
+<p>而且没有只看体积就下结论——同类库的历史 bug 正是「子集化后悄悄丢字形」，所以用 fontkit 读了产物本身：全量 <code>numGlyphs=65535</code> → 子集 <code>2452</code>；请求集内的字全部有覆盖有轮廓，请求集外的字全部 <code>glyphId=0</code>。<b>边界干净。</b></p>
+<div class="card warn">
+  <p><b>顺手撞到一个调研没提的坑</b>：<code>subset-font</code> 不吃 <code>.ttc</code> 字体集合文件（<code>Error: Unrecognized font signature: ttcf</code>）。底层 harfbuzz 支持按序号选字面，但这个 JS 包没暴露那个参数 ⇒ 作者给 <code>.ttc</code> 时编译器必须先拆出单个字面。原文档没算这一步。</p>
+</div>
+
+<h3>引擎体积：实测 189MB，比我原先的推测高</h3>
+<p>六个 npm 引擎装完 270 个包、189MB（d2 的 WASM 60MB、<code>mathjax-full</code> 42MB）。加 Playwright + Chromium 约 150MB ⇒ 全装约 340MB。<b>顺手砍掉约 38MB</b>：<code>canvas</code>（19MB，还是需要本地编译的原生模块）和 <code>@jimp</code>/<code>gifwrap</code>/<code>@resvg</code> 全是<b>光栅图输出</b>用的，而 Pamphlet 只要 SVG——改用库而非命令行包即可全部消掉 → <a href="./adr/0008-builtin-engines.md">ADR-0008</a>。</p>
+
+<h2><span class="n">03</span>产物长什么样</h2>
+<figure>
+<svg viewBox="0 0 900 260" width="100%" height="260" role="img" aria-label="编译管线示意">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#6e7681"/>
+    </marker>
+    <style>
+      .bx{fill:#1c2128;stroke:#30363d;rx:8}
+      .t{fill:#e6edf3;font-size:13px}
+      .s{fill:#9198a1;font-size:11px}
+      .ln{stroke:#6e7681;stroke-width:2;marker-end:url(#ar)}
+    </style>
+  </defs>
+
+  <rect class="bx" x="8" y="96" width="132" height="60" rx="8"/>
+  <text class="t" x="74" y="121" text-anchor="middle">一份 .md</text>
+  <text class="s" x="74" y="139" text-anchor="middle">CommonMark 超集</text>
+
+  <line class="ln" x1="144" y1="126" x2="184" y2="126"/>
+
+  <rect class="bx" x="188" y="26" width="150" height="52" rx="8"/>
+  <text class="t" x="263" y="48" text-anchor="middle">解析 → AST</text>
+  <text class="s" x="263" y="65" text-anchor="middle">指令 · 围栏 · frontmatter</text>
+
+  <rect class="bx" x="188" y="96" width="150" height="60" rx="8"/>
+  <text class="t" x="263" y="120" text-anchor="middle">图表预渲染</text>
+  <text class="s" x="263" y="137" text-anchor="middle">8 引擎 → 静态 SVG</text>
+
+  <rect class="bx" x="188" y="176" width="150" height="60" rx="8"/>
+  <text class="t" x="263" y="200" text-anchor="middle">资源内嵌</text>
+  <text class="s" x="263" y="217" text-anchor="middle">字体子集 · data URI</text>
+
+  <line class="ln" x1="342" y1="52" x2="392" y2="112"/>
+  <line class="ln" x1="342" y1="126" x2="392" y2="126"/>
+  <line class="ln" x1="342" y1="206" x2="392" y2="140"/>
+
+  <rect class="bx" x="396" y="86" width="164" height="80" rx="8"/>
+  <text class="t" x="478" y="112" text-anchor="middle">组装</text>
+  <text class="s" x="478" y="130" text-anchor="middle">颜色替换 → CSS 变量</text>
+  <text class="s" x="478" y="147" text-anchor="middle">运行时拼接 → 算哈希</text>
+
+  <line class="ln" x1="564" y1="126" x2="604" y2="126"/>
+
+  <rect class="bx" x="608" y="76" width="180" height="100" rx="8" style="stroke:#3fb950"/>
+  <text class="t" x="698" y="102" text-anchor="middle">一本 pamphlet</text>
+  <text class="s" x="698" y="121" text-anchor="middle">单个 .html · 双击打开</text>
+  <text class="s" x="698" y="138" text-anchor="middle">零网络请求</text>
+  <text class="s" x="698" y="155" text-anchor="middle">无 JS 时内容完整可读</text>
+</svg>
+<figcaption>「运行时拼接 → 算哈希」有严格先后：运行时内容一变哈希就变，而哈希要写进 CSP，所以这两步不能并行（ADR-0017）。</figcaption>
+</figure>
+
+<h2><span class="n">04</span>决策索引（37 份 ADR）</h2>
+
+<h3>定位与语言表面</h3>
+<table>
+  <thead><tr><th class="mono">ADR</th><th>决定</th><th>关键理由</th></tr></thead>
+  <tbody>
+    <tr><td class="mono"><a href="./adr/0001-name-pamphlet.md">0001</a></td><td>命名 Pamphlet / 小册</td><td>名字承载核心隐喻；锁定 npm scope 与 CLI 名</td></tr>
+    <tr><td class="mono"><a href="./adr/0002-source-extension-is-md.md">0002</a></td><td>源文档沿用 <code>.md</code></td><td>GitHub 按后缀识别语言，自造后缀会让「逃生兼容」当场作废</td></tr>
+    <tr><td class="mono"><a href="./adr/0003-why-not-quarto.md">0003</a></td><td>自研，不用 Quarto</td><td>Quarto 是 Pandoc 方言、非 CommonMark，与 0002 方向不兼容</td></tr>
+    <tr><td class="mono"><a href="./adr/0013-tab-syntax-is-nested-directives.md">0013</a></td><td>Tab 用真嵌套 <code>::::tabs</code></td><td>零自定义语法；「Tab 里再套 Tab」免费得到</td></tr>
+    <tr><td class="mono"><a href="./adr/0019-fence-names-are-engine-native.md">0019</a></td><td>围栏只用引擎原生名</td><td>别名省几个字，代价是丢逃生兼容 + 知识带不走</td></tr>
+    <tr><td class="mono"><a href="./adr/0025-steps-use-native-ordered-list.md">0025</a></td><td><code>:::steps</code> 编译成原生 <code>&lt;ol&gt;</code></td><td>无编号逻辑、插步骤不用同步、保留读屏语义</td></tr>
+    <tr><td class="mono"><a href="./adr/0024-callout-four-types-svg-icons.md">0024</a></td><td>callout 四类型 + 内联 SVG 图标</td><td>emoji 跨系统渲染差异大；只靠颜色区分对色盲无效</td></tr>
+    <tr><td class="mono"><a href="./adr/0035-unclosed-directive-is-an-error.md">0035</a></td><td>未闭合 <code>:::</code> 报错</td><td>嵌套后「自动闭合」变成猜测，猜错产出结构错乱且不报错</td></tr>
+    <tr><td class="mono"><a href="./adr/0036-math-is-block-fence-only.md">0036</a></td><td>只做块级 <code>math</code>，不支持 <code>$…$</code></td><td><code>$</code> 在技术文档里高频（提示符、变量、货币），冲突转义要单独设计</td></tr>
+  </tbody>
+</table>
+
+<h3>产物与安全</h3>
+<table>
+  <thead><tr><th class="mono">ADR</th><th>决定</th><th>关键理由</th></tr></thead>
+  <tbody>
+    <tr><td class="mono"><a href="./adr/0017-strict-csp-in-artifact.md">0017</a></td><td>严格 CSP + sha256 哈希</td><td>把「零外部请求」从承诺变成浏览器每次打开都强制的规则</td></tr>
+    <tr><td class="mono"><a href="./adr/0005-css-only-animation-strict-svg-sanitisation.md">0005</a></td><td>动效只用 CSS，不放行 SMIL</td><td>DOMPurify 默认就删 <code>&lt;animate&gt;</code>（已知 XSS 入口）</td></tr>
+    <tr><td class="mono"><a href="./adr/0021-raw-html-passes-through-untouched.md">0021</a></td><td>裸 HTML 完全原样通过</td><td>CSP 已挡住脚本 / 事件属性 / iframe / 外链图片</td></tr>
+    <tr><td class="mono"><a href="./adr/0009-interactive-is-pan-zoom-only.md">0009</a></td><td><code>{.interactive}</code> 只做 pan/zoom</td><td>消掉整条第二渲染路径与双份输出</td></tr>
+    <tr><td class="mono"><a href="./adr/0014-embed-source-in-html-comment.md">0014</a></td><td>源文档存进一条 HTML 注释</td><td>注释是唯一「不被执行、不被 CSP 管、不被消毒」的容器</td></tr>
+    <tr><td class="mono"><a href="./adr/0015-tab-titles-are-real-headings.md">0015</a></td><td>Tab 标题是真实标题元素</td><td>读屏导航 / 目录 / 搜索 / 深链四件事一次拿到</td></tr>
+    <tr><td class="mono"><a href="./adr/0012-runtime-assembled-not-bundled.md">0012</a></td><td>运行时按特性拼接，编译期不打包</td><td>编译的机器上不需要打包工具；片段禁止互相引用</td></tr>
+    <tr><td class="mono"><a href="./adr/0011-no-size-gate.md">0011</a></td><td>体积不设 CI 卡点，只出归因报告</td><td>报告因此成为体积治理的唯一手段，必须够好读</td></tr>
+    <tr><td class="mono"><a href="./adr/0018-mobile-promise-narrowed.md">0018</a></td><td>移动端承诺收窄</td><td>iOS 18.5 起 Safari 不允许直接打开本地 HTML</td></tr>
+  </tbody>
+</table>
+
+<h3>引擎与主题</h3>
+<table>
+  <thead><tr><th class="mono">ADR</th><th>决定</th><th>关键理由</th></tr></thead>
+  <tbody>
+    <tr><td class="mono"><a href="./adr/0004-mermaid-via-headless-browser.md">0004</a></td><td>Mermaid 走 Playwright 预渲染</td><td>jsdom 路线已被官方否定</td></tr>
+    <tr><td class="mono"><a href="./adr/0008-builtin-engines.md">0008</a></td><td>内置七引擎，全部可选依赖</td><td>全装约 340MB；一律用库不用命令行包</td></tr>
+    <tr><td class="mono"><a href="./adr/0007-declarative-custom-engines.md">0007</a></td><td>自定义引擎只做声明式外部命令</td><td>不引入构建期任意 JS 执行，不需要插件沙箱</td></tr>
+    <tr><td class="mono"><a href="./adr/0016-diagram-theming-by-post-processing.md">0016</a></td><td>图表主题靠构建期后处理</td><td>兜底值让替换失败最坏只是「颜色不跟主题变」</td></tr>
+    <tr><td class="mono"><a href="./adr/0020-theme-tokens-three-layer.md">0020</a></td><td>主题 token 三层派生</td><td>「需要时能精确控制」≠「每次都必须精确控制」</td></tr>
+    <tr><td class="mono"><a href="./adr/0033-headless-browser-defaults.md">0033</a></td><td>超时 30s、并发 CPU−2</td><td>两个数字无实测依据，第一批文档跑通后要复核</td></tr>
+  </tbody>
+</table>
+
+<h3>工程与流程</h3>
+<table>
+  <thead><tr><th class="mono">ADR</th><th>决定</th><th>关键理由</th></tr></thead>
+  <tbody>
+    <tr><td class="mono"><a href="./adr/0006-versioning-promise.md">0006</a></td><td>0.x 只承诺修订号兼容</td><td>删掉「解析器多版本共存」这份永久双倍维护成本</td></tr>
+    <tr><td class="mono"><a href="./adr/0010-reject-newer-spec.md">0010</a></td><td><code>spec</code> 过高直接报错</td><td>在「明确报错」和「静默产出错误内容」之间必选前者</td></tr>
+    <tr><td class="mono"><a href="./adr/0030-frontmatter-only-configuration.md">0030</a></td><td>没有配置文件，全走 frontmatter</td><td>一份 <code>.md</code> 完全自描述；连带删掉一个包、一套 schema、一类诊断码</td></tr>
+    <tr><td class="mono"><a href="./adr/0031-three-packages.md">0031</a></td><td>三个包，不是十个</td><td>包边界的价值只有并行与按需依赖，单人开发拿不到前者</td></tr>
+    <tr><td class="mono"><a href="./adr/0023-explicit-file-paths-only.md">0023</a></td><td>只显式传路径，通配符自己展开</td><td>绕开 <code>bash</code>/<code>zsh</code> 对 <code>**</code> 支持不一致这个静默坑</td></tr>
+    <tr><td class="mono"><a href="./adr/0026-cache-in-tmpdir-output-beside-source.md">0026</a></td><td>缓存放临时目录，产物写源文档旁</td><td>用户仓库永远干净，代价是缓存不跨重启</td></tr>
+    <tr><td class="mono"><a href="./adr/0027-diagnostic-codes-without-severity-prefix.md">0027</a></td><td>诊断码不编码严重程度</td><td>警告升级成错误时不必改码（码已被写进 CI 脚本）</td></tr>
+    <tr><td class="mono"><a href="./adr/0028-failed-diagram-produces-artifact-but-fails-build.md">0028</a></td><td>图挂了：出产物但退出码 1</td><td>原则不是「拒绝产出」，是「不谎报成功」</td></tr>
+    <tr><td class="mono"><a href="./adr/0032-segmented-normalised-golden-snapshots.md">0032</a></td><td>golden 快照分段 + 归一化</td><td>整份快照会因几十万字符 base64 而不可读，防线形同虚设</td></tr>
+    <tr><td class="mono"><a href="./adr/0034-serve-uses-sse-for-reload.md">0034</a></td><td><code>serve</code> 用 SSE + 整页 reload</td><td>浏览器原生、零依赖；注入只在预览响应里</td></tr>
+    <tr><td class="mono"><a href="./adr/0029-docs-site-with-self-compiled-examples.md">0029</a></td><td>文档站 + 自编译示例</td><td>文档兼作集成测试，兜住 0016 的静默失效</td></tr>
+    <tr><td class="mono"><a href="./adr/0022-toc-config.md">0022</a></td><td>目录默认跳过 Tab 标题</td><td>0015 注定让 Tab 标题进大纲，目录这侧要有开关</td></tr>
+    <tr><td class="mono"><a href="./adr/0037-readme-is-a-pitch-docs-site-holds-the-edges.md">0037</a></td><td>README 只讲定位，边界放文档站</td><td>风险敞口已记录：README 是第一入口</td></tr>
+  </tbody>
+</table>
+
+<h2><span class="n">05</span>明知并接受的四处风险敞口</h2>
+<p>这些不是遗漏，是你在权衡后选的。写死在 ADR 里，将来不会被当成 bug 修掉。</p>
+
+<div class="card warn">
+  <h3>一段 <code>&lt;style&gt;</code> 可以盖掉整个主题系统</h3>
+  <p>裸 HTML 完全原样通过，而 <code>style-src 'unsafe-inline'</code> 是 CSP 唯一的松口。最常见的来路是从别处复制粘贴带 <code>style</code> 的 HTML 片段。<b>若日后要收紧，第一个该收的就是 <code>style</code> 属性</b>——收益最大、对作者损失最小。</p>
+</div>
+<div class="card warn">
+  <h3>SVG 有两条待遇不同的路径</h3>
+  <p>引擎产出的 SVG 被严格消毒，作者手写的内联 SVG 完全不受约束（可带 SMIL）。<b>代码里必须写清「消毒只作用于引擎产出的 SVG」</b>，以免将来有人误以为「所有 SVG 都消毒过」而基于此做别的决定。</p>
+</div>
+<div class="card warn">
+  <h3>通配符不做任何默认排除</h3>
+  <p><code>pamphlet build "**/*.md"</code> 在装了依赖的仓库里会编译上百个第三方 Markdown，而产物写在源文档旁边 ⇒ HTML 散落进 <code>node_modules</code>。唯一防线是文档。</p>
+</div>
+<div class="card warn">
+  <h3>超时 30 秒 ⇒ 最坏反馈时间很长</h3>
+  <p>正常渲染是百毫秒级，30 秒是三百倍；十张图全卡死时双核机器最坏等五分钟才报失败。缓解只有 <code>--timeout</code>。这个数字没有实测依据。</p>
+</div>
+
+<h2><span class="n">06</span>下一步：可以直接开工的顺序</h2>
+<p>范围是「P0 一个都不砍」，人力是一人 + AI，顺序是水平分层，节奏是每 2 周一个 alpha。</p>
+
+<div class="copyable">
+<button class="copybtn">复制</button>
+<pre>第 1-2 周 · 第一个 alpha（只发语法与解析器）
+  1. 起 monorepo：pamphlet / @pamphlet/runtime / @pamphlet/themes（ADR-0031）
+  2. CommonMark 全量解析 + frontmatter + tabs 指令（ADR-0013 的四冒号嵌套）
+  3. AST 结构定型 + 诊断格式定型（人类可读 + --format json，码不含 E/W 前缀）
+  4. pamphlet lint / pamphlet ast 两个命令
+  5. golden 快照 + XSS 语料库这两层测试同期建起来（其余五层跟特性走）
+  6. 文档站开工（VitePress），先写语法与 lint 输出
+  验证：别人能写一份带 Tab 的 .md，跑 lint 得到带行号和修复建议的诊断
+
+第 3-8 周 · 逐层往下（每 2 周一个 alpha）
+  7. 其余三种指令（collapse / steps / callout）
+  8. 图表管线：Playwright 常驻 + 内容哈希缓存 + 颜色后处理（ADR-0016）
+  9. 资源内嵌：字体子集化（.ttc 要先拆面）+ data URI
+ 10. HTML 组装：运行时拼接 → 算哈希 → 写进 CSP（严格先后，ADR-0017）
+ 11. 主题系统：18 个语义 token + 元素层派生（docs/theme-tokens.md）
+
+第 8-9 周 · 第一个带 HTML 输出的 alpha
+ 12. pamphlet build / serve（SSE 自动刷新）/ doctor / extract
+ 13. 文档站补上「查看编译结果」链接，示例在 CI 里重编译
+ 14. 五段技术边界文档上线（手机端限制 / 裸 HTML 边界 / 通配符陷阱 / 引擎安装 / 兼容承诺）</pre>
+</div>
+
+<h3>两件现在就该做、且很便宜的事</h3>
+<div class="copyable">
+<button class="copybtn">复制</button>
+<pre># 1. 把这些结论提交进仓库（当前仓库零 commit，这些文件都还在工作区）
+git -C /Users/luoxin/persons/lyxamour/pamphlet add CONTEXT.md docs/
+git -C /Users/luoxin/persons/lyxamour/pamphlet commit -m "docs: 领域模型与 37 份架构决策记录"
+
+# 2. 复核那两个没有实测依据的数字（等第一批真实文档跑通后）
+#    - 无头浏览器超时 30s（ADR-0033）
+#    - 并发 CPU-2（ADR-0033）</pre>
+</div>
+
+<div class="foot">
+  <p>17 轮追问 · 70 项决策 · 37 份 ADR · 4 处原方案假设被推翻 · 10 条实测事实。<br>
+  术语表：<a href="../CONTEXT.md">CONTEXT.md</a> ｜ 主题变量清单：<a href="./theme-tokens.md">theme-tokens.md</a> ｜ 决策记录：<a href="./adr/">docs/adr/</a></p>
+</div>
+
+</div>
+<script>
+document.querySelectorAll('.copybtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var pre = btn.parentElement.querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(function(){
+      btn.textContent = '已复制';
+      btn.classList.add('done');
+      setTimeout(function(){ btn.textContent = '复制'; btn.classList.remove('done'); }, 1600);
+    });
+  });
+});
+</script>
+</body>
+</html>

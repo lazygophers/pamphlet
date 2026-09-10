@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/pamphlet" },
+    { "path": "packages/runtime" },
+    { "path": "packages/themes" }
+  ]
+}

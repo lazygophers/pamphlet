@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.pnpm-store/
+.ask-ui/
+graphify-out/
+.scratch/
+
+# 覆盖全局 gitignore（~/.gitignore_global）里的两条规则，
+# 它们会把本仓库的源码整棵树排除掉：
+#   第 410 行 `packages/`   —— 那是 .NET/NuGet 的习惯，与 pnpm workspace 冲突
+#   第 147 行 `*.BASE.*`    —— 那是 merge 冲突残留文件的规则，误伤 tsconfig.base.json
+!packages/
+!tsconfig.base.json
