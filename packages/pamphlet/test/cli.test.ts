@@ -301,3 +301,36 @@ describe('doctor 命令', () => {
     // probe 要真的拉起一次无头浏览器，冷启动实测 733ms，并行跑时更慢
   }, 120_000)
 })
+
+
+describe('参数解析的边角', () => {
+  it('--port 认整数，给了非数字也不崩', async () => {
+    // serve 会一直跑，所以只验参数解析：用一个匹配不到的路径让它在展开阶段就退出
+    expect(await run(['serve', join(dir, 'nope-*.md'), '--port', '5000'])).toBe(2)
+    expect(await run(['serve', join(dir, 'nope-*.md'), '--port', 'notanumber'])).toBe(2)
+  })
+
+  it('serve 一次只接一个文件', async () => {
+    write('s1.md', '# 甲\n')
+    write('s2.md', '# 乙\n')
+    expect(await run(['serve', join(dir, 's*.md')])).toBe(2)
+    expect(err()).toContain('一次只预览一个文件')
+  })
+
+  it('extract 不给路径退出 2', async () => {
+    expect(await run(['extract'])).toBe(2)
+  })
+
+  it('--no-color 时诊断里没有 ANSI 转义', async () => {
+    const path = write('c1.md', ':::tabs\n未闭合\n')
+    await run(['lint', path, '--no-color'])
+    expect(out().includes(String.fromCharCode(27))).toBe(false)
+  })
+
+  it('build 的 --font 指到不存在的文件时报 EMB-402，正文照出', async () => {
+    const path = write('f.md', '# 标题\n\n正文\n')
+    expect(await run(['build', path, '--font', './no-such-font.otf'])).toBe(1)
+    expect(readFileSync(join(dir, 'f.html'), 'utf8')).toContain('正文')
+    expect(err()).toContain('EMB-402')
+  })
+})

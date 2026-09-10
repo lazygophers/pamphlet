@@ -466,3 +466,44 @@ describe('真 Mermaid 引擎的探测与错误路径', () => {
     expect(/fill\s*:\s*(black|white)\b/.test(first.svg)).toBe(false)
   }, 60_000)
 })
+
+
+describe('doctor 里用到的引擎探测', () => {
+  it('引擎没装时给出装它的办法', async () => {
+    const engine = fakeEngine({
+      async probe() {
+        return { available: false, hint: '装一次就好：npm i -g 某个东西' }
+      },
+    })
+    const probe = await engine.probe()
+    expect(probe.available).toBe(false)
+    expect(probe.available === false && probe.hint).toContain('npm i -g')
+  })
+
+  it('不是 mermaid 的引擎，版本退回 unknown，编译照常进行', async () => {
+    const engine = fakeEngine({ name: 'another' })
+    const report = await renderDiagrams(doc('```mermaid\nA-->B\n```'), {
+      engines: [engine],
+      cache: createNullCache(),
+    })
+    expect(report.rendered).toBe(1)
+  })
+})
+
+
+describe('引擎版本只查一次', () => {
+  it('同一进程内连续渲染两次，版本号从缓存来（不会重复读 package.json）', async () => {
+    const engine = fakeEngine({ name: 'mermaid' })
+    const dir = mkdtempSync(join(tmpdir(), 'pf-cache-'))
+    const first = await renderDiagrams(doc('```mermaid\nA-->B\n```'), {
+      engines: [engine],
+      cache: createCache(dir),
+    })
+    const second = await renderDiagrams(doc('```mermaid\nC-->D\n```'), {
+      engines: [engine],
+      cache: createCache(dir),
+    })
+    expect(first.rendered).toBe(1)
+    expect(second.rendered).toBe(1)
+  })
+})

@@ -8,7 +8,8 @@ import { existsSync, readFileSync } from 'node:fs'
 import * as fontkit from 'fontkit'
 import { describe, expect, it } from 'vitest'
 import { parse } from '../src/parse.js'
-import { assemble, extract } from '../src/assemble/index.js'
+import { assemble, extract, styleSheet, LIGHT, DARK } from '../src/assemble/index.js'
+import { removeOnce } from '../src/assemble/report.js'
 
 const build = (source: string, options = {}) => assemble(parse(source), options)
 
@@ -756,5 +757,85 @@ describe('深浅色与图表缩放', () => {
     const withDiagram = await assemble(parsed)
     expect(withDiagram.html).toContain('data-pf-feature="diagram-zoom"')
     expect(withDiagram.html).toContain('<figure class="pf-diagram" data-pf-zoom>')
+  })
+})
+
+describe('样式与体积报告的边角', () => {
+  it('认不出的特性名不会让样式表崩，只是没有对应样式', () => {
+    const css = styleSheet(new Set(['tabs', '并不存在的特性']))
+    expect(css).toContain('.pf-tab-list')
+    expect(css).toContain('--pf-bg')
+  })
+
+  it('自定义主题的颜色出现在样式表里', () => {
+    const css = styleSheet(new Set(), { ...LIGHT, bg: '#123456' }, { ...DARK, bg: '#654321' })
+    expect(css).toContain('--pf-bg:#123456')
+    expect(css).toContain('--pf-bg:#654321')
+  })
+
+  it('removeOnce 跳过空串，且找不到时原样返回', () => {
+    expect(removeOnce('甲乙丙', ['', '乙'])).toBe('甲丙')
+    expect(removeOnce('甲乙丙', ['丁'])).toBe('甲乙丙')
+    // 只去掉第一次出现
+    expect(removeOnce('甲甲乙', ['甲'])).toBe('甲乙')
+  })
+
+  it('目录里同级标题连排时不产生多余的 ol', async () => {
+    const { html } = await build('---\ntoc:\n  enable: true\n---\n\n# 顶\n\n## 甲\n\n## 乙\n\n## 丙\n')
+    const toc = /<nav class="pf-toc"[^>]*>([\s\S]*?)<\/nav>/.exec(html)?.[1] ?? ''
+    expect(toc.match(/<ol>/g)?.length).toBe(1)
+    expect(toc.match(/<li>/g)?.length).toBe(3)
+  })
+})
+
+
+describe('抛出来的不是 Error 时也要报得清楚', () => {
+  it('读图片时抛字符串，诊断里带上那段字符串', async () => {
+    const { diagnostics } = await build('![图](./a.png)\n', {
+      // 有些库会 throw 一个字符串而不是 Error
+      readAsset: async () => {
+        throw 'ENOENT 之类的裸字符串'
+      },
+    })
+    const error = diagnostics.find((d) => d.code === 'EMB-402')
+    expect(error?.message).toContain('ENOENT 之类的裸字符串')
+  })
+
+  it('读字体时抛字符串，同样带上', async () => {
+    const { diagnostics } = await build('正文', {
+      font: { family: '甲', path: './a.otf' },
+      readAsset: async () => {
+        throw '裸字符串'
+      },
+    })
+    expect(diagnostics.find((d) => d.code === 'EMB-402')?.message).toContain('裸字符串')
+  })
+
+  it('子集化抛非 Error 时报 EMB-404 并带上原因', async () => {
+    const { diagnostics } = await build('正文', {
+      font: { family: '甲', path: './a.otf' },
+      // 不是字体的字节流，subset-font 会抛
+      readAsset: async () => new Uint8Array([9, 9, 9, 9, 9, 9, 9, 9]),
+    })
+    expect(diagnostics.find((d) => d.code === 'EMB-404')).toBeDefined()
+  })
+
+  it('认不出扩展名的图片按 application/octet-stream 内嵌', async () => {
+    const { html } = await build('![图](./a.unknownext)\n', {
+      readAsset: async () => new Uint8Array([1, 2, 3]),
+    })
+    expect(html).toContain('data:application/octet-stream;base64,')
+  })
+
+  it('没有位置信息的图片节点也能内嵌，诊断退回第 1 行', async () => {
+    const parsed = parse('正文\n')
+    // 手工塞一个不带 position 的节点：位置兜底那条路只有这样才走得到
+    parsed.ast.children.push({
+      type: 'paragraph',
+      children: [{ type: 'image', url: 'https://example.com/a.png', alt: '远程' }],
+    } as never)
+    const { diagnostics } = await assemble(parsed)
+    const error = diagnostics.find((d) => d.code === 'EMB-403')
+    expect(error?.start).toEqual({ line: 1, column: 1 })
   })
 })

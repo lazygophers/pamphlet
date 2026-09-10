@@ -19,6 +19,13 @@ const DIRECTIVE_FENCE = /^(\s{0,3})(:{3,})(.*)$/
 const CODE_FENCE = /^(\s{0,3})(`{3,}|~{3,})(.*)$/
 
 /**
+ * 取正则的捕获组。两个组都是**必选**的（`(\s{0,3})` 至少匹配空串、`(:{3,})` 至少三个冒号），
+ * 所以匹配成功时它们一定存在——这里的默认值只是为了让 `noUncheckedIndexedAccess` 闭嘴，
+ * 写成一个函数是为了这句解释只写一遍，而不是散在六个 `?? ''` 上。
+ */
+const group = (match: RegExpExecArray, index: number): string => match[index] as string
+
+/**
  * 返回所有未闭合的容器指令。位置指向**开启**那一行——
  * 「文档末尾发现未闭合」对一份有二十个指令的文档毫无帮助。
  */
@@ -29,14 +36,14 @@ export function findUnclosedDirectives(source: string): Diagnostic[] {
   const unclosed: OpenFence[] = []
   let codeFence: { marker: string; length: number } | undefined
 
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index] ?? ''
-
+  for (const [index, line] of lines.entries()) {
+    const lineNumber = index + 1
     const code = CODE_FENCE.exec(line)
     if (code) {
-      const marker = (code[2] ?? '')[0] ?? '`'
-      const length = (code[2] ?? '').length
-      const info = (code[3] ?? '').trim()
+      const fence = group(code, 2)
+      const marker = fence[0] as string
+      const length = fence.length
+      const info = group(code, 3).trim()
       if (codeFence === undefined) {
         codeFence = { marker, length }
         continue
@@ -53,22 +60,22 @@ export function findUnclosedDirectives(source: string): Diagnostic[] {
     const match = DIRECTIVE_FENCE.exec(line)
     if (!match) continue
 
-    const indent = (match[1] ?? '').length
-    const colons = (match[2] ?? '').length
-    const rest = (match[3] ?? '').trim()
+    const indent = group(match, 1).length
+    const colons = group(match, 2).length
+    const rest = group(match, 3).trim()
 
     if (rest === '') {
       // 闭合栅栏优先关掉冒号数完全相同的那一层；找不到才退而关最内层冒号数不多于它的。
       // 关掉一层时，它里面还开着的都永远关不上了——那才是作者真正漏写的那个。
-      let target = -1
-      for (let i = stack.length - 1; i >= 0; i -= 1) {
-        if (stack[i]?.colons === colons) { target = i; break }
-      }
-      if (target === -1) {
+      // 栈里的元素一定存在（下标来自 stack.length），非空断言比 `?.` 更诚实
+      const findLast = (ok: (fence: OpenFence) => boolean): number => {
         for (let i = stack.length - 1; i >= 0; i -= 1) {
-          if ((stack[i]?.colons ?? Number.POSITIVE_INFINITY) <= colons) { target = i; break }
+          if (ok(stack[i] as OpenFence)) return i
         }
+        return -1
       }
+      let target = findLast((fence) => fence.colons === colons)
+      if (target === -1) target = findLast((fence) => fence.colons <= colons)
       if (target !== -1) {
         unclosed.push(...stack.splice(target + 1).reverse())
         stack.splice(target, 1)
@@ -77,7 +84,7 @@ export function findUnclosedDirectives(source: string): Diagnostic[] {
     }
 
     const name = /^[A-Za-z0-9][A-Za-z0-9_-]*/.exec(rest)?.[0] ?? ''
-    stack.push({ colons, name, line: index + 1, column: indent + 1 })
+    stack.push({ colons, name, line: lineNumber, column: indent + 1 })
   }
 
   return [...unclosed, ...stack]

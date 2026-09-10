@@ -81,11 +81,20 @@ describe('serve 的失败路径', () => {
     const path = join(dir, 'gone.md')
     writeFileSync(path, '# 在\n', 'utf8')
     running = await startServer(path, 0)
+
+    // 删掉源文件再改一次同名文件，逼 watcher 触发一次注定失败的重编译
+    rmSync(path)
+    writeFileSync(path, 'x', 'utf8')
     rmSync(path)
 
-    // 触发一次重编译：文件没了，编译会抛，但服务要继续应答
-    const response = await fetch(`http://localhost:${running.port}/`)
-    expect(response.status).toBe(200)
+    // 服务必须还活着；页面要么是旧内容要么是错误页，两者都算「没退」
+    let status = 0
+    for (let i = 0; i < 100; i += 1) {
+      await delay(50)
+      status = (await fetch(`http://localhost:${running.port}/`)).status
+      if (status === 200) break
+    }
+    expect(status).toBe(200)
   }, 30_000)
 })
 
@@ -108,5 +117,19 @@ describe('serveUntilInterrupt', () => {
 
     process.emit('SIGINT')
     expect(await finished).toBe(0)
+  }, 30_000)
+})
+
+describe('serve 把诊断写到 stderr', () => {
+  it('源文档有诊断时逐条打出来，页面照常应答', async () => {
+    const lines: string[] = []
+    vi.mocked(process.stderr.write).mockImplementation((chunk) => {
+      lines.push(String(chunk))
+      return true
+    })
+    // 远程图片会报 EMB-403
+    const { port } = await start('warned.md', '# 甲\n\n![图](https://example.com/a.png)\n')
+    expect(lines.join('')).toContain('EMB-403')
+    expect((await fetch(`http://localhost:${port}/`)).status).toBe(200)
   }, 30_000)
 })
