@@ -1,0 +1,47 @@
+name: Publish to npm
+
+# 版本号变了就发。`pnpm -r publish` 自己会问 registry「这个版本发过没有」，
+# 发过的直接跳过——所以这条工作流每次推送都跑，但只有真的改了 version 才会发出东西。
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# OIDC：CI 拿它向 npm 证明「我是这个仓库的这条工作流」，取代长期有效的 token。
+# 少了 id-token: write，pnpm 拿不到 ID token，会退回去找 token 然后失败。
+permissions:
+  contents: read
+  id-token: write
+
+# 发布不可逆（npm 只允许 72 小时内撤回），两条工作流同时发同一个版本会互相打架。
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      # Node 22：npm 的 OIDC 通道要求 >= 22.14.0（docs.npmjs.com/trusted-publishers）。
+      # 包本身只要 Node >= 20，这一条只约束 CI。
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # artifact-in-browser 和 contrast 两个测试要真实浏览器（ADR-0004：Mermaid
+      # 必须用浏览器的布局引擎算文字尺寸）。少了这一步它们会失败，而不是跳过。
+      - run: pnpm --filter @nekoleapuki/pamphlet-cli exec playwright install --with-deps chromium
+
+      - run: pnpm typecheck
+      - run: pnpm test
+      # 文档站编不过通常意味着文档里引了不存在的页面，那种错误不该跟着包一起发出去
+      - run: pnpm docs:build
+
+      # 不带 --otp：Trusted Publishing 走 OIDC，CI 里没有动态码可输。
+      # --no-git-checks 是因为 CI 的检出停在游离 HEAD 上，不在任何分支。
+      - run: pnpm publish -r --no-git-checks --access public
