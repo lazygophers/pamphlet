@@ -66,6 +66,18 @@ function validateTree(ast: Root): Diagnostic[] {
     // 引擎没装、画不出来、颜色换不掉都由 DIAG-3xx 负责报
     if (isDirective(node)) diagnostics.push(...validateDirective(node, ancestors))
 
+    // GFM 的脚注解析得出来，组装器却没有对应分支：引用会渲染成空字符串、
+    // 定义的正文被原地插进正文流。静默改写读者看到的内容是最坏的一种失败，
+    // 所以在这里当场报错，而不是让它编译「成功」。
+    if (node.type === 'footnoteReference' || node.type === 'footnoteDefinition') {
+      diagnostics.push(
+        diagnostic('DOC-105', 'error', '本版本不支持脚注', {
+          hint: '改写成正文里的括注，或用 :::info 容器承载注释',
+          ...(node.position && { start: node.position.start, end: node.position.end }),
+        }),
+      )
+    }
+
     const children = 'children' in node ? (node.children as RootContent[] | undefined) : undefined
     if (!children) return
     const nextAncestors = isDirective(node) ? [...ancestors, node] : ancestors

@@ -170,6 +170,37 @@ describe('指令的其余形态', () => {
   })
 })
 
+describe('脚注：解析得出来但组装器不认，必须报出来而不是静默吞掉', () => {
+  it('引用与定义各报一条 DOC-105', () => {
+    expect(codes('正文[^1]。\n\n[^1]: 注释内容\n')).toEqual(['DOC-105', 'DOC-105'])
+  })
+
+  it('是 error 而不是 warning——内容会丢，不能让它编译成功', () => {
+    const [first] = parse('正文[^1]。\n\n[^1]: 注释内容\n').diagnostics
+    expect(first.severity).toBe('error')
+    expect(first.hint).toBeTruthy()
+  })
+
+  it('孤立的定义（没有任何引用）也要报', () => {
+    expect(codes('[^弃用]: 没有人引用我\n')).toEqual(['DOC-105'])
+  })
+
+  // Pandoc 的行内脚注 `^[...]` 不属于 GFM，解析器把它当普通文字，
+  // 所以它既不会丢内容也就不该报——只有 GFM 的 `[^n]` 那一种需要拦。
+  it('Pandoc 式行内脚注只是普通文字，不报', () => {
+    expect(codes('正文^[行内注释]。\n')).toEqual([])
+  })
+
+  it('诊断落在脚注那一行上', () => {
+    const [d] = parse('第一行\n\n第三行[^n]。\n\n[^n]: 注\n').diagnostics
+    expect(d.start?.line).toBe(3)
+  })
+
+  it('不含脚注的文档不受影响', () => {
+    expect(codes('正文里有一个方括号 [不是脚注] 而已。\n')).toEqual([])
+  })
+})
+
 describe('解析的其余分支', () => {
   it('没有 frontmatter 时 frontmatter 是空对象', () => {
     expect(parse('# 标题\n').frontmatter).toEqual({})

@@ -4,7 +4,7 @@ import { defineConfig } from '@rspress/core'
  * 文档站配置。站点发到 https://lazygophers.github.io/pamphlet/，
  * 所以 `base` 必须是 `/pamphlet/`——它是仓库名，不是随便取的。
  *
- * 中文是默认语言，所以中文页面的路由不带语言前缀（`/guide/syntax`），
+ * 中文是默认语言，所以中文页面的路由不带语言前缀（`/reference/syntax`），
  * 英文带 `/en/`。这是 Rspress 的既定行为，不是这里配出来的。
  */
 export default defineConfig({

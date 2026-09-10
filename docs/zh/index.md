@@ -7,18 +7,18 @@ hero:
   tagline: 不联网、不带依赖、图是提前画好的静态 SVG、面板可以点、关掉 JavaScript 照样从头读到尾
   actions:
     - theme: brand
+      text: 快速开始
+      link: /start/quickstart
+    - theme: alt
       text: 看一眼产物
       link: /demo/
-    - theme: alt
-      text: 这是什么
-      link: /guide/introduction
 
 features:
   - title: 双击就能打开
     details: 产物是单个 HTML 文件。发微信、塞 U 盘、断网打开都一样，它不向网络要任何东西。
     icon: 📄
   - title: 图是提前画好的
-    details: Mermaid 等引擎在编译时把图渲染成静态 SVG 内联进产物。读者那边不跑任何图表库。
+    details: Mermaid 在编译时把图渲染成静态 SVG 内联进产物。读者那边不跑任何图表库。
     icon: 📊
   - title: 没有 JavaScript 也能读全
     details: Tab 降级成全部展开，折叠块降级成原生 details。一个字都不会丢。

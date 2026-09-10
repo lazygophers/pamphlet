@@ -24,7 +24,7 @@ npx @pamphlet/cli build 方案.md      # 得到 方案.html，发给谁都能直
 | [Typst](https://typst.app/docs/reference/html/) | HTML 导出仍是实验性，官方标注 not for production use |
 | [Asciidoctor + Kroki](https://github.com/asciidoctor/asciidoctor-kroki/issues/421) | 能内联，但有图表静默失败的已知 bug，且无原生 Tab |
 
-完整取舍见[文档站的「这是什么」](https://lazygophers.github.io/pamphlet/guide/introduction)。
+完整取舍见[文档站的「简介」](https://lazygophers.github.io/pamphlet/start/what-is-it)。
 
 ## 看一眼产物
 
@@ -52,9 +52,10 @@ AGPL-3.0-or-later，见 [LICENSE](./LICENSE)。
 
 **<https://lazygophers.github.io/pamphlet/>**（[English](https://lazygophers.github.io/pamphlet/en/)）
 
-- [语法手册](https://lazygophers.github.io/pamphlet/guide/syntax) —— 九个容器指令 + 八种图表围栏
-- [命令行](https://lazygophers.github.io/pamphlet/guide/cli) —— 六个命令与退出码
-- [已知边界](https://lazygophers.github.io/pamphlet/limits/mobile) —— 五条看起来像 bug、其实是设计的行为
+- [快速开始](https://lazygophers.github.io/pamphlet/start/quickstart) —— 十分钟得到第一个产物
+- [语法速查表](https://lazygophers.github.io/pamphlet/reference/syntax) —— 九个容器指令 + 八种图表围栏
+- [命令行](https://lazygophers.github.io/pamphlet/reference/cli/) —— 六个命令与退出码
+- [产物是什么样的](https://lazygophers.github.io/pamphlet/design/output) —— 它承诺什么、不承诺什么
 - [诊断码表](https://lazygophers.github.io/pamphlet/reference/diagnostics) —— 19 个码分别什么意思、怎么修
 
 术语表在 [`CONTEXT.md`](./CONTEXT.md)。

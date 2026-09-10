@@ -1,1 +1,7 @@
-["diagnostics", "frontmatter", "theme-tokens"]
+[
+  "syntax",
+  { "type": "dir", "name": "cli", "label": "命令行" },
+  "frontmatter",
+  "theme-tokens",
+  "diagnostics"
+]

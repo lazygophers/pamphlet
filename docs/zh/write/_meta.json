@@ -1,0 +1,7 @@
+[
+  "index",
+  { "type": "dir", "name": "markdown", "label": "Markdown 本身" },
+  { "type": "dir", "name": "directives", "label": "指令" },
+  { "type": "dir", "name": "diagrams", "label": "图表" },
+  "assets"
+]

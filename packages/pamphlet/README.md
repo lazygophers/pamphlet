@@ -85,9 +85,10 @@ Node.js ≥ 20。
 
 **<https://lazygophers.github.io/pamphlet/>**（[English](https://lazygophers.github.io/pamphlet/en/)）
 
-- [语法手册](https://lazygophers.github.io/pamphlet/guide/syntax.html)
-- [命令行](https://lazygophers.github.io/pamphlet/guide/cli.html)
-- [已知边界](https://lazygophers.github.io/pamphlet/limits/mobile.html) —— 五条看起来像 bug、其实是设计的行为
+- [快速开始](https://lazygophers.github.io/pamphlet/start/quickstart.html)
+- [语法速查表](https://lazygophers.github.io/pamphlet/reference/syntax.html)
+- [命令行](https://lazygophers.github.io/pamphlet/reference/cli/index.html)
+- [产物是什么样的](https://lazygophers.github.io/pamphlet/design/output.html) —— 它承诺什么、不承诺什么
 - [诊断码表](https://lazygophers.github.io/pamphlet/reference/diagnostics.html)
 
 看一眼产物：<https://lazygophers.github.io/pamphlet/demo/>

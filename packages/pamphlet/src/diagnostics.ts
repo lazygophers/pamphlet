@@ -11,6 +11,7 @@ export type DiagnosticCode =
   | 'DOC-102' // frontmatter 里有未知字段
   | 'DOC-103' // frontmatter 不是合法 YAML
   | 'DOC-104' // frontmatter 字段值合法但本版本未实现
+  | 'DOC-105' // 用了脚注，本版本不支持
   | 'DIR-201' // 未知指令
   | 'DIR-202' // 指令用错了位置或形态
   | 'DIR-203' // 指令未闭合

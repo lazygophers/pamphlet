@@ -1,6 +1,9 @@
 [
-  { "text": "guide", "link": "/en/guide/introduction", "activeMatch": "^/en/guide/" },
-  { "text": "limits", "link": "/en/limits/mobile", "activeMatch": "^/en/limits/" },
-  { "text": "reference", "link": "/en/reference/diagnostics", "activeMatch": "^/en/reference/" },
-  { "text": "demo", "link": "/demo/" }
+  { "text": "Start", "link": "/en/start/quickstart", "activeMatch": "^/en/start/" },
+  { "text": "Writing", "link": "/en/write/", "activeMatch": "^/en/write/" },
+  { "text": "Guides", "link": "/en/howto/ci", "activeMatch": "^/en/howto/" },
+  { "text": "Reference", "link": "/en/reference/syntax", "activeMatch": "^/en/reference/" },
+  { "text": "Design", "link": "/en/design/output", "activeMatch": "^/en/design/" },
+  { "text": "FAQ", "link": "/en/faq" },
+  { "text": "See the output", "link": "/demo/" }
 ]

@@ -7,29 +7,29 @@ hero:
   tagline: No network, no dependencies, diagrams pre-rendered to static SVG, panels you can click, and it still reads end to end with JavaScript off
   actions:
     - theme: brand
-      text: See the artifact
-      link: /demo/
+      text: Quick start
+      link: /en/start/quickstart
     - theme: alt
-      text: What is this
-      link: /en/guide/introduction
+      text: See the output
+      link: /demo/
 
 features:
   - title: Double-click to open
-    details: The artifact is a single HTML file. Send it over chat, put it on a USB stick, open it offline — it asks the network for nothing.
+    details: The output is a single HTML file. Email it, put it on a USB stick, open it offline — it never asks the network for anything.
     icon: 📄
-  - title: Diagrams are drawn ahead of time
-    details: Engines such as Mermaid render diagrams to static SVG at compile time and inline them. The reader runs no diagram library.
+  - title: Diagrams drawn ahead of time
+    details: Mermaid renders to static SVG at compile time and is inlined. Readers run no diagram library at all.
     icon: 📊
-  - title: Fully readable without JavaScript
-    details: Tabs degrade to all panels expanded, collapse blocks degrade to native details. Not one word is lost.
+  - title: Complete without JavaScript
+    details: Tabs fall back to fully expanded, collapsibles to native details. Not a word is lost.
     icon: ♿
   - title: A strict CommonMark superset
-    details: Sources keep the .md extension and still render on GitHub. All nine container directives use standard directive syntax.
+    details: Source files stay .md and still read fine on GitHub. All nine container directives are standard directive syntax.
     icon: 📝
   - title: Follows the system colour scheme
-    details: Diagram strokes and labels change with it. Pure CSS, no JavaScript involved.
+    details: The lines and text inside diagrams change with it. Pure CSS, not a line of JavaScript.
     icon: 🌗
-  - title: The source is embedded in the artifact
-    details: pamphlet extract gives you the original .md back, byte for byte. The artifact is its own backup.
+  - title: The source is embedded
+    details: pamphlet extract gives you the original .md back. The output is its own backup.
     icon: 🔁
 ---

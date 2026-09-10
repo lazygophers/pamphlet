@@ -1,6 +1,9 @@
 [
-  { "text": "guide", "link": "/guide/introduction", "activeMatch": "^/guide/" },
-  { "text": "limits", "link": "/limits/mobile", "activeMatch": "^/limits/" },
-  { "text": "reference", "link": "/reference/diagnostics", "activeMatch": "^/reference/" },
-  { "text": "demo", "link": "/demo/" }
+  { "text": "开始", "link": "/start/quickstart", "activeMatch": "^/start/" },
+  { "text": "写作", "link": "/write/", "activeMatch": "^/write/" },
+  { "text": "指南", "link": "/howto/ci", "activeMatch": "^/howto/" },
+  { "text": "参考", "link": "/reference/syntax", "activeMatch": "^/reference/" },
+  { "text": "设计", "link": "/design/output", "activeMatch": "^/design/" },
+  { "text": "常见问题", "link": "/faq" },
+  { "text": "看一眼产物", "link": "/demo/" }
 ]

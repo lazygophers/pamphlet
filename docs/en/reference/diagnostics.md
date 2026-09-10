@@ -1,6 +1,10 @@
-# Diagnostic codes
+# Diagnostics reference
 
-Every diagnostic carries a location, a reason and a fix hint. The link underneath points at the matching anchor on this page.
+Every diagnostic carries a position, a reason and a fix hint, and the link underneath points at the matching anchor on this page.
+
+:::info The compiler's own messages are Chinese-only
+There is no message localisation yet. The code (`DIR-204`), the position and the documentation link are language-independent; the prose is not. This page explains every code in English.
+:::
 
 ```
 error[DIR-204] tab 缺少标题
@@ -13,22 +17,18 @@ error[DIR-204] tab 缺少标题
   https://lazygophers.github.io/pamphlet/reference/diagnostics.html#dir-204
 ```
 
-:::info Messages are Chinese today
-The diagnostic strings are not yet internationalised. The **codes** are language-neutral, which is what this page documents.
-:::
+## Reading a code
 
-## How to read a code
-
-Four segments. **The code itself does not encode severity**:
+Four segments, and **the code does not encode severity**:
 
 | Segment | Covers |
 |---|---|
-| `DOC-1xx` | Document and frontmatter |
+| `DOC-1xx` | The document and its frontmatter |
 | `DIR-2xx` | Container directives |
 | `DIAG-3xx` | Diagram engines |
 | `EMB-4xx` | Asset embedding |
 
-Severity is a **separate field** (`error` / `warning`), because `--fail-on-warn` turns warnings into failures — if the code hard-coded an `E` / `W` prefix, that flag would contradict itself.
+Severity is a **separate field** (`error` / `warning`), because `--fail-on-warn` can turn warnings into failures — a hard-coded `E` / `W` prefix in the code would contradict that switch.
 
 ---
 
@@ -38,7 +38,7 @@ Severity is a **separate field** (`error` / `warning`), because `--fail-on-warn`
 
 **`spec` is higher than the compiler supports.** Severity `error`.
 
-The document asks for a syntax version newer than your Pamphlet. Upgrade the compiler, or lower `spec`.
+This document asks for a newer syntax version than the Pamphlet you have. Upgrade the compiler, or lower `spec`.
 
 This compiler supports version `1`.
 
@@ -54,7 +54,7 @@ Not ignoring it silently is deliberate — silence would let you believe the set
 
 **Frontmatter is not valid YAML, or a field has the wrong type.** Severity `error`.
 
-Common variants:
+Common cases:
 
 | Message | Meaning |
 |---|---|
@@ -68,12 +68,24 @@ The diagnostic points at **the line of the offending field**, not vaguely at the
 
 ### DOC-104
 
-**The value is valid but this version has not implemented it.** Severity depends on the field.
+**The value is valid but this version does not implement it.** Severity depends on the field.
 
 Two cases today:
 
-- `engines` (custom engines) — `warning`, the declaration has no effect for now
+- `engines` (custom engines) — `warning`; the declaration has no effect for now
 - `toc.position: side` (sticky sidebar) — `error`
+
+### DOC-105
+
+**Footnotes are used, and this version does not support them.** Severity `error`.
+
+GFM footnotes (`[^1]` plus `[^1]: note`) do parse, but the assembler has no handling for them — the reference would render as an empty string and the definition body would be spliced into the flow.
+
+**An error rather than silent dropping**: dropping silently means the note you wrote vanishes from the output and you never find out.
+
+Alternatives are in [GFM extensions](/en/write/markdown/gfm).
+
+The reference and the definition **each report once**, and an orphan definition (with no reference) reports too.
 
 ---
 
@@ -81,70 +93,74 @@ Two cases today:
 
 ### DIR-201
 
-**Unknown directive; contents emitted as ordinary paragraphs.** Severity `warning`.
+**Unknown directive; content emitted as ordinary paragraphs.** Severity `warning`.
 
-Only a warning, because **an unrecognised directive still emits its contents** — no text is lost.
+A warning rather than an error because **an unknown directive still emits its content verbatim** — nothing is lost.
 
 The diagnostic tries to point the way, recognising other tools' spellings:
 
-| You wrote | Hint |
+| You wrote | The hint |
 |---|---|
-| `note` | Called `info` in Pamphlet |
-| `warning` / `caution` | Called `warn` in Pamphlet |
-| `important` | Called `danger` in Pamphlet |
-| `details` / `accordion` | Called `collapse` in Pamphlet |
-| `tabset` | Called `tabs` in Pamphlet |
-| `callout` | The four callouts are `info` / `tip` / `warn` / `danger` |
+| `note` | called `info` in Pamphlet |
+| `warning` / `caution` | called `warn` in Pamphlet |
+| `important` | called `danger` in Pamphlet |
+| `details` / `accordion` | called `collapse` in Pamphlet |
+| `tabset` | called `tabs` in Pamphlet |
+| `callout` | the four callouts are `info` / `tip` / `warn` / `danger` |
 
-Typos within edit distance 2 also get a "did you mean X?".
+Misspellings within edit distance 2 also get a "did you mean X?".
 
 ### DIR-202
 
-**The directive is in the wrong place or the wrong shape.** Severity `error`.
+**A directive is in the wrong place or the wrong form.** Severity `error`.
 
 Two cases:
 
-- **Written as a non-container directive.** All nine directives are container directives and must wrap their content in paired colon fences
-- **`tab` is not directly inside `tabs`.** The hint tells you: the outer fence needs one more colon than the inner one (`::::tabs` wrapping `:::tab[label]`)
+- **Written as a non-container directive.** All nine are container directives and must wrap their content in a matching pair of colon fences
+- **A `tab` not directly inside a `tabs`.** The hint tells you the outer fence needs one more colon than the inner one (`::::tabs` around `:::tab[label]`)
 
 ### DIR-203
 
 **Unclosed directive.** Severity `error`.
 
-A closing fence **matches the same colon count first**; any inner fence skipped over is recorded as unclosed. That way the error points at the fence that genuinely was not closed, rather than at the outermost one.
+A closing fence **prefers a matching colon count**; any inner fence it skipped over is recorded as unclosed. That way the error points at the one actually left open rather than at the outermost.
 
 ### DIR-204
 
-**The directive is missing a required part.** Severity `error`.
+**A directive is missing something required.** Severity `error`.
 
 | Message | Fix |
 |---|---|
 | `tab 缺少标题` | The label is the clickable button; write `:::tab[label]` |
-| `collapse 缺少标题` | Degrades to `<details>` without JavaScript; no label means nothing clickable |
-| `tabs 里面没有任何 tab` | Add at least one `:::tab[label]`; mind the extra outer colon |
+| `collapse 缺少标题` | Without JavaScript it degrades to `<details>`; with no label there is nothing to click |
+| `tabs 里面没有任何 tab` | Put at least one `:::tab[label]` in it, with more colons on the outside |
 | `steps 里需要一个有序列表` | Write `1.` `2.` `3.` |
 
 ### DIR-205
 
-**More than one `{default}` in the same `tabs` group.** Severity `error`.
+**More than one `{default}` in one `tabs` group.** Severity `error`.
 
 Only one `tab` may carry `{default}`; with none, the first is selected.
 
-An error rather than a silent pick-the-first — silent guessing produces an artifact that differs from your intent.
+An error rather than silently taking the first — guessing silently produces output that differs from your intent.
 
 ### DIR-206
 
-**Attribute value outside the allowed set.** Severity `error`.
+**An attribute value is outside the allowed set.** Severity `error`.
 
-Today only `reveal{effect=…}`: valid values are `fade-up` (default) / `fade-in` / `slide-left` / `slide-right`. The diagnostic lists them all.
+Only `reveal{effect=…}` today: valid values are `fade-up` (default) / `fade-in` / `slide-left` / `slide-right`. The diagnostic lists them all.
 
 ### DIR-207
 
-**This directive does not know that attribute; ignored.** Severity `warning`.
+**This directive does not know this attribute; ignored.** Severity `warning`.
 
-The hint lists the attributes the directive does accept, and says so plainly when it accepts none.
+The hint lists the attributes it does know; when it accepts none, it says so.
 
-`class` and `id` are native to directive syntax, work on any directive, and never trigger this.
+:::warning `class` and `id` do not report this, and also do not work
+Both are native to directive syntax, so **any directive may carry them and none warns** — but they are **not emitted into the output** either. The values are silently discarded.
+
+To restyle, use [theme tokens](/en/reference/theme-tokens).
+:::
 
 ---
 
@@ -152,41 +168,41 @@ The hint lists the attributes the directive does accept, and says so plainly whe
 
 ### DIAG-301
 
-**The engine needed to render this diagram is not installed.** Severity `error`.
+**The engine needed for this diagram is not installed.** Severity `error`.
 
 Two messages:
 
 - `没有装能画 X 的引擎` — no engine claims that fence language at all. This version implements only Mermaid, so `d2` / `dot` / `math` and the rest land here
 - `渲染 X 图表需要 Y 引擎` — the engine exists but its optional dependency is missing; the hint carries the full install command
 
-Run `pamphlet doctor` first. See [diagram engines are all optional](/en/limits/engines).
+Run `pamphlet doctor` first to see what is installed. See [The other seven diagram types](/en/write/diagrams/others).
 
 ### DIAG-302
 
 **A single diagram's SVG is too large.** Severity `warning`. Threshold **200KB**.
 
-An oversized diagram usually means too many nodes, which the reader cannot follow either. Consider splitting it.
+An oversized diagram usually means too many nodes, which the reader cannot follow either; consider splitting it.
 
 ### DIAG-303
 
 **Rendering timed out or failed.** Severity `error`.
 
-The timeout is **10 seconds**, and that number is measured: the first diagram costs 733ms including browser cold start, subsequent ones 364ms, a 40-node diagram 412ms — so 10s is about 13× the worst measured case.
+The timeout is **10 seconds**, and that number is measured: the 1st diagram takes 733ms including browser cold start, subsequent ones 364ms, a 40-node diagram 412ms — 10 seconds is about 13× the worst case.
 
-When the diagram source has a syntax error, the hint suggests pasting it into <https://mermaid.live> to locate the problem.
+When the diagram source has a syntax error, the hint suggests pasting it into <https://mermaid.live>.
 
-**When a diagram fails, the artifact is still written** with a placeholder box in that slot, and the exit code is `1`. That way you can see the problem is confined to one diagram.
+**The output is still written when a diagram fails**: its place gets a placeholder box and the exit code is `1`. That way you can see the problem is confined to that one diagram.
 
 ### DIAG-304
 
-**The engine emitted hard-coded colours that could not be rewritten to theme variables.** Severity `warning`.
+**Hard-coded colours in the engine output could not be substituted with theme variables.** Severity `warning`.
 
-Those colours **will not follow the theme**; when switching to dark mode, check whether anything in that diagram becomes unreadable.
+Those colours **will not follow the theme**; check that diagram for anything unreadable in dark mode.
 
-The diagnostic lists the colours it could not rewrite. This warning exists for exactly one reason: to catch "the colour-rewriting rules silently broke after an engine upgrade" — a failure you would otherwise never notice.
+The diagnostic lists the colours it could not substitute. This warning exists for exactly one reason: to catch "the colour substitution rules silently stopped working after an engine upgrade" — a failure that is undetectable unless reported.
 
-:::tip Cache hits report this too
-A diagram fetched from cache runs the same diagnostics. Skipping that step would mean "diagram came from cache = nobody tells you about the missed colours", which is precisely the thing this mechanism exists to prevent.
+:::tip Cache hits report it too
+A diagram served from cache still runs the diagnostic. Without that step, "diagram came from cache" would mean "nobody tells you about the colours that were missed" — precisely what this mechanism exists to prevent.
 :::
 
 ---
@@ -197,33 +213,33 @@ A diagram fetched from cache runs the same diagnostics. Skipping that step would
 
 **A single asset exceeds the byte limit.** Severity `error`. Limit **2MB**.
 
-The hint gives concrete options: compress it first (for PNG, try `pngquant --quality=70`), or draw it with a diagram fence as SVG instead.
+The hint is concrete: compress it first (for PNG try `pngquant --quality=70`), or draw it as SVG with a [diagram fence](/en/write/diagrams/).
 
 The limit exists because base64 inflates size by **33.3%** (RFC 2045 §6.8, RFC 4648 §4).
 
 ### EMB-402
 
-**The asset could not be read.** Severity `error`.
+**This asset could not be read.** Severity `error`.
 
-Image paths resolve **relative to the source document's directory**, not to where you ran the command.
+Image paths resolve **relative to the source file's directory**, not the directory you ran the command from. See [Images and assets](/en/write/assets).
 
 ### EMB-403
 
-**A remote asset was referenced, which self-containment forbids.** Severity `error`.
+**A remote asset was referenced; self-containment forbids it.** Severity `error`.
 
 ```markdown
-![diagram](https://example.com/diagram.png)   ❌
-![diagram](./diagram.png)                     ✅
+![img](https://example.com/img.png)   ❌
+![img](./img.png)                      ✅
 ```
 
 Download it locally and reference that — **a pamphlet asks the network for nothing when opened**.
 
-There is no escape hatch. Remote assets are a hard error rather than a silent download, so nobody accidentally produces an artifact that needs the internet.
+There is no escape hatch. Erroring rather than downloading silently means nobody accidentally ships output that needs a network.
 
 ### EMB-404
 
-**This font format cannot be subsetted.** Severity `error`.
+**This font format cannot be subset.** Severity `error`.
 
-`.ttc` (a font collection — several fonts inside one file) cannot be subsetted directly. Pass a standalone `.ttf` / `.otf` to `--font` instead.
+`.ttc` (a font collection — several fonts in one file) cannot be subset directly. Use a standalone `.ttf` / `.otf` with `--font`.
 
-A subsetting failure (a corrupt font file and so on) reports the same code, with the underlying reason in the message.
+A subsetting failure for other reasons (a corrupt font file, say) also reports this, with the underlying cause in the message.

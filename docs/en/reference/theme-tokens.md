@@ -1,83 +1,81 @@
 # Theme tokens
 
-Three layers ([ADR-0020](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0020-theme-tokens-three-layer.md)): the semantic layer is the root, the element layer derives from it by default, and an author only writes what they want to change.
+The three-layer structure is in [ADR-0020](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0020-theme-tokens-three-layer.md): the semantic layer is the root, the element layer derives from it by default, and an author only writes what they want to change.
 
-## Semantic layer (18 tokens)
+How to change them: [Changing the theme colours](/en/howto/theme).
 
-A custom theme almost always only needs a few values here.
+## Semantic layer (18)
+
+A custom theme almost always only needs a few values from here.
 
 ```yaml
-# Colours
+# colours
 bg:          '#ffffff'   # page background
-bg-subtle:   '#f6f8fa'   # secondary background (code blocks, table headers)
+bg-subtle:   '#f6f8fa'   # secondary background (code blocks, table headers, callouts)
 fg:          '#1f2328'   # body text
-fg-muted:    '#656d76'   # secondary text (notes, footnotes)
-primary:     '#2d6cdf'   # primary colour (links, emphasis)
-border:      '#d0d7de'   # generic border
-info:        '#0969da'   # info callout
-tip:         '#1a7f37'   # tip callout
-warn:        '#9a6700'   # warning callout
-danger:      '#cf222e'   # danger callout
+fg-muted:    '#656d76'   # secondary text
+primary:     '#2d6cdf'   # accent (links, emphasis)
+border:      '#d0d7de'   # general borders
+info:        '#0969da'
+tip:         '#1a7f37'
+warn:        '#9a6700'
+danger:      '#cf222e'
 
-# Fonts
+# fonts
 font-sans:   '"PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif'
 font-mono:   'ui-monospace, "SF Mono", Consolas, monospace'
 
-# Spacing (four steps, each doubling)
-space-1:     '4px'       # inline gap
-space-2:     '8px'       # tight
-space-3:     '16px'      # normal (paragraph spacing, list indent, callout padding)
-space-4:     '32px'      # section whitespace
+# spacing (four steps, each double the last)
+space-1:     '4px'
+space-2:     '8px'
+space-3:     '16px'      # the common one (paragraph gaps, list indents, callout padding)
+space-4:     '32px'      # section breathing room
 
-# Typography
-line-height: '1.75'      # body line height
-radius:      '6px'       # corner radius
+# typography
+line-height: '1.75'
+radius:      '6px'
 ```
 
-The CJK font stack follows the commonly accepted list (<https://snook.ca/archives/html_and_css/cjk-font-stack-notes>). The line height is 1.75 rather than the browser default 1.5 — the latter is cramped for CJK body text.
+In CSS every name carries the `--pf-` prefix, e.g. `--pf-primary`.
 
-Names are semantic (`danger`, not `red`) because one token set serves both light and dark themes: in a dark theme `red` might actually be pink, and that naming would contradict itself.
+The CJK font stack follows the commonly accepted list (<https://snook.ca/archives/html_and_css/cjk-font-stack-notes>). Line height is 1.75 rather than the browser default 1.5 — the latter is cramped for CJK body text.
 
-## Element layer (30+ tokens)
+Names are semantic (`danger`, not `red`) because one token set serves both light and dark: `red` might actually be pink in the dark theme, which would make the name contradict itself.
 
-Every default derives from the semantic layer, and it **may only reference the semantic layer, never another element token**. Examples:
+## Element layer (16)
+
+Defaults all derive from the semantic layer, and may **reference only the semantic layer, never another element token**. These 16 are all of them; there are no others:
 
 ```css
+--pf-link:               var(--pf-primary);
+--pf-code-bg:            var(--pf-bg-subtle);
 --pf-table-border:       var(--pf-border);
 --pf-table-header-bg:    var(--pf-bg-subtle);
---pf-code-bg:            var(--pf-bg-subtle);
---pf-code-fg:            var(--pf-fg);
 --pf-quote-border:       var(--pf-border);
 --pf-quote-fg:           var(--pf-fg-muted);
---pf-link:               var(--pf-primary);
---pf-callout-info-bg:    /* desaturated info */;
---pf-callout-info-icon:  var(--pf-info);
---pf-callout-tip-bg:     /* desaturated tip */;
---pf-callout-tip-icon:   var(--pf-tip);
---pf-callout-warn-bg:    /* desaturated warn */;
---pf-callout-warn-icon:  var(--pf-warn);
---pf-callout-danger-bg:  /* desaturated danger */;
---pf-callout-danger-icon:var(--pf-danger);
 --pf-tab-active-border:  var(--pf-primary);
 --pf-tab-inactive-fg:    var(--pf-fg-muted);
 --pf-step-marker-bg:     var(--pf-primary);
 --pf-step-marker-fg:     var(--pf-bg);
+--pf-diagram-bg:         var(--pf-bg);
+--pf-diagram-line:       var(--pf-border);
+--pf-diagram-fill:       var(--pf-bg-subtle);
+--pf-diagram-text:       var(--pf-fg);
+--pf-diagram-accent:     var(--pf-primary);
+--pf-diagram-muted:      var(--pf-fg-muted);
 ```
 
-## Diagram layer
+The last six are the **diagram layer** — the set [ADR-0016](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0016-diagram-theming-by-post-processing.md) substitutes SVG colours onto. They belong to the element layer and follow exactly the same rules.
 
-Part of the element layer; this is the group that SVG colour rewriting targets ([ADR-0016](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0016-diagram-theming-by-post-processing.md)):
+:::warning Callouts have no tokens of their own
+The four callouts **do not differ in background**; all use `--pf-bg-subtle`. The only difference is the colour of the 3px bar on the left, taken straight from the semantic `--pf-info` / `--pf-tip` / `--pf-warn` / `--pf-danger`.
 
-```css
---pf-diagram-bg:      var(--pf-bg);
---pf-diagram-line:    var(--pf-border);
---pf-diagram-fill:    var(--pf-bg-subtle);
---pf-diagram-text:    var(--pf-fg);
---pf-diagram-accent:  var(--pf-primary);
---pf-diagram-muted:   var(--pf-fg-muted);
-```
+**They also render no icon.** So there is no `--pf-callout-*-bg` and no `--pf-callout-*-icon`; writing them has no effect.
 
-Renaming these is expensive: the rewriting rules, the built-in themes and the documentation all have to change together.
+Likewise there is no `--pf-code-fg` — code text simply inherits `--pf-fg`.
+:::
+
+Renaming any of these is expensive: substitution rules, built-in themes and documentation all have to change together.
 
 ## The dark set
 
@@ -96,20 +94,4 @@ warn:        '#d29922'
 danger:      '#f85149'
 ```
 
-Both sets exist in the artifact simultaneously and switch on `prefers-color-scheme` — **pure CSS, with no JavaScript involved**. Diagram colours live in this layer too, so strokes and labels change with everything else.
-
-## How to change them today
-
-:::warning Only one route right now
-The `theme` frontmatter field is not wired into the compiler yet (see the [frontmatter reference](/en/reference/frontmatter)), and the three built-in theme names in `@pamphlet/themes` are not connected either.
-
-The only way today is a `<style>` block in the source overriding the CSS variables — raw HTML passes through untouched, so this works:
-
-```html
-<style>
-  :root { --pf-primary: #7c3aed; }
-</style>
-```
-
-The cost is covered in [raw HTML passes through untouched](/en/limits/raw-html): that `<style>` has no restrictions at all, and getting it wrong can flatten the whole theme system.
-:::
+Both sets live in the output at once and switch via `prefers-color-scheme` — **pure CSS, not a line of JavaScript**. Diagram colours are in the same layer, so the lines and text inside diagrams change with it.

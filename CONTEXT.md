@@ -71,7 +71,7 @@ _Avoid_: 错误框, fallback, placeholder
 ## 语言表面
 
 **callout**:
-带底色和图标的提示框这一类块的统称。它**不是指令名**——四个指令名分别是 `info` / `tip` / `warn` / `danger`。
+四种提示块的统称。它**不是指令名**——四个指令名分别是 `info` / `tip` / `warn` / `danger`。产物里它们只有左侧一条竖线的颜色不同：底色四种共用 `--pf-bg-subtle`，也不渲染图标。
 _Avoid_: admonition, 警告框, `:::callout`
 
 **标题**:
@@ -93,11 +93,11 @@ _Avoid_: 行内指令, inline directive
 ## 主题
 
 **语义层**:
-按用途命名的那 17 个主题变量（`bg` / `fg` / `primary` / `danger`…），是整套主题的根。
+按用途命名的那 18 个主题变量（`bg` / `fg` / `primary` / `danger`…），是整套主题的根。
 _Avoid_: 全局 token, 基础色, palette
 
 **元素层**:
-按具体元素命名的那 30 多个主题变量，默认值全部从语义层派生。
+按具体元素命名的那 16 个主题变量，默认值全部从语义层派生。
 _Avoid_: 组件 token, 细粒度变量
 
 **归一化**:
