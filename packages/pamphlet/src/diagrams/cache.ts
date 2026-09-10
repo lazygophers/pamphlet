@@ -18,6 +18,14 @@ import { tmpdir } from 'node:os'
 import { SENTINELS } from './tokens.js'
 import type { RenderedDiagram } from './engine.js'
 
+/**
+ * 后处理管线的版本。缓存里存的是**后处理之后**的 SVG，所以改了换色或尺寸规则，
+ * 旧缓存就是过期的——不把它算进键里，改动对已经缓存过的图完全不生效
+ * （实测：接上尺寸钉定之后，缓存命中的图仍然是旧的 width="100%"）。
+ * 改后处理行为时把这个数字加一。
+ */
+const POST_PROCESS_VERSION = '2'
+
 /** 哨兵表变了就得让旧缓存失效，所以把它算进键里 */
 const SENTINEL_FINGERPRINT = createHash('sha256')
   .update(JSON.stringify(SENTINELS))
@@ -31,7 +39,9 @@ export function cacheKey(
   engineFingerprint: string,
 ): string {
   return createHash('sha256')
-    .update(`${engine} ${engineVersion} ${SENTINEL_FINGERPRINT} ${engineFingerprint} ${code}`)
+    .update(
+      `${engine} ${engineVersion} ${POST_PROCESS_VERSION} ${SENTINEL_FINGERPRINT} ${engineFingerprint} ${code}`,
+    )
     .digest('hex')
 }
 

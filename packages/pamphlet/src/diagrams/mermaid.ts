@@ -20,6 +20,7 @@ import {
   type RenderedDiagram,
 } from './engine.js'
 import { recolor } from './recolor.js'
+import { pinIntrinsicSize } from './pin-size.js'
 import { SENTINELS } from './tokens.js'
 
 /**
@@ -160,7 +161,7 @@ export function createMermaidEngine(options: MermaidOptions = {}): Engine {
           })
         }
 
-        const { svg, unmapped } = recolor(result.value.svg)
+        const { svg, unmapped } = recolor(pinIntrinsicSize(result.value.svg))
         return { svg, unmapped } satisfies RenderedDiagram
       })
     },
