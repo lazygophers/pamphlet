@@ -3,7 +3,7 @@
  * 真正调用 Playwright 的那部分放在 contrast.test.ts（它慢，且需要浏览器）。
  */
 
-import { mkdtempSync } from 'node:fs'
+import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -88,30 +88,56 @@ describe('颜色替换（ADR-0016）', () => {
 })
 
 describe('缓存键', () => {
-  it('图源一样、引擎一样、版本一样 → 键一样', () => {
-    expect(cacheKey('graph TD\nA-->B', 'mermaid', '11.0.0')).toBe(
-      cacheKey('graph TD\nA-->B', 'mermaid', '11.0.0'),
-    )
+  const key = (
+    code: string,
+    engine = 'mermaid',
+    version = '11.0.0',
+    fingerprint = 'cfg00000',
+  ) => cacheKey(code, engine, version, fingerprint)
+
+  it('四样都一样 → 键一样', () => {
+    expect(key('graph TD\nA-->B')).toBe(key('graph TD\nA-->B'))
   })
 
   it('图源变了键就变', () => {
-    expect(cacheKey('A-->B', 'mermaid', '11.0.0')).not.toBe(cacheKey('A-->C', 'mermaid', '11.0.0'))
+    expect(key('A-->B')).not.toBe(key('A-->C'))
   })
 
   it('引擎版本变了键就变——否则升级引擎后会命中旧图', () => {
-    expect(cacheKey('A-->B', 'mermaid', '11.0.0')).not.toBe(cacheKey('A-->B', 'mermaid', '11.1.0'))
+    expect(key('A-->B', 'mermaid', '11.0.0')).not.toBe(key('A-->B', 'mermaid', '11.1.0'))
   })
 
   it('引擎不同键就不同', () => {
-    expect(cacheKey('A-->B', 'mermaid', '1')).not.toBe(cacheKey('A-->B', 'd2', '1'))
+    expect(key('A-->B', 'mermaid', '1')).not.toBe(key('A-->B', 'd2', '1'))
+  })
+
+  it('引擎配置指纹变了键就变——喂给引擎的主题变量也决定输出', () => {
+    // 实测踩过：改了 THEME_VARIABLES 重新编译，拿到的还是旧图，
+    // 而且走缓存路径连「颜色换漏了」的诊断都一起消失了
+    expect(key('A-->B', 'mermaid', '11.0.0', 'cfg-old')).not.toBe(
+      key('A-->B', 'mermaid', '11.0.0', 'cfg-new'),
+    )
+  })
+
+  it('真引擎的指纹跟着它的主题配置走，且是稳定的', () => {
+    expect(createMermaidEngine().fingerprint).toBe(createMermaidEngine().fingerprint)
+    expect(createMermaidEngine().fingerprint).toMatch(/^[0-9a-f]{8}$/)
   })
 })
 
 describe('缓存读写', () => {
-  it('写进去能读出来', async () => {
+  it('写进去能读出来，换不掉的色值跟着图一起存', async () => {
     const cache = createCache(mkdtempSync(join(tmpdir(), 'pf-cache-')))
-    await cache.set('k1', '<svg>甲</svg>')
-    expect(await cache.get('k1')).toBe('<svg>甲</svg>')
+    await cache.set('k1', { svg: '<svg>甲</svg>', unmapped: ['#00fffe'] })
+    expect(await cache.get('k1')).toEqual({ svg: '<svg>甲</svg>', unmapped: ['#00fffe'] })
+  })
+
+  it('缓存文件被人动过、格式对不上时当没命中', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'pf-cache-'))
+    const cache = createCache(dir)
+    await cache.set('k2', { svg: '<svg/>', unmapped: [] })
+    writeFileSync(join(dir, 'k2.json'), '{"svg":123}', 'utf8')
+    expect(await cache.get('k2')).toBeUndefined()
   })
 
   it('没写过的键返回 undefined', async () => {
@@ -121,13 +147,13 @@ describe('缓存读写', () => {
 
   it('空实现永不命中，写入也不报错', async () => {
     const cache = createNullCache()
-    await cache.set('k', '<svg/>')
+    await cache.set('k', { svg: '<svg/>', unmapped: [] })
     expect(await cache.get('k')).toBeUndefined()
   })
 
   it('目录不可写时不让编译失败', async () => {
     const cache = createCache('/proc/definitely-not-writable-by-pamphlet')
-    await expect(cache.set('k', '<svg/>')).resolves.toBeUndefined()
+    await expect(cache.set('k', { svg: '<svg/>', unmapped: [] })).resolves.toBeUndefined()
   })
 })
 
@@ -136,6 +162,7 @@ function fakeEngine(overrides: Partial<Engine> = {}): Engine {
   return {
     name: 'fake',
     langs: ['mermaid'],
+    fingerprint: 'fake0000',
     async probe() {
       return { available: true }
     },
@@ -179,6 +206,39 @@ describe('渲染管线', () => {
     await renderDiagrams(doc(body), options(engine))
     expect(calls).toBe(1)
     expect(batchSize).toBe(5)
+  })
+
+  it('命中缓存时诊断照样报——不能「图从缓存来 = 换漏的颜色没人告诉你」', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'pf-cache-'))
+    const engine = fakeEngine({
+      async render(requests) {
+        return requests.map(() => ({ svg: '<svg><rect fill="#eaeaea"/></svg>', unmapped: ['#eaeaea'] }))
+      },
+    })
+    const source = '```mermaid\nA-->B\n```'
+
+    const first = await renderDiagrams(doc(source), { engines: [engine], cache: createCache(dir) })
+    expect(first.rendered).toBe(1)
+    expect(first.cached).toBe(0)
+
+    const second = await renderDiagrams(doc(source), { engines: [engine], cache: createCache(dir) })
+    expect(second.cached).toBe(1)
+    expect(second.rendered).toBe(0)
+    // 两条路必须说一样的话
+    expect(second.diagnostics.map((d) => d.code)).toEqual(first.diagnostics.map((d) => d.code))
+    expect(second.diagnostics[0]?.code).toBe('DIAG-304')
+  })
+
+  it('引擎配置指纹变了就不命中旧缓存', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'pf-cache-'))
+    const source = '```mermaid\nA-->B\n```'
+    const old = fakeEngine({ fingerprint: 'cfg-old' })
+    const neo = fakeEngine({ fingerprint: 'cfg-new' })
+
+    await renderDiagrams(doc(source), { engines: [old], cache: createCache(dir) })
+    const after = await renderDiagrams(doc(source), { engines: [neo], cache: createCache(dir) })
+    expect(after.cached).toBe(0)
+    expect(after.rendered).toBe(1)
   })
 
   it('引擎没装时每张图各给一条诊断，并带安装办法', async () => {

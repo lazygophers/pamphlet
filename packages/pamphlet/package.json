@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "把一份 Markdown 编译成自包含的单文件 HTML",
   "type": "module",
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "bin": {
     "pamphlet": "./dist/bin.js"
   },

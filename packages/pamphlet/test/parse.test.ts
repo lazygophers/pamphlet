@@ -86,16 +86,13 @@ describe('未知指令（DIR-201 警告，不中断）', () => {
 })
 
 describe('图表围栏（ADR-0019）', () => {
-  it('引擎原生名被认出来，本版本给「还不渲染」的警告', () => {
-    const diagnostics = parse('```mermaid\nsequenceDiagram\n  A->>B: hi\n```\n').diagnostics
-    expect(diagnostics).toHaveLength(1)
-    expect(diagnostics[0]?.code).toBe('DOC-104')
-    expect(diagnostics[0]?.severity).toBe('warning')
+  it('图表围栏在解析层不报任何诊断——渲染归图表管线管', () => {
+    expect(parse('```mermaid\nsequenceDiagram\n  A->>B: hi\n```\n').diagnostics).toEqual([])
   })
 
-  it('八种引擎名全部认识', () => {
+  it('八种引擎名都当普通代码块解析完，一条诊断都没有', () => {
     for (const lang of ['mermaid', 'd2', 'dot', 'math', 'vega-lite', 'wavedrom', 'bytefield', 'plantuml']) {
-      expect(codes(`\`\`\`${lang}\nx\n\`\`\`\n`)).toEqual(['DOC-104'])
+      expect(codes(`\`\`\`${lang}\nx\n\`\`\`\n`), lang).toEqual([])
     }
   })
 

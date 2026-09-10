@@ -9,6 +9,7 @@
  * 纯文本文档永远不会拉起浏览器（实测冷启动 733ms，白付很浪费）。
  */
 
+import { createHash } from 'node:crypto'
 import { diagnostic, type Diagnostic } from '../diagnostics.js'
 import {
   DEFAULT_TIMEOUT_MS,
@@ -59,6 +60,12 @@ const THEME_VARIABLES = {
   clusterBorder: SENTINELS.line,
   edgeLabelBackground: SENTINELS.bg,
   titleColor: SENTINELS.text,
+  // 箭头头部与出错提示。这三个不钉住，Mermaid 会从别的色**算**出来
+  // （它源码里写作 `'calculated'`），算出来的值不在哨兵表里，
+  // 于是 DIAG-304 会报「有硬编码色值换不掉」——实测漏的就是 `#00fffe`。
+  arrowheadColor: SENTINELS.line,
+  errorBkgColor: SENTINELS.fill,
+  errorTextColor: SENTINELS.text,
 } as const
 
 type MermaidRenderer = (
@@ -97,6 +104,10 @@ export function createMermaidEngine(options: MermaidOptions = {}): Engine {
   return {
     name: 'mermaid',
     langs: ['mermaid'],
+    fingerprint: createHash('sha256')
+      .update(JSON.stringify(THEME_VARIABLES))
+      .digest('hex')
+      .slice(0, 8),
 
     async probe() {
       try {

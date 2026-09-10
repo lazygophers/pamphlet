@@ -27,7 +27,24 @@ pamphlet build 方案.md      # 得到 方案.html，发给谁都能直接打开
 
 ## 看一眼产物
 
-_（自举示例：文档站本身就是 Pamphlet 编译出来的，链接待补。）_
+**<https://lazygophers.github.io/pamphlet/>**
+
+那个页面是 [`examples/demo.md`](./examples/demo.md) 编译出来的，就一个 HTML 文件。可以试试：
+
+- 右上角切深浅色 —— 图里的线和字跟着一起变（图是编译时画好的静态 SVG，不是现场画的）
+- 在浏览器里关掉 JavaScript 再刷新 —— 三个面板会全部展开，一个字都不会丢
+- 存到本地断网打开 —— 一样能看，它不向网络要任何东西
+- 存下来跑 `pamphlet extract demo.html` —— 原样吐回那份 `.md`
+
+自己编一份：
+
+```bash
+pamphlet build examples/demo.md --verbose
+```
+
+## 许可证
+
+AGPL-3.0-or-later，见 [LICENSE](./LICENSE)。
 
 ## 文档
 

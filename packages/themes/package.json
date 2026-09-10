@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "内置主题：纯数据的 design token（语义层 17 个 + 元素层派生）",
   "type": "module",
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "exports": { ".": "./dist/index.js" },
   "files": ["dist", "tokens"],
   "scripts": { "build": "tsc -b" }

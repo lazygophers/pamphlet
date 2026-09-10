@@ -111,7 +111,9 @@ describe('图表文字在亮暗两套主题下都要读得清', () => {
   it(
     '三种图 × 两套主题，每个文字节点的对比度都 ≥ 4.5:1',
     async () => {
-      const engine = createMermaidEngine()
+      // 超时给到 60 秒。产品默认是 10 秒（ADR-0033），但这条测试考的是颜色不是速度，
+      // 而整套测试并行跑时同时有三个 Chromium 在抢 CPU，10 秒会随机超时。
+      const engine = createMermaidEngine({ timeoutMs: 60_000 })
       const probe = await engine.probe()
       expect(probe.available, '这层测试需要 mermaid-isomorphic 与 playwright').toBe(true)
 
@@ -125,7 +127,10 @@ describe('图表文字在亮暗两套主题下都要读得清', () => {
       try {
         for (const [index, result] of results.entries()) {
           const name = names[index] ?? String(index)
-          expect('svg' in result, `${name} 应该渲染成功`).toBe(true)
+          expect(
+            'svg' in result,
+            `${name} 应该渲染成功：${'svg' in result ? '' : JSON.stringify(result)}`,
+          ).toBe(true)
           if (!('svg' in result)) continue
 
           for (const [themeName, theme] of Object.entries(THEMES)) {

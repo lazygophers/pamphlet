@@ -12,7 +12,7 @@ import { frontmatter } from 'micromark-extension-frontmatter'
 import { frontmatterFromMarkdown } from 'mdast-util-frontmatter'
 import type { Root, RootContent, Yaml } from 'mdast'
 
-import { isFenceLanguage, type Frontmatter } from './ast.js'
+import type { Frontmatter } from './ast.js'
 import { isDirective, validateDirective, type AnyDirective } from './directives.js'
 import { diagnostic, type Diagnostic, type Point } from './diagnostics.js'
 import { parseFrontmatter } from './frontmatter.js'
@@ -62,22 +62,8 @@ function validateTree(ast: Root): Diagnostic[] {
   const diagnostics: Diagnostic[] = []
 
   const walk = (node: RootContent, ancestors: AnyDirective[]): void => {
-    if (node.type === 'code') {
-      const lang = (node.lang ?? '').trim()
-      // 没有语言标记 = 普通代码块；有语言但不是图表语言 = 语法高亮，都不管
-      if (lang !== '' && isFenceLanguage(lang)) {
-        diagnostics.push(
-          diagnostic('DOC-104', 'warning', `本版本还不渲染 ${lang} 图表，这段图源按代码块输出`, {
-            start: {
-              line: node.position?.start.line ?? 1,
-              column: node.position?.start.column ?? 1,
-            },
-            hint: '图表渲染会在带 HTML 输出的版本里到位',
-          }),
-        )
-      }
-    }
-
+    // 图表围栏在这里不报任何东西：渲染归图表管线管，
+    // 引擎没装、画不出来、颜色换不掉都由 DIAG-3xx 负责报
     if (isDirective(node)) diagnostics.push(...validateDirective(node, ancestors))
 
     const children = 'children' in node ? (node.children as RootContent[] | undefined) : undefined

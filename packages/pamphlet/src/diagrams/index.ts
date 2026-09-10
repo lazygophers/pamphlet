@@ -10,7 +10,7 @@ import { diagnostic, type Diagnostic } from '../diagnostics.js'
 import { createCache, cacheKey, type Cache } from './cache.js'
 import { createMermaidEngine, sizeDiagnostic } from './mermaid.js'
 import { unmappedDiagnostic } from './recolor.js'
-import type { Engine, RenderRequest } from './engine.js'
+import type { Engine, RenderRequest, RenderedDiagram } from './engine.js'
 
 export interface DiagramTask {
   lang: FenceLanguage
@@ -115,11 +115,14 @@ export async function renderDiagrams(
     // 先查缓存，只把没命中的送去渲染
     const pending: { task: DiagramTask; key: string }[] = []
     for (const task of engineTasks) {
-      const key = cacheKey(task.code, engine.name, engineVersionOf(engine))
+      const key = cacheKey(task.code, engine.name, engineVersionOf(engine), engine.fingerprint)
       const hit = await cache.get(key)
       if (hit !== undefined) {
         report.cached += 1
-        setData(task, { svg: hit })
+        setData(task, { svg: hit.svg })
+        // 命中缓存也要报诊断。少了这一步就是「图从缓存来 = 换漏的颜色没人告诉你」，
+        // 而那正好是这套哨兵机制唯一要防的事。
+        report.diagnostics.push(...diagnose(engine.name, hit, task))
         continue
       }
       pending.push({ task, key })
@@ -146,21 +149,23 @@ export async function renderDiagrams(
 
       report.rendered += 1
       setData(task, { svg: result.svg })
-      await cache.set(key, result.svg)
-
-      const size = sizeDiagnostic(Buffer.byteLength(result.svg, 'utf8'), task.line)
-      if (size) report.diagnostics.push(size)
-
-      const unmapped = unmappedDiagnostic(engine.name, result.unmapped, {
-        line: task.line,
-        column: 1,
-      })
-      if (unmapped) report.diagnostics.push(unmapped)
+      await cache.set(key, result)
+      report.diagnostics.push(...diagnose(engine.name, result, task))
     }
   }
 
   report.diagnostics.sort((a, b) => (a.start?.line ?? 0) - (b.start?.line ?? 0))
   return report
+}
+
+/** 一张画出来的图该报的诊断。渲染路径和缓存路径共用，这样两条路不会说不一样的话。 */
+function diagnose(engine: string, rendered: RenderedDiagram, task: DiagramTask): Diagnostic[] {
+  const out: Diagnostic[] = []
+  const size = sizeDiagnostic(Buffer.byteLength(rendered.svg, 'utf8'), task.line)
+  if (size) out.push(size)
+  const unmapped = unmappedDiagnostic(engine, rendered.unmapped, { line: task.line, column: 1 })
+  if (unmapped) out.push(unmapped)
+  return out
 }
 
 function setData(task: DiagramTask, data: DiagramData): void {

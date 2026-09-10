@@ -215,16 +215,7 @@ exports[`golden 快照 > kitchen-sink.md > AST 轮廓与 frontmatter 1`] = `
 }
 `;
 
-exports[`golden 快照 > kitchen-sink.md > 诊断 1`] = `
-"warning[DOC-104] 本版本还不渲染 mermaid 图表，这段图源按代码块输出
-   --> kitchen-sink.md:21:1
-   |
-21 | \`\`\`mermaid
-   | ^
-   |
-   = 图表渲染会在带 HTML 输出的版本里到位
-   https://pamphlet.dev/diagnostics/doc-104"
-`;
+exports[`golden 快照 > kitchen-sink.md > 诊断 1`] = `""`;
 
 exports[`golden 快照 > plain.md > AST 轮廓与 frontmatter 1`] = `
 {

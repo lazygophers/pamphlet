@@ -132,9 +132,9 @@ export function parseFrontmatter(yamlText: string, start: Point): FrontmatterRes
           break
         }
         diagnostics.push(
-          diagnostic('DOC-104', 'warning', '本版本还不渲染图表，engines 声明暂时不起作用', {
+          diagnostic('DOC-104', 'warning', 'engines（自定义引擎）尚未实现，这段声明暂时不起作用', {
             ...span,
-            hint: '图表渲染会在带 HTML 输出的版本里到位',
+            hint: '内置引擎照常工作；跑 pamphlet doctor 看装了哪些',
           }),
         )
         break

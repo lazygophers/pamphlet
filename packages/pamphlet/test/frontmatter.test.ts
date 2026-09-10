@@ -77,7 +77,7 @@ describe('frontmatter', () => {
     expect(codes(['toc:', '  deep: 9'].join('\n'))).toEqual(['DOC-103'])
   })
 
-  it('engines 声明在本版本给警告（还不渲染图表）', () => {
+  it('engines 声明在本版本给警告（自定义引擎尚未实现）', () => {
     const result = parseFrontmatter(
       ['engines:', '  graphviz:', '    langs: [dot]', '    command: [dot, -Tsvg]'].join('\n'),
       START,

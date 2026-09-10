@@ -23,6 +23,14 @@ export interface Engine {
   name: string
   /** 它认领的围栏语言 */
   langs: readonly string[]
+  /**
+   * 这个引擎**喂给渲染器的配置**的指纹。进缓存键。
+   *
+   * 少了它就会出这种事：改了主题色配置、重新编译，拿到的还是旧图，
+   * 而且因为走的是缓存路径，连「颜色换漏了」的诊断都一起消失。
+   * 换句话说，工具活着不等于它的数据活着。
+   */
+  fingerprint: string
   /** 这个引擎需要的可选依赖装了没有；没装时给出安装办法 */
   probe(): Promise<{ available: true } | { available: false; hint: string }>
   /**
