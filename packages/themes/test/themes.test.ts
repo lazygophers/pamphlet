@@ -5,7 +5,7 @@
 
 import { describe, expect, it } from 'vitest'
 import { BUILTIN_THEMES, SEMANTIC_TOKENS } from '../src/index.js'
-import { LIGHT, DARK } from 'pamphlet'
+import { LIGHT, DARK } from '@pamphlet/cli'
 
 describe('语义层 token', () => {
   it('跟组装器里的 ThemeTokens 完全一致', () => {

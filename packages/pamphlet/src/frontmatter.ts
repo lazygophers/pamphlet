@@ -104,7 +104,7 @@ export function parseFrontmatter(yamlText: string, start: Point): FrontmatterRes
               'DOC-101',
               'error',
               `这份文档要求 spec ${value}，当前编译器只支持 spec ${SUPPORTED_SPEC}`,
-              { ...span, hint: '升级 pamphlet：npm i -g pamphlet@latest' },
+              { ...span, hint: '升级 pamphlet：npm i -g @pamphlet/cli@latest' },
             ),
           )
         }

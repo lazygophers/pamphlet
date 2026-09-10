@@ -28,7 +28,7 @@ exports[`golden 快照 > broken.md > 诊断 1`] = `
 2 | spec: 2
   | ^^^^
   |
-  = 升级 pamphlet：npm i -g pamphlet@latest
+  = 升级 pamphlet：npm i -g @pamphlet/cli@latest
   https://lazygophers.github.io/pamphlet/reference/diagnostics.html#doc-101
 
 warning[DOC-102] frontmatter 里有未知字段 diagrams，已忽略

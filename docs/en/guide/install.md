@@ -1,8 +1,33 @@
 # Install
 
+**No installation needed.**
+
 ```bash
-pnpm add -D pamphlet
+npx @pamphlet/cli build plan.md
 ```
+
+`npx` ships with npm and means "download this package, run it once, don't keep it around". The first run spends a few seconds downloading (measured: 86 packages, 15s); after that npx has its own cache.
+
+## If you want it installed
+
+For regular use, install globally — the command is then just `pamphlet`:
+
+```bash
+npm i -g @pamphlet/cli
+pamphlet build plan.md
+```
+
+Or into a single project:
+
+```bash
+pnpm add -D @pamphlet/cli
+```
+
+:::info The package name and the command name differ
+The npm package is `@pamphlet/cli`; the installed command is `pamphlet`.
+
+It is not called `pamphlet` on npm because that name was taken by someone else back in 2018 (<https://www.npmjs.com/package/pamphlet>, currently at 4.0.0). It is not an abandoned package, so it cannot be reclaimed.
+:::
 
 That gives you **the compiler only**. No diagram engine ships with it — plain text documents do not need them, and together they weigh roughly **340MB** (see [diagram engines are all optional](/en/limits/engines)).
 
@@ -59,4 +84,4 @@ Missing looks like:
 
 ## Before you upgrade
 
-During 0.x, **only patch-level compatibility is promised**: `0.1.0 → 0.1.1` breaks nothing, `0.1 → 0.2` may break syntax, CLI flags and the AST. See [the versioning promise](/en/limits/versioning).
+During 0.x, **only patch-level compatibility is promised**: `0.0.1 → 0.0.2` breaks nothing, `0.0 → 0.1` may break syntax, CLI flags and the AST. See [the versioning promise](/en/limits/versioning).

@@ -1,8 +1,33 @@
 # 安装
 
+**不用装也能跑。**
+
 ```bash
-pnpm add -D pamphlet
+npx @pamphlet/cli build 方案.md
 ```
+
+`npx` 是 npm 自带的一条命令，意思是「下载这个包、跑一次、不留在我电脑里」。第一次会花十几秒下载（实测 86 个依赖、15 秒），之后 npx 自己有缓存。
+
+## 想装下来
+
+常用的话装到全局，命令名就是 `pamphlet`，不用每次打那一长串：
+
+```bash
+npm i -g @pamphlet/cli
+pamphlet build 方案.md
+```
+
+或者只装进某个项目：
+
+```bash
+pnpm add -D @pamphlet/cli
+```
+
+:::info 包名和命令名不一样
+npm 上的包叫 `@pamphlet/cli`，装完之后的命令叫 `pamphlet`。
+
+不叫 `pamphlet` 是因为那个名字在 npm 上**被别人 2018 年就占了**（<https://www.npmjs.com/package/pamphlet>，最新版本 4.0.0），不是废弃包，拿不回来。
+:::
 
 装完只得到**编译器本体**。图表引擎一个都不带——纯文字文档不需要它们，而它们全加起来约 340MB（见[图表引擎全部是可选依赖](/limits/engines)）。
 
@@ -59,4 +84,4 @@ pamphlet doctor
 
 ## 升级前先看一眼
 
-0.x 期间**只承诺修订号兼容**：`0.1.0 → 0.1.1` 不破坏任何东西，`0.1 → 0.2` 允许破坏语法、CLI 参数和 AST。详见[兼容性承诺](/limits/versioning)。
+0.x 期间**只承诺修订号兼容**：`0.0.1 → 0.0.2` 不破坏任何东西，`0.0 → 0.1` 允许破坏语法、CLI 参数和 AST。详见[兼容性承诺](/limits/versioning)。

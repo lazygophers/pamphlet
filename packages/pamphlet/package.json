@@ -1,7 +1,7 @@
 {
-  "name": "pamphlet",
-  "version": "0.0.0",
-  "description": "把一份 Markdown 编译成自包含的单文件 HTML",
+  "name": "@pamphlet/cli",
+  "version": "0.0.1",
+  "description": "把一份 Markdown 编译成自包含的单文件 HTML：不联网、图预渲染成静态 SVG、无 JavaScript 可降级",
   "type": "module",
   "license": "AGPL-3.0-or-later",
   "bin": {
@@ -17,7 +17,8 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "prepublishOnly": "tsc -b"
   },
   "dependencies": {
     "@pamphlet/runtime": "workspace:*",
@@ -39,5 +40,28 @@
     "fontkit": "^2.0.4",
     "mermaid-isomorphic": "^3.1.0",
     "playwright": "^1.63.0"
+  },
+  "keywords": [
+    "markdown",
+    "commonmark",
+    "html",
+    "single-file",
+    "self-contained",
+    "mermaid",
+    "diagram",
+    "documentation",
+    "static-site",
+    "cli"
+  ],
+  "homepage": "https://lazygophers.github.io/pamphlet/",
+  "bugs": "https://github.com/lazygophers/pamphlet/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazygophers/pamphlet.git",
+    "directory": "packages/pamphlet"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

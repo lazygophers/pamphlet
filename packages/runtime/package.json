@@ -1,10 +1,34 @@
 {
   "name": "@pamphlet/runtime",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "一本 pamphlet 里那段负责交互的 JavaScript：约 1KB 内核 + 六个互相独立的特性片段",
   "type": "module",
   "license": "AGPL-3.0-or-later",
-  "exports": { ".": "./dist/index.js" },
-  "files": ["dist"],
-  "scripts": { "build": "tsc -b" }
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "prepublishOnly": "tsc -b"
+  },
+  "keywords": [
+    "pamphlet",
+    "runtime",
+    "browser",
+    "progressive-enhancement"
+  ],
+  "homepage": "https://lazygophers.github.io/pamphlet/",
+  "bugs": "https://github.com/lazygophers/pamphlet/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazygophers/pamphlet.git",
+    "directory": "packages/runtime"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

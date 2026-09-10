@@ -30,7 +30,7 @@ describe('frontmatter', () => {
     const error = result.diagnostics.find((d) => d.code === 'DOC-101')
     expect(error?.severity).toBe('error')
     expect(error?.message).toContain('spec 2')
-    expect(error?.hint).toContain('npm i -g pamphlet@latest')
+    expect(error?.hint).toContain('npm i -g @pamphlet/cli@latest')
   })
 
   it('spec 不填等于不做检查', () => {

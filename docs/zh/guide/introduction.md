@@ -3,7 +3,7 @@
 Pamphlet 把一份 Markdown 编译成**一个能双击打开的 HTML 文件**。
 
 ```bash
-pamphlet build 方案.md      # 得到 方案.html，发给谁都能直接打开
+npx @pamphlet/cli build 方案.md      # 得到 方案.html，发给谁都能直接打开
 ```
 
 产物里没有 `<link>`、没有 `<script src>`、没有 CDN 引用。图表在编译时就画成静态 SVG 内联进去了，字体是子集化后的 data URI，图片是 base64。断网、`file://`、U 盘拷来拷去，行为完全一样。

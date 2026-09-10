@@ -1,10 +1,35 @@
 {
   "name": "@pamphlet/themes",
-  "version": "0.0.0",
-  "description": "内置主题：纯数据的 design token（语义层 17 个 + 元素层派生）",
+  "version": "0.0.1",
+  "description": "Pamphlet 的内置主题：纯数据的 design token（语义层 18 个 + 元素层派生）",
   "type": "module",
   "license": "AGPL-3.0-or-later",
-  "exports": { ".": "./dist/index.js" },
-  "files": ["dist", "tokens"],
-  "scripts": { "build": "tsc -b" }
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "tokens"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "prepublishOnly": "tsc -b"
+  },
+  "keywords": [
+    "pamphlet",
+    "theme",
+    "design-tokens",
+    "css-variables"
+  ],
+  "homepage": "https://lazygophers.github.io/pamphlet/",
+  "bugs": "https://github.com/lazygophers/pamphlet/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazygophers/pamphlet.git",
+    "directory": "packages/themes"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

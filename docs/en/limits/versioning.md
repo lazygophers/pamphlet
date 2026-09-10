@@ -2,8 +2,10 @@
 
 | Upgrade | Promise |
 |---|---|
-| `0.1.0 → 0.1.1` | **Breaks nothing** |
-| `0.1 → 0.2` | **May break** syntax, CLI flags, the AST and the plugin API |
+| `0.0.1 → 0.0.2` | **Breaks nothing** |
+| `0.0 → 0.1` | **May break** syntax, CLI flags, the AST and the plugin API |
+
+The first published version is **0.0.1**.
 
 This matches [what semantic versioning says about a zero major version](https://semver.org/#spec-item-4); it is not a rule Pamphlet invented.
 
