@@ -1,5 +1,5 @@
 /**
- * HTML 组装器。判据见 docs/spec-assembler.md。
+ * HTML 组装器。施工图 docs/spec-assembler.md 已完工删除，判据现在就是这些测试本身。
  * 只在这里做字符串层面的断言；「浏览器真的怎么表现」放 artifact-in-browser.test.ts。
  */
 

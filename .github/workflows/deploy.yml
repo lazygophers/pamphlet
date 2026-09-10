@@ -1,0 +1,49 @@
+name: Deploy docs to Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/configure-pages@v5
+      - run: pnpm install --frozen-lockfile
+      # demo.md 里有一张 mermaid 图，而 Mermaid 必须用真实浏览器的布局引擎
+      # 算文字尺寸（ADR-0004）。少了这一步 demo:build 会以 DIAG-301 失败。
+      - run: pnpm --filter pamphlet exec playwright install --with-deps chromium
+      # 示例产物由 Pamphlet 自己编译（ADR-0029）：编译失败就构建失败。
+      # 这一层是免费的集成测试——颜色替换规则随引擎升级静默失效这类问题，
+      # 单元测试兜不住，真实编译一遍能兜住。
+      - run: pnpm demo:build
+      - run: pnpm docs:build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: doc_build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,5 +1,5 @@
 /**
- * 组装器：AST → 一本 pamphlet。判据见 docs/spec-assembler.md。
+ * 组装器：AST → 一本 pamphlet。施工图 docs/spec-assembler.md 已完工删除。
  *
  * 不碰硬盘：读资源靠 options.readAsset，写文件是 CLI 的事。
  */

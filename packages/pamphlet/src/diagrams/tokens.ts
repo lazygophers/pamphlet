@@ -13,7 +13,7 @@
  * 实测证明这样能把引擎输出里的 CSS 具名色（`fill:black`）挤掉。
  */
 
-/** 图表专用的六个 token（docs/theme-tokens.md 的图表层） */
+/** 图表专用的六个 token（docs/zh/reference/theme-tokens.md 的图表层） */
 export const DIAGRAM_TOKENS = [
   'bg',
   'line',

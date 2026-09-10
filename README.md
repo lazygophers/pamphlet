@@ -23,13 +23,13 @@ pamphlet build 方案.md      # 得到 方案.html，发给谁都能直接打开
 | [Typst](https://typst.app/docs/reference/html/) | HTML 导出仍是实验性，官方标注 not for production use |
 | [Asciidoctor + Kroki](https://github.com/asciidoctor/asciidoctor-kroki/issues/421) | 能内联，但有图表静默失败的已知 bug，且无原生 Tab |
 
-完整取舍见 [ADR-0003](./docs/adr/0003-why-not-quarto.md)。
+完整取舍见[文档站的「这是什么」](https://lazygophers.github.io/pamphlet/guide/introduction)。
 
 ## 看一眼产物
 
-**<https://lazygophers.github.io/pamphlet/>**
+**<https://lazygophers.github.io/pamphlet/demo/>**
 
-那个页面是 [`examples/demo.md`](./examples/demo.md) 编译出来的（产物在 [`docs/index.html`](./docs/index.html)），就一个 HTML 文件。可以试试：
+那个页面是 [`examples/demo.md`](./examples/demo.md) 编译出来的，就一个 HTML 文件。可以试试：
 
 - 把系统切成深色再看 —— 图里的线和字跟着一起变深浅，纯 CSS，没有一行 JavaScript 参与
 - 滚轮缩放那张图、按住拖动、双击复位
@@ -49,4 +49,17 @@ AGPL-3.0-or-later，见 [LICENSE](./LICENSE)。
 
 ## 文档
 
-技术边界、诊断码含义、主题 token、指令语法总表都在文档站。设计决策全部记在 [`docs/adr/`](./docs/adr/)，术语表在 [`CONTEXT.md`](./CONTEXT.md)。
+**<https://lazygophers.github.io/pamphlet/>**（[English](https://lazygophers.github.io/pamphlet/en/)）
+
+- [语法手册](https://lazygophers.github.io/pamphlet/guide/syntax) —— 九个容器指令 + 八种图表围栏
+- [命令行](https://lazygophers.github.io/pamphlet/guide/cli) —— 六个命令与退出码
+- [已知边界](https://lazygophers.github.io/pamphlet/limits/mobile) —— 五条看起来像 bug、其实是设计的行为
+- [诊断码表](https://lazygophers.github.io/pamphlet/reference/diagnostics) —— 19 个码分别什么意思、怎么修
+
+术语表在 [`CONTEXT.md`](./CONTEXT.md)。
+
+本地起文档站：
+
+```bash
+pnpm docs:dev
+```

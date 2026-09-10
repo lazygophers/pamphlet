@@ -1,6 +1,6 @@
 # 主题 token 清单
 
-三层结构见 [ADR-0020](./adr/0020-theme-tokens-three-layer.md)：语义层是根，元素层默认从语义层派生，作者只写想改的。
+三层结构见 [ADR-0020](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0020-theme-tokens-three-layer.md)：语义层是根，元素层默认从语义层派生，作者只写想改的。
 
 ## 语义层（18 个）
 
@@ -66,7 +66,7 @@ radius:      '6px'       # 圆角
 
 ## 图表层
 
-属于元素层，是 [ADR-0016](./adr/0016-diagram-theming-by-post-processing.md) 做 SVG 颜色替换时指向的那组：
+属于元素层，是 [ADR-0016](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0016-diagram-theming-by-post-processing.md) 做 SVG 颜色替换时指向的那组：
 
 ```css
 --pf-diagram-bg:      var(--pf-bg);
@@ -78,3 +78,38 @@ radius:      '6px'       # 圆角
 ```
 
 改名的代价很高：替换规则、内置主题、文档三处要同时改。
+
+## 深色一套
+
+深色主题只覆盖语义层的十个颜色，字体、间距、行高、圆角全部沿用亮色那套：
+
+```yaml
+bg:          '#0d1117'
+bg-subtle:   '#161b22'
+fg:          '#e6edf3'
+fg-muted:    '#9198a1'
+primary:     '#58a6ff'
+border:      '#30363d'
+info:        '#4493f8'
+tip:         '#3fb950'
+warn:        '#d29922'
+danger:      '#f85149'
+```
+
+产物里两套同时存在，靠 `prefers-color-scheme` 切换——**纯 CSS，没有一行 JavaScript 参与**。图表的颜色也在这一层，所以切深色时图里的线和字跟着一起变。
+
+## 现在怎么改
+
+:::warning 目前只有一条路
+frontmatter 的 `theme` 字段还没接进编译器（见 [frontmatter 参考](/reference/frontmatter)），`@pamphlet/themes` 里那三个内置主题名也还没接上。
+
+现在唯一能改的办法是往源文档里写一段 `<style>` 覆盖 CSS 变量——裸 HTML 原样通过，所以这条可行：
+
+```html
+<style>
+  :root { --pf-primary: #7c3aed; }
+</style>
+```
+
+代价见[裸 HTML 原样通过](/limits/raw-html)：这段 `<style>` 的权限没有任何限制，写错了能把整个主题系统盖掉。
+:::

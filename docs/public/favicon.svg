@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Pamphlet">
+  <rect width="32" height="32" rx="7" fill="#2d6cdf"/>
+  <path d="M9 8h11l4 4v12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2z" fill="#ffffff"/>
+  <path d="M20 8v4h4" fill="none" stroke="#2d6cdf" stroke-width="1.6" stroke-linejoin="round"/>
+  <g stroke="#2d6cdf" stroke-width="1.8" stroke-linecap="round">
+    <path d="M10.5 16h11"/>
+    <path d="M10.5 19.5h11"/>
+    <path d="M10.5 23h7"/>
+  </g>
+</svg>

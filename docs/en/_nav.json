@@ -1,0 +1,6 @@
+[
+  { "text": "guide", "link": "/en/guide/introduction", "activeMatch": "^/en/guide/" },
+  { "text": "limits", "link": "/en/limits/mobile", "activeMatch": "^/en/limits/" },
+  { "text": "reference", "link": "/en/reference/diagnostics", "activeMatch": "^/en/reference/" },
+  { "text": "demo", "link": "/demo/" }
+]

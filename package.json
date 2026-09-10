@@ -10,9 +10,14 @@
     "build": "pnpm -r build",
     "test": "vitest run",
     "typecheck": "tsc -b",
-    "lint": "tsc -b --pretty false"
+    "lint": "tsc -b --pretty false",
+    "docs:dev": "rspress dev",
+    "docs:build": "rspress build",
+    "docs:preview": "rspress preview",
+    "demo:build": "pnpm -r build && node packages/pamphlet/dist/bin.js build examples/demo.md -o docs/public/demo/index.html"
   },
   "devDependencies": {
+    "@rspress/core": "^2.0.21",
     "@types/node": "^22.10.0",
     "@vitest/coverage-v8": "^5.0.0",
     "typescript": "^5.7.0",

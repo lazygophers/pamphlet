@@ -1,5 +1,5 @@
 /**
- * 主题变量与版式样式。三层结构见 ADR-0020 与 docs/theme-tokens.md：
+ * 主题变量与版式样式。三层结构见 ADR-0020 与 docs/zh/reference/theme-tokens.md：
  * 语义层是根，元素层默认从语义层派生，派生只能一层。
  */
 

@@ -29,7 +29,7 @@ exports[`golden 快照 > broken.md > 诊断 1`] = `
   | ^^^^
   |
   = 升级 pamphlet：npm i -g pamphlet@latest
-  https://pamphlet.dev/diagnostics/doc-101
+  https://lazygophers.github.io/pamphlet/reference/diagnostics.html#doc-101
 
 warning[DOC-102] frontmatter 里有未知字段 diagrams，已忽略
   --> broken.md:3:1
@@ -38,7 +38,7 @@ warning[DOC-102] frontmatter 里有未知字段 diagrams，已忽略
   | ^^^^^^^^
   |
   = 本版本认识的字段：spec / title / theme / lang / toc / engines
-  https://pamphlet.dev/diagnostics/doc-102
+  https://lazygophers.github.io/pamphlet/reference/diagnostics.html#doc-102
 
 error[DIR-203] 指令 :::tabs 没有闭合
   --> broken.md:8:1
@@ -47,7 +47,7 @@ error[DIR-203] 指令 :::tabs 没有闭合
   | ^^^^^^^^
   |
   = 在它的内容之后补一行 ::::（闭合的冒号数要不少于开启的）
-  https://pamphlet.dev/diagnostics/dir-203
+  https://lazygophers.github.io/pamphlet/reference/diagnostics.html#dir-203
 
 error[DIR-204] tab 缺少标题
   --> broken.md:9:1
@@ -56,7 +56,7 @@ error[DIR-204] tab 缺少标题
   | ^
   |
   = 标题写在方括号里：:::tab[标题]。Tab 的标题就是那个可以点的按钮
-  https://pamphlet.dev/diagnostics/dir-204
+  https://lazygophers.github.io/pamphlet/reference/diagnostics.html#dir-204
 
 warning[DIR-201] 未知指令 calout，内容已按普通段落输出
    --> broken.md:13:1
@@ -65,7 +65,7 @@ warning[DIR-201] 未知指令 calout，内容已按普通段落输出
    | ^
    |
    = 是不是想写 callout？四种提示块是 info / tip / warn / danger
-   https://pamphlet.dev/diagnostics/dir-201"
+   https://lazygophers.github.io/pamphlet/reference/diagnostics.html#dir-201"
 `;
 
 exports[`golden 快照 > directives.md > AST 轮廓与 frontmatter 1`] = `

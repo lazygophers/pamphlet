@@ -12,3 +12,9 @@ graphify-out/
 #   第 147 行 `*.BASE.*`    —— 那是 merge 冲突残留文件的规则，误伤 tsconfig.base.json
 !packages/
 !tsconfig.base.json
+
+# Rspress 文档站的编译产物
+doc_build/
+
+# 示例产物由 Pamphlet 现编（pnpm demo:build），不进版本库
+docs/public/demo/

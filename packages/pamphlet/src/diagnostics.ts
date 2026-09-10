@@ -43,7 +43,13 @@ export interface Diagnostic {
   docUrl?: string
 }
 
-export const DOC_BASE = 'https://pamphlet.dev/diagnostics/'
+/**
+ * 诊断码表所在的页面。每个码是这一页上的一个锚点。
+ *
+ * 原先写的是 `https://pamphlet.dev/diagnostics/`——那个域名不存在，
+ * 于是每条诊断底下都挂着一个点开必然 404 的链接（ADR-0037 要求它指向文档站的稳定 URL）。
+ */
+export const DOC_BASE = 'https://lazygophers.github.io/pamphlet/reference/diagnostics.html#'
 
 export function diagnostic(
   code: DiagnosticCode,

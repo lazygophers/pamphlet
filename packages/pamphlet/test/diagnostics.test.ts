@@ -19,7 +19,7 @@ describe('诊断格式化', () => {
     expect(text).toContain('第二行有问题')
     expect(text).toContain('^^^')
     expect(text).toContain('= 照这个改')
-    expect(text).toContain('https://pamphlet.dev/diagnostics/dir-201')
+    expect(text).toContain('https://lazygophers.github.io/pamphlet/reference/diagnostics.html#dir-201')
   })
 
   it('没有位置时也能格式化（只给消息、建议、文档链接）', () => {
