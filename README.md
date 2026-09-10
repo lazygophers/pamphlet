@@ -29,7 +29,7 @@ pamphlet build 方案.md      # 得到 方案.html，发给谁都能直接打开
 
 **<https://lazygophers.github.io/pamphlet/>**
 
-那个页面是 [`examples/demo.md`](./examples/demo.md) 编译出来的，就一个 HTML 文件。可以试试：
+那个页面是 [`examples/demo.md`](./examples/demo.md) 编译出来的（产物在 [`docs/index.html`](./docs/index.html)），就一个 HTML 文件。可以试试：
 
 - 右上角切深浅色 —— 图里的线和字跟着一起变（图是编译时画好的静态 SVG，不是现场画的）
 - 在浏览器里关掉 JavaScript 再刷新 —— 三个面板会全部展开，一个字都不会丢
