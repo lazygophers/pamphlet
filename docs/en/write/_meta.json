@@ -1,7 +1,19 @@
 [
   "index",
-  { "type": "dir", "name": "markdown", "label": "Markdown itself" },
-  { "type": "dir", "name": "directives", "label": "Directives" },
-  { "type": "dir", "name": "diagrams", "label": "Diagrams" },
+  {
+    "type": "dir",
+    "name": "markdown",
+    "label": "Basic syntax"
+  },
+  {
+    "type": "dir",
+    "name": "directives",
+    "label": "Directives"
+  },
+  {
+    "type": "dir",
+    "name": "diagrams",
+    "label": "Diagrams"
+  },
   "assets"
 ]

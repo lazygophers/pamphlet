@@ -1,16 +1,249 @@
-# CommonMark basics
+# Basic Markdown syntax
 
-**Any valid CommonMark file is a valid source file.** Headings, paragraphs, lists, links, images, code blocks, block quotes — all of it works as usual, and Pamphlet changes the meaning of none of it.
+This page writes out **every piece of basic syntax, one by one**: how to type it, what comes out, and where the traps are. No prior reading required.
 
-"Strict superset" means: **only new syntax is added; nothing existing changes behaviour**. So there is no new Markdown to learn.
+Underneath it is CommonMark (the standardised version of Markdown; spec at <https://spec.commonmark.org/>). Pamphlet is a **strict superset** of it: only new syntax is added, nothing existing changes behaviour — so Markdown you wrote elsewhere works here unchanged.
 
-The CommonMark spec itself is at <https://spec.commonmark.org/>.
+## Headings
 
-## The first heading becomes the document title
+Six levels, and the hash marks **need a space after them**:
 
-The first `#` heading becomes the output's `<title>` (the text on the browser tab), unless you set `title` in frontmatter.
+```markdown
+# Level 1
+## Level 2
+### Level 3
+#### Level 4
+##### Level 5
+###### Level 6
+```
+
+Seven hashes is not a heading; it is ordinary text.
+
+### The first heading is the document title
+
+The first `#` in the document becomes the output's `<title>` (the text on the browser tab), unless you set `title` in frontmatter.
 
 It also **does not appear in the table of contents** — the ToC navigates within the document, and the document's own title is not a section of it.
+
+So start your sections at `##`, and write exactly one `#` per document.
+
+### Every heading gets an anchor
+
+Headings automatically get an id you can deep-link to (append `#` and the id to the URL). The rule is:
+
+| Heading | Anchor |
+|---|---|
+| `## Callouts` | `#callouts` |
+| `## Theme tokens` | `#theme-tokens` |
+| `## Step 1: install once` | `#step-1-install-once` |
+
+That is: lowercased, spaces become hyphens, punctuation dropped, **non-Latin characters kept as they are**. When two headings collide, the second gets `-2` appended.
+
+For an in-document jump, write `[go to callouts](#callouts)`.
+
+### How deep the ToC goes
+
+The table of contents collects to level 2 by default; `toc.deep` takes 1–6. See the [frontmatter reference](/en/reference/frontmatter).
+
+## Paragraphs and line breaks
+
+**A blank line starts a new paragraph.** Two consecutive lines are one paragraph and do *not* break:
+
+```markdown
+These two lines
+are one paragraph in the output.
+```
+
+To break a line inside a paragraph, end it with **two spaces**, or with a single backslash `\`:
+
+```markdown
+First line breaks here··
+Second line
+
+First line breaks here\
+Second line
+```
+
+(The `··` above stands for two spaces — invisible in a real file, which is why the backslash form is the reliable one.)
+
+## Emphasis and inline code
+
+```markdown
+**bold** or __bold__
+*italic* or _italic_
+***bold italic***
+`inline code`
+~~strikethrough~~
+```
+
+- The underscore forms require whitespace or punctuation on both sides, so inside a run of non-Latin text the asterisk forms are the safe choice
+- Inline code is shown **verbatim**: asterisks and hashes inside it are never syntax
+- To put a backtick inside inline code, wrap with two backticks: `` `` a ` backtick `` ``
+- Strikethrough is a GFM extension, see [GFM extensions](/en/write/markdown/gfm)
+
+## Block quotes
+
+A `>` at the start of the line:
+
+```markdown
+> The quoted text goes here.
+>
+> Blank lines need the `>` too, otherwise this is two blocks.
+```
+
+A block quote can contain anything else: lists, code blocks, even another quote (`>>`).
+
+**How it looks is up to the theme**: most render a rule down the left; the `architecture` theme sets quotes as "decision records".
+
+## Lists
+
+### Unordered
+
+`-`, `*` and `+` are equivalent — just **stay consistent within a document**:
+
+```markdown
+- First
+- Second
+- Third
+```
+
+### Ordered
+
+```markdown
+1. First
+2. Second
+3. Third
+```
+
+**The browser computes the numbers**, so writing `1.` `1.` `1.` still renders as 1, 2, 3. To start elsewhere, write that number on the first item (`3.` starts counting at three).
+
+### Nesting
+
+Indent children **to line up with the parent's text** — two spaces under an unordered item, three under an ordered one:
+
+```markdown
+- First
+  - Child
+    - Grandchild
+- Second
+
+1. First
+   1. Child
+   2. Child
+2. Second
+```
+
+### Several blocks inside one item
+
+Same alignment rule:
+
+````markdown
+1. **Install once**
+
+   ```bash
+   npm i -g @nekoleapuki/pamphlet-cli
+   ```
+
+2. **Compile**
+
+   You get `plan.html`; double-click it.
+````
+
+### Tight versus loose
+
+If the items are separated by **blank lines**, each item is wrapped in a paragraph and the spacing opens up (the term is a "loose list"); without blank lines it stays tight.
+
+### Task lists
+
+`- [x]` / `- [ ]` is a GFM extension, see [GFM extensions](/en/write/markdown/gfm).
+
+## Code blocks
+
+### Fenced (preferred)
+
+Three backticks, with a language name on the opening line for highlighting:
+
+````markdown
+```typescript
+const a = 1
+```
+````
+
+No language name means plain text, no highlighting.
+
+**To put a code block inside a code block, use four backticks outside** — the outer fence must have more backticks than the inner one:
+
+`````markdown
+````markdown
+```bash
+echo hi
+```
+````
+`````
+
+### Indented
+
+Four spaces of indentation is also a code block. It collides easily with list indentation, so **prefer fences everywhere**.
+
+### Diagram fences
+
+When the fence language is `mermaid`, it is no longer code but **a picture drawn at compile time** — see [Diagram fences](/en/write/diagrams/).
+
+## Links
+
+```markdown
+[an inline link](https://example.com)
+[a link with a hover hint](https://example.com "shown on hover")
+<https://example.com>
+[jump to a section of this document](#callouts)
+```
+
+The last one is an **in-document anchor**; the anchor rules are under "Every heading gets an anchor" above.
+
+The reference form suits an address that recurs:
+
+```markdown
+See the [load test report][report], and section three of the [report][report].
+
+[report]: https://example.com/report "March load test"
+```
+
+The name in brackets is **case-insensitive**, the definition line can sit anywhere in the document, and it never appears in the output.
+
+## Images
+
+```markdown
+![what the picture shows](./figures/architecture.png)
+```
+
+The bracketed text is the alternative text: shown if the image fails to load, and read out by screen readers.
+
+**Images are embedded into the output at compile time**; paths are relative to the source file, remote URLs are an error, and a single asset caps at 2MB — full rules in [Images and assets](/en/write/assets).
+
+## Thematic breaks
+
+Three or more `-`, `*` or `_` alone on a line:
+
+```markdown
+---
+```
+
+:::warning `---` at the very top is frontmatter
+The pair of `---` at the **very beginning** of a source file delimits configuration (frontmatter), not a rule. To open a document with a horizontal rule, use `***`.
+:::
+
+## Escaping
+
+To show `*` `_` `#` `[` as themselves, put a backslash in front:
+
+```markdown
+\*not italic\*
+5 \* 3 = 15
+```
+
+## Tables
+
+Tables are a GFM extension; syntax and alignment are in [GFM extensions](/en/write/markdown/gfm).
 
 ## Raw HTML passes through untouched
 

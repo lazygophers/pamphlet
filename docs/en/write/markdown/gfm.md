@@ -13,7 +13,41 @@ So the tables, strikethrough and task lists you are used to writing on GitHub wo
 | staging | 2 | $110 |
 ```
 
-Table styling follows the theme: borders use `--pf-table-border`, header background uses `--pf-table-header-bg` (see [Theme tokens](/en/reference/theme-tokens)).
+Three parts: **a header row, a delimiter row, and any number of body rows**. The delimiter row is required — without it this is not a table. Spaces around the pipes are free; lining them up only makes the source easier to read.
+
+### Column alignment
+
+Add colons in the delimiter row:
+
+```markdown
+| Left | Right | Centre |
+| :--- | ---: | :---: |
+| alpha | 1,200 | yes |
+| beta | 980 | no |
+```
+
+| Delimiter | Result |
+|---|---|
+| `---` | Default, left-aligned |
+| `:---` | Left-aligned |
+| `---:` | **Right-aligned** — use this for numbers |
+| `:---:` | Centred |
+
+### What fits in a cell
+
+Anything inline: **bold**, `inline code`, [links](https://example.com), images.
+
+**Block-level content does not fit**: no code blocks, lists, or multiple paragraphs inside a cell. Move that content out of the table, or use a [collapsible](/en/write/directives/collapse).
+
+To write a literal pipe inside a cell, escape it as `\|`, otherwise it reads as a column separator.
+
+### No merged cells
+
+GFM tables have **no row or column spans** and no multi-level headers. A table that wants merging usually wants to be two tables.
+
+### Looks and narrow screens
+
+Table styling follows the theme: borders use `--pf-table-border`, header background uses `--pf-table-header-bg` (see [Theme tokens](/en/reference/theme-tokens)). Themes differ a lot here — `paper` and `architecture` use booktabs rules only at top and bottom, `manual` gives you sticky headers and zebra striping.
 
 Tables **scroll horizontally on narrow screens rather than being squeezed into wrapping** — that is deliberate, see [What the output is](/en/design/output).
 
