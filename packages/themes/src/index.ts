@@ -459,7 +459,11 @@ const fictionDark: ThemeTokens = {
 }
 
 const fictionCss = `
-.pf-layout{grid-template-columns:11rem minmax(0,38rem);justify-content:center;gap:calc(var(--pf-space-4) * 2);max-width:60rem}
+/* 三列而不是两列：右边那道空栏和左边的目录一样宽，正文因此落在**窗口正中**。
+   原来是两列加 justify-content:center，居中的是「目录 + 正文」这一整块，
+   于是正文自己偏右——1440px 下左边空 536px、右边只剩 296px，看着就是「没铺开」。
+   正文 46rem（约 43 个汉字一行）仍在连续阅读的舒适区里，不破坏这套主题的出发点。 */
+.pf-layout{grid-template-columns:11rem minmax(0,46rem) minmax(0,11rem);gap:calc(var(--pf-space-4) * 2);max-width:76rem}
 .pf-layout .pf-doc{padding-top:calc(var(--pf-space-4) * 2)}
 h1{font-size:2.3rem;font-weight:400;text-align:center;letter-spacing:.08em;margin-bottom:calc(var(--pf-space-4) * 1.5)}
 h1::after{content:"";display:block;width:3rem;border-top:1px solid var(--pf-border);margin:var(--pf-space-3) auto 0}
