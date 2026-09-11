@@ -96,6 +96,15 @@ export default defineConfig({
     },
   },
   themeConfig: {
+    /**
+     * 站点缺省深色，切换按钮仍然留着（`'dark'` 而不是 `'force-dark'`）：
+     * 读者点过一次之后记住他的选择。
+     *
+     * 产物那边是**一律深色、不给开关**——两边不一致是有意的：
+     * 产物是发出去给人看的一个文件，它应该长成一个样子；网站是读者自己的地盘。
+     * 取值含义见 <https://rspress.rs/api/config/config-theme>。
+     */
+    darkMode: 'dark',
     socialLinks: [
       { icon: 'github', mode: 'link', content: 'https://github.com/lazygophers/pamphlet' },
     ],

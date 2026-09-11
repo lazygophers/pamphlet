@@ -1,6 +1,6 @@
 # Changing the theme colours
 
-**Check whether a built-in will do first**: the twelve [built-in themes](/en/reference/themes) are sorted by document type, each with its own palette *and* layout, and one flag switches between them.
+**Check whether a built-in will do first**: the [built-in themes](/en/reference/themes) are sorted by document type, each with its own palette *and* layout, and one flag switches between them.
 
 ```bash
 pamphlet build plan.md --theme editorial
@@ -26,28 +26,31 @@ This works because [raw HTML passes through untouched](/en/write/markdown/common
 
 ## Change a whole palette
 
-Light and dark are written separately. The output switches via `prefers-color-scheme`:
+What you write on `:root` is **what the screen shows** — the output is always dark and never consults the reader's system setting, so these should be your dark values:
 
 ```markdown
 <style>
   :root {
-    --pf-primary: #7c3aed;
-    --pf-bg: #fffbf5;
-    --pf-fg: #2a2118;
-    --pf-bg-subtle: #f5efe6;
-    --pf-border: #ded3c4;
+    --pf-primary: #a78bfa;
+    --pf-bg: #1a1614;
+    --pf-fg: #ede4d8;
+    --pf-bg-subtle: #251f1b;
+    --pf-border: #3a322c;
   }
-  @media (prefers-color-scheme: dark) {
+  /* Printing is the one place light is still used */
+  @media print {
     :root {
-      --pf-primary: #a78bfa;
-      --pf-bg: #1a1614;
-      --pf-fg: #ede4d8;
-      --pf-bg-subtle: #251f1b;
-      --pf-border: #3a322c;
+      --pf-primary: #7c3aed;
+      --pf-bg: #fffbf5;
+      --pf-fg: #2a2118;
+      --pf-bg-subtle: #f5efe6;
+      --pf-border: #ded3c4;
     }
   }
 </style>
 ```
+
+Leaving the `@media print` block out is fine: printing then falls back to the built-in theme's own light values, which is usually what you want.
 
 All 18 semantic variables are in [Theme tokens](/en/reference/theme-tokens).
 

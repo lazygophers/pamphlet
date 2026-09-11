@@ -1,6 +1,6 @@
 # 换一套主题色
 
-**先看够不够用**：十二套[内置主题](/reference/themes)按文档类型分，各有独立的配色和版式，一行就能换。
+**先看够不够用**：[内置主题](/reference/themes)按文档类型分，各有独立的配色和版式，一行就能换。
 
 ```bash
 pamphlet build 方案.md --theme editorial
@@ -26,28 +26,31 @@ pamphlet build 方案.md --theme editorial
 
 ## 改一整套
 
-深浅两套要分开写。产物靠 `prefers-color-scheme` 切换：
+写在 `:root` 上的就是**屏幕上看到的那一套** —— 产物一律深色，不看读者的系统设置，所以这里填的该是深色的值：
 
 ```markdown
 <style>
   :root {
-    --pf-primary: #7c3aed;
-    --pf-bg: #fffbf5;
-    --pf-fg: #2a2118;
-    --pf-bg-subtle: #f5efe6;
-    --pf-border: #ded3c4;
+    --pf-primary: #a78bfa;
+    --pf-bg: #1a1614;
+    --pf-fg: #ede4d8;
+    --pf-bg-subtle: #251f1b;
+    --pf-border: #3a322c;
   }
-  @media (prefers-color-scheme: dark) {
+  /* 打印是唯一还用浅色的场合 */
+  @media print {
     :root {
-      --pf-primary: #a78bfa;
-      --pf-bg: #1a1614;
-      --pf-fg: #ede4d8;
-      --pf-bg-subtle: #251f1b;
-      --pf-border: #3a322c;
+      --pf-primary: #7c3aed;
+      --pf-bg: #fffbf5;
+      --pf-fg: #2a2118;
+      --pf-bg-subtle: #f5efe6;
+      --pf-border: #ded3c4;
     }
   }
 </style>
 ```
+
+不写那段 `@media print` 也能跑，只是打印时沿用内置主题自己的浅色值 —— 通常正是你想要的。
 
 全部 18 个语义变量见[主题 token](/reference/theme-tokens)。
 

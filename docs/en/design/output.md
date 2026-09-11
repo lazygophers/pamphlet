@@ -23,9 +23,11 @@ The compiler enforces this: referencing a remote image **fails the build** (`EMB
 
 **Not a word is lost.** This is the starting point rather than a patch: every interaction must have a script-free form first, and scripting is layered on top.
 
-## Follows the system colour scheme
+## Dark by default, light only when printed
 
-Both variable sets live in the output at once and switch via the CSS `prefers-color-scheme` query — **not a line of JavaScript involved**.
+The output is **always dark** and does not consult the reader's system setting: it is one file sent to someone, so it should look like one thing rather than two depending on whose machine it lands on.
+
+The light variable set is in the output too, but only takes effect under `@media print` — a dark background prints as a full page of ink, and most print settings drop backgrounds, which would leave light text on white paper: a blank page. Both sets are pure CSS, **not a line of JavaScript involved**.
 
 Diagram colours are in the same layer, so lines and text inside diagrams change with it. Hard-coded colours in engine output that could not be substituted report `DIAG-304` at compile time.
 
@@ -66,7 +68,7 @@ Together, "send the HTML over chat and they tap it open" is unlikely to work on 
 
 Any scheme that tries to get around this limit adds complexity to the output and stays limited anyway.
 
-**Narrowed, the promise holds completely**: CSP, `location.hash` deep links, data URI fonts and `prefers-color-scheme` were all verified under `file://`. Leaving an undeliverable promise standing does more damage than narrowing it.
+**Narrowed, the promise holds completely**: CSP, `location.hash` deep links, data URI fonts and the light print styles were all verified under `file://`. Leaving an undeliverable promise standing does more damage than narrowing it.
 
 > Source: [ADR-0018](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0018-mobile-promise-narrowed.md)
 

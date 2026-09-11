@@ -94,4 +94,6 @@ warn:        '#d29922'
 danger:      '#f85149'
 ```
 
-Both sets live in the output at once and switch via `prefers-color-scheme` — **pure CSS, not a line of JavaScript**. Diagram colours are in the same layer, so the lines and text inside diagrams change with it.
+**Dark is the default, and it does not consult the reader's system setting.** The light set is only used when **printing** (`@media print`) — a dark background prints as a full page of ink, and most print settings drop backgrounds outright, leaving light text on white paper: a blank page.
+
+Both sets are pure CSS, not a line of JavaScript. Diagram colours sit in the same layer, so lines and text inside diagrams turn light for print too.

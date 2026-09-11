@@ -26,8 +26,8 @@ features:
   - title: A strict CommonMark superset
     details: Source files stay .md and still read fine on GitHub. All nine container directives are standard directive syntax.
     icon: 📝
-  - title: Follows the system colour scheme
-    details: The lines and text inside diagrams change with it. Pure CSS, not a line of JavaScript.
+  - title: Dark by default, light when printed
+    details: The output is always dark, whatever the reader's system says; printing switches it to light. Diagram lines and text follow along, in pure CSS.
     icon: 🌗
   - title: The source is embedded
     details: pamphlet extract gives you the original .md back. The output is its own backup.

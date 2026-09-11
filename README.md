@@ -32,7 +32,7 @@ npx @nekoleapuki/pamphlet-cli build 方案.md      # 得到 方案.html，发给
 
 那个页面是 [`examples/demo.md`](./examples/demo.md) 编译出来的，就一个 HTML 文件。可以试试：
 
-- 把系统切成深色再看 —— 图里的线和字跟着一起变深浅，纯 CSS，没有一行 JavaScript 参与
+- 按一下打印预览 —— 整页从深色换成浅色，连图里的线和字一起变，纯 CSS，没有一行 JavaScript 参与
 - 滚轮缩放那张图、按住拖动、双击复位
 - 在浏览器里关掉 JavaScript 再刷新 —— 三个面板会全部展开，一个字都不会丢
 - 存到本地断网打开 —— 一样能看，它不向网络要任何东西
@@ -53,7 +53,7 @@ AGPL-3.0-or-later，见 [LICENSE](./LICENSE)。
 **<https://lazygophers.github.io/pamphlet/>**（[English](https://lazygophers.github.io/pamphlet/en/)）
 
 - [快速开始](https://lazygophers.github.io/pamphlet/start/quickstart) —— 十分钟得到第一个产物
-- [内置主题](https://lazygophers.github.io/pamphlet/reference/themes) —— 十二套按文档类型分的配色与版式，`--theme editorial` 一行换掉
+- [内置主题](https://lazygophers.github.io/pamphlet/reference/themes) —— 按文档类型分的配色与版式，每套一份配色加一份版式，`--theme editorial` 一行换掉
 - [语法速查表](https://lazygophers.github.io/pamphlet/reference/syntax) —— 九个容器指令 + 八种图表围栏
 - [命令行](https://lazygophers.github.io/pamphlet/reference/cli/) —— 六个命令与退出码
 - [产物是什么样的](https://lazygophers.github.io/pamphlet/design/output) —— 它承诺什么、不承诺什么

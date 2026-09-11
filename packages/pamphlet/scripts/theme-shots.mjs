@@ -60,11 +60,20 @@ try {
     const sample = join(OUT_DIR, `${name}.html`)
     await writeFile(sample, html, 'utf8')
     await page.goto(pathToFileURL(sample).href)
+
+    // 屏幕上的样子：产物一律深色，不看系统设置
+    await page.emulateMedia({ media: 'screen' })
     await page.screenshot({ path: join(OUT_DIR, `${name}.png`) })
-    console.log(`themes/${name}.png + themes/${name}.html`)
+
+    // 打印时的样子：唯一还是浅色的场合。**这不是「浅色模式的截图」**——
+    // 产物没有浅色模式，每套主题的那套浅色值只在打印时用得上
+    await page.emulateMedia({ media: 'print' })
+    await page.screenshot({ path: join(OUT_DIR, `${name}-print.png`) })
+
+    console.log(`themes/${name}.png + ${name}-print.png + ${name}.html`)
   }
 } finally {
   await browser.close()
 }
 
-console.log(`${BUILTIN_THEMES.length} 套主题的截图与样例 → docs/public/themes/`)
+console.log(`${BUILTIN_THEMES.length} 套主题 × (屏幕 + 打印) 截图与样例 → docs/public/themes/`)

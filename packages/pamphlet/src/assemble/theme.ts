@@ -191,10 +191,20 @@ export function styleSheet(
     .map((feature) => FEATURE_CSS[feature] ?? '')
     .join('')
   return [
-    `:root{${variables(light)}${ELEMENT_LAYER}}`,
-    `@media (prefers-color-scheme:dark){:root{${variables(dark)}}}`,
-    `:root[data-pf-theme="dark"]{${variables(dark)}}`,
-    `:root[data-pf-theme="light"]{${variables(light)}}`,
+    // 深色是缺省，**不看读者的系统设置**。
+    //
+    // 之前是 `:root{浅色}` + `@media (prefers-color-scheme:dark)`，也就是「系统说深色才深色」。
+    // 改成「默认深色、跟系统无关」是产品决定：产物是发出去给人看的东西，
+    // 它应该长成一个样子，而不是同一个文件在两个人手里长得不一样。
+    //
+    // `color-scheme` 让滚动条、表单控件这些浏览器自己画的东西跟着变深，
+    // 否则深色页面上会杵着一条白色滚动条。
+    `:root{color-scheme:dark;${variables(dark)}${ELEMENT_LAYER}}`,
+    `:root[data-pf-theme="dark"]{color-scheme:dark;${variables(dark)}}`,
+    `:root[data-pf-theme="light"]{color-scheme:light;${variables(light)}}`,
+    // 打印是唯一的例外：深色底打出来是一整页油墨，而且多数打印设置会直接把背景丢掉，
+    // 于是浅色的字落在白纸上——等于打出一张空白。
+    `@media print{:root{color-scheme:light;${variables(light)}}}`,
     BASE_CSS,
     featureCss.trim(),
     themeCss,

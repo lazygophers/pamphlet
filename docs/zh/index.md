@@ -26,8 +26,8 @@ features:
   - title: 语法是 CommonMark 严格超集
     details: 源文档沿用 .md，直接丢上 GitHub 仍然能读。九个容器指令全部是标准的 directive 语法。
     icon: 📝
-  - title: 跟随系统深浅色
-    details: 连图里的线和字一起变。纯 CSS，没有一行 JavaScript 参与。
+  - title: 深色是缺省，打印时才浅色
+    details: 产物一律深色，不看读者的系统设置；打印时自动换成浅色。连图里的线和字一起变，纯 CSS。
     icon: 🌗
   - title: 产物里内嵌源文档
     details: pamphlet extract 能从产物原样吐回那份 .md。产物即备份。

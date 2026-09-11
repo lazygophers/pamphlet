@@ -736,11 +736,18 @@ describe('表格与列表的其余形态', () => {
 })
 
 describe('深浅色与图表缩放', () => {
-  it('跟随系统深浅色靠纯 CSS，不需要一行 JavaScript', async () => {
+  it('深色是缺省，不看读者的系统设置，也不需要一行 JavaScript', async () => {
     const { html } = await build('就一句话')
-    expect(html).toContain('@media (prefers-color-scheme:dark)')
+    // 深色的值直接写在 :root 上，而不是藏在某个媒体查询里等系统发话
+    expect(html).toContain(`:root{color-scheme:dark;--pf-bg:${DARK.bg};`)
+    expect(html).not.toContain('prefers-color-scheme')
     // 纯文字文档仍然一个 <script> 都没有（ADR-0012）
     expect(html).not.toContain('<script>')
+  })
+
+  it('只有打印是浅色的', async () => {
+    const { html } = await build('就一句话')
+    expect(html).toContain(`@media print{:root{color-scheme:light;--pf-bg:${LIGHT.bg};`)
   })
 
   it('有图才有缩放，没图一个字节都不放', async () => {
