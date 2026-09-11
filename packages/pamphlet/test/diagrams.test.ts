@@ -152,7 +152,12 @@ describe('缓存读写', () => {
   })
 
   it('目录不可写时不让编译失败', async () => {
-    const cache = createCache('/proc/definitely-not-writable-by-pamphlet')
+    // 拿一个「父路径是普通文件」的目录：mkdir 会立刻以 ENOTDIR 失败，
+    // 两个平台行为一致。原来写死的 /proc 子路径在 macOS 上根本不存在、
+    // 在 Linux 上又会一直挂到测试超时（CI 实测 5013ms）。
+    const file = join(mkdtempSync(join(tmpdir(), 'pf-cache-')), 'not-a-dir')
+    writeFileSync(file, 'x')
+    const cache = createCache(join(file, 'sub'))
     await expect(cache.set('k', { svg: '<svg/>', unmapped: [] })).resolves.toBeUndefined()
   })
 })

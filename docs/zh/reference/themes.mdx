@@ -1,0 +1,67 @@
+import { ThemeTable, ThemeGallery } from '../../components/Themes'
+
+# 内置主题
+
+内置主题**按文档类型分，不按审美分**。每套都是独立的配色**和版式** —— 正文宽度、标题体系、提示块形态、Tab 形态、表格线各不相同。
+
+```bash
+pamphlet build 方案.md --theme incident
+```
+
+或者写进源文档，让它跟着文档走：
+
+```yaml
+---
+theme: incident
+---
+```
+
+**`--theme` 压过 frontmatter。** 命令行是「这一次编译」的意图，frontmatter 是「这份文档一贯的样子」—— 一次性的意图应该能盖过长期设定。
+
+名字写错报 `DOC-106`，**退回 `default` 继续编译**：主题错了只影响长相，内容是对的。
+
+## 一览
+
+这张表**是主题清单本身生成的**，不是照着抄的第二份：每一行的说明就是 `DOC-106` 诊断里印出来的那一句（[ADR-0047](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0047-theme-purpose-is-bilingual-data.md)）。
+
+<ThemeTable lang="zh" />
+
+---
+
+<ThemeGallery lang="zh" />
+
+---
+
+## 每一套都守同一条底线
+
+主题能改布局，但**这四条对每一套一视同仁**，有浏览器层测试逐套钉着：
+
+| 底线 | 怎么验的 |
+|---|---|
+| 关掉 JavaScript 时两个 Tab 的内容都看得见 | 真浏览器关 JS 跑一遍 |
+| 折叠块降级成原生 `<details>`，内容还在 | 查 DOM 里的 `<details>` 文本 |
+| 正文字号 ≥ 14px | 读 `getComputedStyle` |
+| 有 JavaScript 时只显示选中面板，点得动 | 真的点一下再断言 |
+
+**新增主题必须过这四关**，不是可选项 —— 测试遍历主题清单，加一套就自动被覆盖。
+
+## 侧边菜单
+
+目录缺省是**常驻侧边菜单**，纯 CSS sticky，零 JavaScript：
+
+```yaml
+---
+toc:
+  enable: true
+---
+```
+
+窄屏（< 60rem）自动退回文档顶部。想放回正文开头写 `toc: { position: top }`，详见 [frontmatter 参考](/reference/frontmatter)。
+
+## 自己改一点
+
+不想整套换、只想动一两个颜色，走[换一套主题色](/howto/theme)。两条路可以叠加：先 `--theme paper` 再覆盖 `--pf-primary`。
+
+全部 18 个语义 token 和 16 个元素 token 见[主题 token](/reference/theme-tokens)。
+
+> 出处：[ADR-0046](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0046-themes-carry-their-own-css.md)

@@ -47,7 +47,7 @@ beforeAll(async () => {
   dir = await mkdtemp(join(tmpdir(), 'pamphlet-theme-'))
   const parsed = parse(SOURCE)
   for (const name of BUILTIN_THEMES) {
-    const theme = THEMES[name]!
+    const theme = THEMES[name]
     const { html } = await assemble(parsed, {
       light: theme.light,
       dark: theme.dark,

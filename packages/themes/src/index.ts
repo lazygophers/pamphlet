@@ -38,11 +38,22 @@ export type SemanticToken = (typeof SEMANTIC_TOKENS)[number]
 /** 一套配色：18 个 token 各一个值 */
 export type ThemeTokens = Record<SemanticToken, string>
 
+/** 说明文案有哪几种语言。文档站是双语的，注册表就得双语（ADR-0047） */
+export type Lang = 'zh' | 'en'
+
 export interface Theme {
   /** frontmatter 的 `theme:` 和 CLI 的 `--theme` 填的就是它 */
   name: string
-  /** 一句话说清它长什么样，`pamphlet doctor` 之类的地方要列出来 */
-  label: string
+  /**
+   * 一句话说清它适合哪一类文档，诊断提示和文档站都从这里取（ADR-0047）。
+   *
+   * 不叫 `label`：`label` 在本项目专指指令的「标题」（CONTEXT.md），
+   * 而这里是「写什么用它」的用途说明，两者不是一回事。
+   *
+   * 按语言键存一份，而不是中英两个并排字段：取的人拿同一个语言键索引就行，
+   * 不必在每个消费处再分一次语言的岔。
+   */
+  purpose: Record<Lang, string>
   light: ThemeTokens
   dark: ThemeTokens
   /** 追加在基础版式之后的样式。空字符串表示这套主题只换配色 */
@@ -811,94 +822,144 @@ blockquote{border-left-width:4px;background:var(--pf-bg-subtle);padding:var(--pf
 `.trim()
 
 
-export const THEMES: Record<string, Theme> = {
+/**
+ * 用 `satisfies` 而不是 `: Record<string, Theme>`：注解成索引签名会让
+ * `THEMES['default']` 的类型变成 `Theme | undefined`（`noUncheckedIndexedAccess`），
+ * 于是每一处取用都得写一个 `!` 断言去掩盖一个根本不存在的情况。
+ * `satisfies` 既校验每一项都是合法的 `Theme`，又保留「有哪几个键」这个事实。
+ */
+export const THEMES = {
   default: {
     name: 'default',
-    label: '通用中性：GitHub 那套色，最不抢内容',
+    purpose: {
+      zh: '通用中性：GitHub 那套色，最不抢内容',
+      en: "Anything: GitHub's neutral palette, the least likely to compete with your content",
+    },
     light: defaultLight,
     dark: defaultDark,
     css: '',
   },
   minimal: {
     name: 'minimal',
-    label: '极简：黑白灰、窄栏、衬线标题、大留白',
+    purpose: {
+      zh: '极简：黑白灰、窄栏、衬线标题、大留白',
+      en: 'Short pieces and one-pagers: black, white and grey, a narrow column, serif headings, generous whitespace',
+    },
     light: minimalLight,
     dark: minimalDark,
     css: minimalCss,
   },
   'tech-dark': {
     name: 'tech-dark',
-    label: '技术风：等宽标题、方角、青色强调',
+    purpose: {
+      zh: '技术风：等宽标题、方角、青色强调',
+      en: 'Technical content, dark by preference: monospace headings, sharp corners, a cyan accent',
+    },
     light: techLight,
     dark: techDark,
     css: techCss,
   },
   editorial: {
     name: 'editorial',
-    label: '编辑部：大号衬线标题、章节编号、细分隔线，像杂志内页',
+    purpose: {
+      zh: '编辑部：大号衬线标题、章节编号、细分隔线，像杂志内页',
+      en: 'Formal proposals: a large serif display, numbered sections, hairline rules — a magazine spread',
+    },
     light: editorialLight,
     dark: editorialDark,
     css: editorialCss,
   },
   console: {
     name: 'console',
-    label: '控制台：等宽为骨、高密度、状态色，像一块盯着看的面板',
+    purpose: {
+      zh: '控制台：等宽为骨、高密度、状态色，像一块盯着看的面板',
+      en: 'Runbooks and dashboard docs: monospace throughout, dense, status colours — a panel you keep an eye on',
+    },
     light: consoleLight,
     dark: consoleDark,
     css: consoleCss,
   },
   paper: {
     name: 'paper',
-    label: '学术：窄正文列 + 边注、编号标题、无圆角，像一篇论文',
+    purpose: {
+      zh: '学术：窄正文列 + 边注、编号标题、无圆角，像一篇论文',
+      en: 'Research notes: a narrow column with margin notes, numbered headings, square corners — a paper',
+    },
     light: paperLight,
     dark: paperDark,
     css: paperCss,
   },
   fiction: {
     name: 'fiction',
-    label: '小说：窄栏、首行缩进、段间不留空，为连续阅读排的版',
+    purpose: {
+      zh: '小说：窄栏、首行缩进、段间不留空，为连续阅读排的版',
+      en: 'Novel chapters: a narrow column, first-line indents, no gap between paragraphs — set for continuous reading',
+    },
     light: fictionLight,
     dark: fictionDark,
     css: fictionCss,
   },
   manual: {
     name: 'manual',
-    label: '技术文档：代码块是主角、表头吸顶、斑马纹长表格',
+    purpose: {
+      zh: '技术文档：代码块是主角、表头吸顶、斑马纹长表格',
+      en: 'Technical docs: code blocks lead, sticky table headers, zebra-striped long tables',
+    },
     light: manualLight,
     dark: manualDark,
     css: manualCss,
   },
   prd: {
     name: 'prd',
-    label: '需求文档：每节一条带编号的需求、验收清单、约束卡片',
+    purpose: {
+      zh: '需求文档：每节一条带编号的需求、验收清单、约束卡片',
+      en: 'Product requirements: one numbered requirement per section, acceptance checklists, constraint cards',
+    },
     light: prdLight,
     dark: prdDark,
     css: prdCss,
   },
   architecture: {
     name: 'architecture',
-    label: '系统设计：图占最宽画布、引用块是决策记录、三线表摆取舍',
+    purpose: {
+      zh: '系统设计：图占最宽画布、引用块是决策记录、三线表摆取舍',
+      en: 'System design: the widest canvas for diagrams, block quotes as decision records, booktabs for trade-offs',
+    },
     light: architectureLight,
     dark: architectureDark,
     css: architectureCss,
   },
   blueprint: {
     name: 'blueprint',
-    label: '详细设计：三级编号、紧凑字段表、等宽标题，密度优先',
+    purpose: {
+      zh: '详细设计：三级编号、紧凑字段表、等宽标题，密度优先',
+      en: 'Detailed design: three-level numbering, tight field tables, monospace headings — density first',
+    },
     light: blueprintLight,
     dark: blueprintDark,
     css: blueprintCss,
   },
   incident: {
     name: 'incident',
-    label: '故障报告：步骤变时间轴、危险色压过一切、影响面表格',
+    purpose: {
+      zh: '故障报告：步骤变时间轴、危险色压过一切、影响面表格',
+      en: 'Incident reports: steps become a timeline, danger outranks everything else, an impact table',
+    },
     light: incidentLight,
     dark: incidentDark,
     css: incidentCss,
   },
-}
+} satisfies Record<string, Theme>
+
+/** 注册表里真实存在的主题名。用户输入的字符串要先经 `isThemeName` 收窄才是它 */
+export type ThemeName = keyof typeof THEMES
 
 /** 内置主题名。**发布之后就是公共契约**，只能加不能改（ADR-0001） */
-export const BUILTIN_THEMES = Object.keys(THEMES)
+export const BUILTIN_THEMES = Object.keys(THEMES) as ThemeName[]
 
 export const DEFAULT_THEME = 'default'
+
+/** 用户写的名字是任意字符串，只有过了这一关才能拿去索引 `THEMES` */
+export function isThemeName(name: string): name is ThemeName {
+  return Object.hasOwn(THEMES, name)
+}

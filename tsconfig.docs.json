@@ -1,0 +1,25 @@
+{
+  // 文档站那几个 TypeScript 文件（React 组件 + 站点配置）原来不属于任何项目，
+  // `pnpm typecheck` 完全看不见它们——改一个主题字段名，要跑到文档站构建才炸。
+  // 单独一个项目而不是塞进某个包：它们是站点的代码，不该被打进任何要发布的包。
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    // 只做类型检查，不产出 JS——真正的打包是 Rspress 做的。
+    // 但 `composite` 要求能写声明文件，所以给它一个不进版本库的落点。
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "outDir": "dist/docs-typecheck",
+    "jsx": "react-jsx",
+    // Rspress 走打包器的解析规则（`@rspress/core/runtime` 这类子路径导出），
+    // 不是 Node 的；用 NodeNext 检查会报一堆运行时根本不存在的错
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM"],
+    "paths": {
+      // 和 rspress.config.ts 的 alias 一致：指源码，不指 dist
+      "@nekoleapuki/pamphlet-themes": ["./packages/themes/src/index.ts"]
+    }
+  },
+  "include": ["docs/components/**/*.tsx", "rspress.config.ts"],
+  "references": [{ "path": "./packages/themes" }]
+}

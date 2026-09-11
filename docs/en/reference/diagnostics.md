@@ -91,7 +91,7 @@ The reference and the definition **each report once**, and an orphan definition 
 
 **The named theme does not exist.** Severity `error`.
 
-`--theme` or the frontmatter `theme:` names something unknown. The hint lists every built-in theme name.
+`--theme` or the frontmatter `theme:` names something unknown. The hint lists every built-in theme, one per line, **each name followed by the kind of document it suits**, so you can pick without opening the docs. That description is **in Chinese**: every compiler diagnostic is Chinese-only, and printing this one line in English would give you a half-English hint ([ADR-0047](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0047-theme-purpose-is-bilingual-data.md)). The English wording of each is in [Built-in themes](/en/reference/themes).
 
 **It errors without stopping the compile**: it falls back to `default` and still writes the output — a wrong theme only affects how it looks; the content is fine.
 

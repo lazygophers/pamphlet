@@ -2,12 +2,32 @@
  * 完整管线：读文件 → 解析 → 画图 → 组装。这是唯一碰硬盘的一层。
  */
 
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { basename, extname, join } from 'node:path'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { artifactPath, compileFile } from '../src/compile.js'
 import { extract } from '../src/assemble/index.js'
+
+/**
+ * 找一个这台机器上真实存在的字体文件。
+ *
+ * 原先写死了 macOS 的 Arial Unicode——在 Linux 的 CI 上那个文件不存在，
+ * 于是内嵌字体这条路径**在 CI 里从来没被测到过**，测试只是安静地失败。
+ * 两个平台各给一条常见路径：macOS 自带 Arial Unicode，
+ * GitHub 的 ubuntu runner 自带 DejaVu。
+ */
+function systemFont(): string {
+  const candidates = [
+    '/System/Library/Fonts/Supplemental/Arial Unicode.ttf',
+    '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+    '/usr/share/fonts/dejavu/DejaVuSans.ttf',
+  ]
+  const found = candidates.find((path) => existsSync(path))
+  // 找不到就让测试失败并说清缺什么，而不是跳过——跳过等于这条路径没人验
+  if (!found) throw new Error(`这台机器上没有可用于测试的字体，试过：${candidates.join(' / ')}`)
+  return found
+}
 
 let dir: string
 
@@ -49,11 +69,12 @@ describe('compileFile', () => {
   })
 
   it('--font 的名字取文件名，路径也相对源文档', async () => {
-    const font = '/System/Library/Fonts/Supplemental/Arial Unicode.ttf'
+    const font = systemFont()
     const path = write('c.md', '# 甲\n')
     const result = await compileFile(path, { font })
     expect(result.html).toContain('@font-face')
-    expect(result.html).toContain('"Arial Unicode"')
+    // 字体族名取的是文件名，所以断言跟着实际挑中的那个文件走
+    expect(result.html).toContain(`"${basename(font, extname(font))}"`)
   }, 120_000)
 
   it('--no-embed-source 时产物里没有源文档', async () => {

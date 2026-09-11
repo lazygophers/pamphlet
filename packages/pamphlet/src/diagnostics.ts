@@ -82,6 +82,16 @@ export function formatDiagnostic(d: Diagnostic, options: FormatOptions): string 
   const { path, source, color } = options
   const paint = (code: string, text: string) => (color ? `${code}${text}${RESET}` : text)
 
+  /**
+   * 建议可以是多行的（DOC-106 要一行一套地列出十二套主题）。
+   * 续行按 `= ` 的宽度往里缩，整段就挂在同一个 `=` 底下——
+   * 顶到最左边的话，每一行看起来都像另一条独立的诊断。
+   */
+  const hintLines = (hint: string, gutter: string, marker: string) => {
+    const [first = '', ...rest] = hint.split('\n')
+    return [`${gutter}${marker} ${first}`, ...rest.map((line) => `${gutter}  ${line}`)]
+  }
+
   const severityColor = d.severity === 'error' ? RED : YELLOW
   const head = `${paint(severityColor + BOLD, `${d.severity}[${d.code}]`)} ${d.message}`
   const lines: string[] = [head]
@@ -104,10 +114,10 @@ export function formatDiagnostic(d: Diagnostic, options: FormatOptions): string 
       )
       lines.push(`${pad} ${bar}`)
     }
-    if (d.hint) lines.push(`${pad} ${paint(BLUE + BOLD, '=')} ${d.hint}`)
+    if (d.hint) lines.push(...hintLines(d.hint, `${pad} `, paint(BLUE + BOLD, '=')))
     if (d.docUrl) lines.push(`${pad} ${paint(DIM, d.docUrl)}`)
   } else {
-    if (d.hint) lines.push(`  = ${d.hint}`)
+    if (d.hint) lines.push(...hintLines(d.hint, '  ', '='))
     if (d.docUrl) lines.push(`  ${paint(DIM, d.docUrl)}`)
   }
 
