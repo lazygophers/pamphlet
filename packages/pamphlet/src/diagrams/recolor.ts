@@ -13,6 +13,13 @@ import {
 } from './tokens.js'
 
 const HEX = /#[0-9a-fA-F]{3,8}\b/g
+/**
+ * 哨兵也可能以 `rgb()` / `rgba()` 的形态出现——Mermaid 的某些图种把颜色算一遍再输出。
+ * 只认**原样**的哨兵三元组：调亮调暗过的值落在这里会互相撞车
+ * （`#ff0003` 调暗 20% 是 `rgb(204,0,2)`，和 `#ff0002` 分不开），认了反而换错色。
+ * 真被算过的那些在源头钉死（见 mermaid.ts 的 pie1..pie12），不靠这里兜。
+ */
+const RGB = /\brgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*([\d.]+)\s*)?\)/g
 
 export interface RecolorResult {
   svg: string
@@ -26,15 +33,42 @@ export function recolor(svg: string): RecolorResult {
   const unmapped = new Set<string>()
   let replaced = 0
 
-  const out = svg.replace(HEX, (hex) => {
+  const substitute = (token: DiagramToken): string => {
+    replaced += 1
+    return `var(${CSS_VARIABLE[token]}, ${FALLBACK[token]})`
+  }
+
+  const hexDone = svg.replace(HEX, (hex) => {
     const token: DiagramToken | undefined =
       tokenOfSentinel(hex) ?? HARDCODED_ALIASES[hex.toLowerCase()]
     if (!token) {
       unmapped.add(hex.toLowerCase())
       return hex
     }
-    replaced += 1
-    return `var(${CSS_VARIABLE[token]}, ${FALLBACK[token]})`
+    return substitute(token)
+  })
+
+  const out = hexDone.replace(RGB, (whole, r: string, g: string, b: string, alpha?: string) => {
+    const hex = `#${[r, g, b].map((n) => Number(n).toString(16).padStart(2, '0')).join('')}`
+    const sentinel = tokenOfSentinel(hex)
+
+    // 哨兵不管带不带透明度都要换掉——它是我们自己喂进去的主题色，
+    // 漏一个就是页面上一块刺眼的洋红。半透明的换成实色：这一层本来就是
+    // 引擎自己调的，实色不影响可读性，而 `color-mix` 在老浏览器里会整条失效。
+    if (sentinel) return substitute(sentinel)
+
+    // 非哨兵的半透明留着不动：换成实色变量会把一层阴影变成一块实心色
+    if (alpha !== undefined && Number(alpha) !== 1) {
+      unmapped.add(whole.toLowerCase())
+      return whole
+    }
+
+    const token = HARDCODED_ALIASES[hex]
+    if (!token) {
+      unmapped.add(whole.toLowerCase())
+      return whole
+    }
+    return substitute(token)
   })
 
   return { svg: out, replaced, unmapped: [...unmapped].sort() }

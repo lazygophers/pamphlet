@@ -64,10 +64,28 @@ export function tokenOfSentinel(hex: string): DiagramToken | undefined {
   return SENTINEL_TO_TOKEN.get(hex.toLowerCase())
 }
 
-/** 引擎硬编码的黑与白：语义明确，直接归到文字色与底色 */
+/**
+ * 引擎硬编码的色值。
+ *
+ * 黑与白语义明确，直接归到文字色与底色。下面那几个灰是 Mermaid 写死在
+ * 各图种样式表里的**字符串**，不是主题变量——钉不住，只能在这里认领
+ * （实测于 mermaid@11.17.2：类图的 `#666` `#999` `#eaeaea`、
+ * 状态图的 `#e0e0e0`、连线标记的 `rgba(185,185,185,1)`）。
+ *
+ * 代价说在前面：这张表是按色值认的，作者自己在图里写 `#999` 也会被换掉。
+ * 这是已有的取舍（`#000` / `#fff` 一直如此）——换错色只是颜色不同，
+ * 不换的后果是暗色底上一行看不见的字。
+ */
 export const HARDCODED_ALIASES: Record<string, DiagramToken> = {
   '#000': 'text',
   '#000000': 'text',
   '#fff': 'bg',
   '#ffffff': 'bg',
+  '#666': 'muted',
+  '#666666': 'muted',
+  '#999': 'muted',
+  '#999999': 'muted',
+  '#b9b9b9': 'line',
+  '#e0e0e0': 'fill',
+  '#eaeaea': 'fill',
 }

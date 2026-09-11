@@ -24,7 +24,7 @@ import type { RenderedDiagram } from './engine.js'
  * （实测：接上尺寸钉定之后，缓存命中的图仍然是旧的 width="100%"）。
  * 改后处理行为时把这个数字加一。
  */
-const POST_PROCESS_VERSION = '2'
+const POST_PROCESS_VERSION = '6'
 
 /** 哨兵表变了就得让旧缓存失效，所以把它算进键里 */
 const SENTINEL_FINGERPRINT = createHash('sha256')

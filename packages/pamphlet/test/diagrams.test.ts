@@ -70,10 +70,36 @@ describe('颜色替换（ADR-0016）', () => {
   })
 
   it('认不出的色值原样留下并报上来', () => {
-    const result = recolor('<svg><rect fill="#eaeaea"/><rect fill="#666"/></svg>')
+    const result = recolor('<svg><rect fill="#123456"/><rect fill="#abcdef"/></svg>')
     expect(result.replaced).toBe(0)
-    expect(result.unmapped).toEqual(['#666', '#eaeaea'])
-    expect(result.svg).toContain('#eaeaea')
+    expect(result.unmapped).toEqual(['#123456', '#abcdef'])
+    expect(result.svg).toContain('#123456')
+  })
+
+  it('引擎写死在样式表里的那几个灰也归到 token', () => {
+    // Mermaid 把这些直接写进各图种的 CSS 字符串，钉不住主题变量（mermaid@11.17.2）
+    const result = recolor('<svg><rect fill="#eaeaea"/><path stroke="#666"/></svg>')
+    expect(result.replaced).toBe(2)
+    expect(result.svg).toContain(CSS_VARIABLE.fill)
+    expect(result.svg).toContain(CSS_VARIABLE.muted)
+    expect(result.unmapped).toEqual([])
+  })
+
+  it('哨兵写成 rgb() 也要换掉，带透明度的照换不误', () => {
+    // 饼图那一路会把颜色算一遍再输出成 rgb()，漏掉就是页面上一块刺眼的洋红
+    const result = recolor(
+      `<svg><rect fill="rgb(255, 0, 1)"/><rect fill="rgba(255, 0, 1, 0.5)"/></svg>`,
+    )
+    expect(result.replaced).toBe(2)
+    expect(result.svg).not.toContain('255, 0, 1')
+    expect(result.unmapped).toEqual([])
+  })
+
+  it('不是哨兵的半透明色留着不动——换成实色会把阴影变成实心块', () => {
+    const result = recolor('<svg><rect fill="rgba(0,0,0,0.2)"/></svg>')
+    expect(result.replaced).toBe(0)
+    expect(result.svg).toContain('rgba(0,0,0,0.2)')
+    expect(result.unmapped).toEqual(['rgba(0,0,0,0.2)'])
   })
 
   it('大小写不敏感', () => {

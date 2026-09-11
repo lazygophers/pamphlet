@@ -67,6 +67,69 @@ const THEME_VARIABLES = {
   arrowheadColor: SENTINELS.line,
   errorBkgColor: SENTINELS.fill,
   errorTextColor: SENTINELS.text,
+
+  // ── 按图种补的那些 ──────────────────────────────────────────────────
+  // 上面那批只覆盖流程图和时序图。甘特图、饼图、类图、ER 图、状态图各有
+  // 自己的一组主题变量，不钉住的话 Mermaid 会用它自己的默认色（实测漏出
+  // `#003163` `#eeeeee` `#ff8888`），那些颜色不跟主题走。
+  // 变量名逐个对着 mermaid@11.17.2 的 theme-default 核过，不是凭印象写的。
+
+  // 甘特图
+  sectionBkgColor: SENTINELS.bg,
+  sectionBkgColor2: SENTINELS.bg,
+  altSectionBkgColor: SENTINELS.fill,
+  excludeBkgColor: SENTINELS.fill,
+  gridColor: SENTINELS.line,
+  taskBkgColor: SENTINELS.fill,
+  taskBorderColor: SENTINELS.line,
+  taskTextColor: SENTINELS.text,
+  taskTextOutsideColor: SENTINELS.text,
+  taskTextDarkColor: SENTINELS.text,
+  taskTextLightColor: SENTINELS.bg,
+  taskTextClickableColor: SENTINELS.accent,
+  activeTaskBkgColor: SENTINELS.accent,
+  activeTaskBorderColor: SENTINELS.line,
+  doneTaskBkgColor: SENTINELS.muted,
+  doneTaskBorderColor: SENTINELS.line,
+  critBkgColor: SENTINELS.fill,
+  critBorderColor: SENTINELS.accent,
+  todayLineColor: SENTINELS.accent,
+
+  // 饼图。扇区颜色必须**逐个钉死**：留给 Mermaid 自己算，它会把主色按比例调亮调暗，
+  // 算出来的既不是哨兵、又是 `rgb()` 写法，两头都躲过替换——页面上就是几块刺眼的洋红。
+  // 只有六个图表 token，所以十二个扇区按四色循环，靠描边分开相邻的两块。
+  pie1: SENTINELS.accent,
+  pie2: SENTINELS.muted,
+  pie3: SENTINELS.line,
+  pie4: SENTINELS.fill,
+  pie5: SENTINELS.accent,
+  pie6: SENTINELS.muted,
+  pie7: SENTINELS.line,
+  pie8: SENTINELS.fill,
+  pie9: SENTINELS.accent,
+  pie10: SENTINELS.muted,
+  pie11: SENTINELS.line,
+  pie12: SENTINELS.fill,
+  pieStrokeColor: SENTINELS.bg,
+  pieOuterStrokeColor: SENTINELS.line,
+  pieTitleTextColor: SENTINELS.text,
+  pieSectionTextColor: SENTINELS.text,
+  pieLegendTextColor: SENTINELS.text,
+
+  // 类图、ER 图、状态图
+  classText: SENTINELS.text,
+  attributeBackgroundColorOdd: SENTINELS.fill,
+  attributeBackgroundColorEven: SENTINELS.bg,
+  erEdgeLabelBackground: SENTINELS.bg,
+  relationLabelBackground: SENTINELS.bg,
+  relationLabelColor: SENTINELS.text,
+  stateBkg: SENTINELS.fill,
+  stateBorder: SENTINELS.line,
+  stateLabelColor: SENTINELS.text,
+  stateEdgeLabelBackground: SENTINELS.bg,
+  specialStateColor: SENTINELS.text,
+  transitionLabelColor: SENTINELS.text,
+  labelBackgroundColor: SENTINELS.bg,
 } as const
 
 type MermaidRenderer = (

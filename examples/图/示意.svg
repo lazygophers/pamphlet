@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" width="320" height="120" role="img" aria-label="一份 Markdown 编译成一个 HTML 文件">
+  <rect x="8" y="34" width="96" height="52" rx="6" fill="none" stroke="#8a8a8a" stroke-width="2"/>
+  <text x="56" y="64" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#8a8a8a">方案.md</text>
+  <path d="M112 60 h84" stroke="#d97706" stroke-width="2"/>
+  <path d="M188 54 l10 6 -10 6 z" fill="#d97706"/>
+  <text x="154" y="48" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#d97706">build</text>
+  <rect x="206" y="34" width="106" height="52" rx="6" fill="none" stroke="#8a8a8a" stroke-width="2"/>
+  <text x="259" y="64" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#8a8a8a">方案.html</text>
+</svg>
