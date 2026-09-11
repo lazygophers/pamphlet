@@ -7,12 +7,18 @@
  * 构建照样通过，站上留下一个裂图——正是这两张 ticket 要消灭的失效。
  */
 
-import { normalizeImagePath } from '@rspress/core/runtime'
+import { normalizeImagePath, withBase } from '@rspress/core/runtime'
 import { THEMES, BUILTIN_THEMES, type Lang, type ThemeName } from '@nekoleapuki/pamphlet-themes'
 
 const HEADINGS: Record<Lang, [string, string]> = {
   zh: ['主题', '写什么用它'],
   en: ['Theme', 'What it is for'],
+}
+
+/** 画廊里每套主题底下那行链接的文案 */
+const OPEN_SAMPLE: Record<Lang, string> = {
+  zh: '打开完整样例 ↗',
+  en: 'Open the full sample ↗',
 }
 
 /**
@@ -107,10 +113,19 @@ export function ThemeGallery({ lang }: { lang: Lang }) {
           {/* id 手写在这里：一览表那一列链到 `#主题名`，锚点得对得上 */}
           <h2 id={theme}>{theme}</h2>
           <p>{DETAILS[theme]?.[lang] ?? THEMES[theme].purpose[lang]}</p>
-          {/* 图由 `pnpm themes:shots` 从真实编译现截，文件名就是主题名（issue 01）。
-              走 normalizeImagePath 补站点 base——Markdown 里的图是 Rspress 自己补的，
+          {/* 图和样例由 `pnpm themes:shots` 从**同一次**真实编译现产，文件名都是主题名（issue 01）。
+              走 normalizeImagePath / withBase 补站点 base——Markdown 里的图是 Rspress 自己补的，
               组件里这一步得自己做，否则线上路径少一层 `/pamphlet/` */}
-          <img src={normalizeImagePath(`/themes/${theme}.png`)} alt={`${theme} theme`} />
+          <a href={withBase(`/themes/${theme}.html`)} target="_blank" rel="noreferrer">
+            <img src={normalizeImagePath(`/themes/${theme}.png`)} alt={`${theme} theme`} />
+          </a>
+          {/* 截图只有第一屏，且点不动。Tab、折叠块、侧边菜单这些主题之间差别最大的东西，
+              只有在真页面里才看得出来，所以样例是链接而不是又一张图 */}
+          <p>
+            <a href={withBase(`/themes/${theme}.html`)} target="_blank" rel="noreferrer">
+              {OPEN_SAMPLE[lang]}
+            </a>
+          </p>
         </section>
       ))}
     </>
