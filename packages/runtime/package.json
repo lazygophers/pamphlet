@@ -1,6 +1,6 @@
 {
   "name": "@nekoleapuki/pamphlet-runtime",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "一本 pamphlet 里那段负责交互的 JavaScript：约 1KB 内核 + 六个互相独立的特性片段",
   "type": "module",
   "license": "AGPL-3.0-or-later",
