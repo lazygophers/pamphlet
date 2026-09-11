@@ -22,7 +22,7 @@ Body text…
 
 Links, the active tab underline and the step circles all follow — their defaults derive from `--pf-primary`.
 
-This works because [raw HTML passes through untouched](/en/write/markdown/commonmark).
+This works because [raw HTML passes through untouched](/en/write/).
 
 ## Change a whole palette
 

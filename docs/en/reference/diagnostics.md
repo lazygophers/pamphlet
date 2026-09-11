@@ -7,13 +7,13 @@ There is no message localisation yet. The code (`DIR-204`), the position and the
 :::
 
 ```
-error[DIR-204] tab 缺少标题
+error[DIR-204] tab 缺少指令标题
   --> plan.md:3:1
   |
 3 | :::tab
   | ^
   |
-  = 标题写在方括号里：:::tab[标题]。Tab 的标题就是那个可以点的按钮
+  = 指令标题写在方括号里：:::tab[指令标题]。Tab 的指令标题就是那个可以点的按钮
   https://lazygophers.github.io/pamphlet/reference/diagnostics.html#dir-204
 ```
 
@@ -82,7 +82,7 @@ GFM footnotes (`[^1]` plus `[^1]: note`) do parse, but the assembler has no hand
 
 **An error rather than silent dropping**: dropping silently means the note you wrote vanishes from the output and you never find out.
 
-Alternatives are in [GFM extensions](/en/write/markdown/gfm).
+Alternatives are in [Callouts](/en/write/components/callout).
 
 The reference and the definition **each report once**, and an orphan definition (with no reference) reports too.
 
@@ -128,7 +128,7 @@ Misspellings within edit distance 2 also get a "did you mean X?".
 Two cases:
 
 - **Written as a non-container directive.** All nine are container directives and must wrap their content in a matching pair of colon fences
-- **A `tab` not directly inside a `tabs`.** The hint tells you the outer fence needs one more colon than the inner one (`::::tabs` around `:::tab[label]`)
+- **A `tab` not directly inside a `tabs`.** The hint tells you the outer fence needs one more colon than the inner one (`::::tabs` around `:::tab[指令标题]`)
 
 ### DIR-203
 
@@ -142,9 +142,9 @@ A closing fence **prefers a matching colon count**; any inner fence it skipped o
 
 | Message | Fix |
 |---|---|
-| `tab 缺少标题` | The label is the clickable button; write `:::tab[label]` |
-| `collapse 缺少标题` | Without JavaScript it degrades to `<details>`; with no label there is nothing to click |
-| `tabs 里面没有任何 tab` | Put at least one `:::tab[label]` in it, with more colons on the outside |
+| `tab 缺少指令标题` | The label is the clickable button; write `:::tab[label]` |
+| `collapse 缺少指令标题` | Without JavaScript it degrades to `<details>`; with no label there is nothing to click |
+| `tabs 里面没有任何 tab` | Put at least one `:::tab[指令标题]` in it, with more colons on the outside |
 | `steps 里需要一个有序列表` | Write `1.` `2.` `3.` |
 
 ### DIR-205
@@ -224,7 +224,7 @@ A diagram served from cache still runs the diagnostic. Without that step, "diagr
 
 **A single asset exceeds the byte limit.** Severity `error`. Limit **2MB**.
 
-The hint is concrete: compress it first (for PNG try `pngquant --quality=70`), or draw it as SVG with a [diagram fence](/en/write/diagrams/).
+The hint is concrete: compress it first (for PNG try `pngquant --quality=70`), or draw it as SVG with a [diagram fence](/en/write/diagrams/flowchart).
 
 The limit exists because base64 inflates size by **33.3%** (RFC 2045 §6.8, RFC 4648 §4).
 
@@ -232,7 +232,7 @@ The limit exists because base64 inflates size by **33.3%** (RFC 2045 §6.8, RFC 
 
 **This asset could not be read.** Severity `error`.
 
-Image paths resolve **relative to the source file's directory**, not the directory you ran the command from. See [Images and assets](/en/write/assets).
+Image paths resolve **relative to the source file's directory**, not the directory you ran the command from. See [Images and assets](/en/write/diagrams/images).
 
 ### EMB-403
 

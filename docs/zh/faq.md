@@ -61,7 +61,7 @@ pamphlet build 方案.md --theme fiction
 
 因为**裸 HTML 原样通过，编译器不做任何过滤**。一段 `<style>` 能盖掉整个主题系统。
 
-这不是 bug 是设计，见 [CommonMark 基础](/write/markdown/commonmark)。
+这不是 bug 是设计，见 [CommonMark 基础](/write/)。
 
 ## 产物为什么这么大
 
@@ -81,7 +81,7 @@ iOS 18.5 起 Safari 不允许直接打开本地 HTML 文件，微信内置浏览
 
 ## 我写的脚注不见了
 
-写 `[^1]` 现在会**直接报错** `DOC-105`，不会静默消失。替代写法见 [GFM 扩展](/write/markdown/gfm)。
+写 `[^1]` 现在会**直接报错** `DOC-105`，不会静默消失。替代写法见 [GFM 扩展](/write/blocks/table)。
 
 ## 能写行内公式吗
 

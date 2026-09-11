@@ -1,9 +1,35 @@
 [
-  { "text": "Start", "link": "/en/start/quickstart", "activeMatch": "^/en/start/" },
-  { "text": "Writing", "link": "/en/write/", "activeMatch": "^/en/write/" },
-  { "text": "Guides", "link": "/en/howto/ci", "activeMatch": "^/en/howto/" },
-  { "text": "Reference", "link": "/en/reference/syntax", "activeMatch": "^/en/reference/" },
-  { "text": "Design", "link": "/en/design/output", "activeMatch": "^/en/design/" },
-  { "text": "FAQ", "link": "/en/faq" },
-  { "text": "See the output", "link": "/demo/" }
+  {
+    "text": "Start",
+    "link": "/en/start/quickstart",
+    "activeMatch": "^/en/start/"
+  },
+  {
+    "text": "Writing",
+    "link": "/en/write/",
+    "activeMatch": "^/en/write/"
+  },
+  {
+    "text": "Guides",
+    "link": "/en/howto/ci",
+    "activeMatch": "^/en/howto/"
+  },
+  {
+    "text": "Reference",
+    "link": "/en/reference/frontmatter",
+    "activeMatch": "^/en/reference/"
+  },
+  {
+    "text": "Design",
+    "link": "/en/design/output",
+    "activeMatch": "^/en/design/"
+  },
+  {
+    "text": "FAQ",
+    "link": "/en/faq"
+  },
+  {
+    "text": "See the output",
+    "link": "/demo/"
+  }
 ]

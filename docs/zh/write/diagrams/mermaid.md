@@ -1,47 +1,10 @@
-# Mermaid
+# Mermaid（画图的引擎）
 
-本版本**唯一实现了的引擎**。一个围栏语言 `mermaid`，十几种图都归它画。
+## 这是什么
 
-````markdown
-```mermaid
-flowchart LR
-  A[请求] --> B{Redis 有吗}
-  B -->|有| C[直接返回]
-  B -->|没有| D[查数据库]
-```
-````
+上面那些图**都是它画的**。Mermaid 是一个用文字描述图形的工具，本版本是 Pamphlet **唯一实现了的引擎**。
 
-Mermaid 自己的语法手册在 <https://mermaid.js.org/intro/>。Pamphlet 不改它的语法，也不加自己的扩展。
-
-## 画得出哪些图
-
-每一种都在[示例文档](https://lazygophers.github.io/pamphlet/demo/)里有一张真的，颜色全部跟着主题走。第一行的关键字决定画哪种：
-
-| 写什么 | 画出来是 |
-|---|---|
-| `flowchart` / `graph` | 流程图。**数据流图也用它**：方框是外部的人、圆角是处理、`[(…)]` 是存起来的东西 |
-| `sequenceDiagram` | 时序图 |
-| `stateDiagram-v2` | 状态图 |
-| `classDiagram` | 类图 |
-| `erDiagram` | 实体关系图 |
-| `gantt` | 甘特图 |
-| `pie` | 饼图 |
-| `architecture-beta` | **架构图**，自带 `cloud` `database` `disk` `server` 等图标 |
-| `C4Context` / `C4Container` / `C4Component` | **系统上下文图**（C4 那一套） |
-| `mindmap` | 思维导图 |
-| `gitGraph` | 分支图 |
-| `block-beta` | 块图 |
-| `timeline` / `quadrantChart` / `journey` / `packet-beta` / `radar-beta` / `xychart-beta` | 画得出来，但**有几处颜色不跟主题走**，会报 `DIAG-304` |
-
-:::warn 两种图不认中文
-`sankey-beta`（桑基图）和 `requirementDiagram`（需求图）的解析器只认 ASCII 标识符，中文节点名会直接报 `DIAG-303`。实测于 mermaid 11.17.2。
-
-要画数据流量分配，用 `flowchart` 把数值写在连线标签上。
-:::
-
-:::info 架构图的 ID 要用英文
-`architecture-beta` 的 group / service **ID** 必须是 ASCII（`service src(disk)[源文档]`），方括号里的**标签**照样可以写中文。
-:::
+一个围栏语言 `mermaid`，第一行的关键字决定画哪种图。
 
 ## 先装一次
 
@@ -59,7 +22,7 @@ npm i -g mermaid-isomorphic playwright && npx playwright install chromium
 
 因为 **Mermaid 必须用真实浏览器的布局引擎算文字尺寸**。
 
-jsdom（一个纯 JavaScript 的假浏览器）没有实现 `SVGTextElement.getBBox()` —— 量不出一段文字有多宽，就没法为图形排版。
+jsdom（一个纯 JavaScript 的假浏览器）没有实现 `SVGTextElement.getBBox()`——量不出一段文字有多宽，就没法为图形排版。
 
 这不是选型偏好。Mermaid 组织成员 @aloisklink 明确否定过 jsdom 方案：<https://github.com/mermaid-js/mermaid/issues/3886#issuecomment-1341694822>
 
@@ -69,8 +32,6 @@ jsdom（一个纯 JavaScript 的假浏览器）没有实现 `SVGTextElement.getB
 
 **纯文字文档永远不会拉起它。** 只有真的遇到 ` ```mermaid ` 围栏才启动。
 
-实测数据：
-
 | 场景 | 耗时 |
 |---|---|
 | 第 1 张图（含浏览器冷启动） | 733ms |
@@ -79,9 +40,27 @@ jsdom（一个纯 JavaScript 的假浏览器）没有实现 `SVGTextElement.getB
 
 `DIAG-303` 的超时门槛是 **10 秒**，约是最坏值的 13 倍。
 
+## 它能画哪些图
+
+十三种，每一种一页：
+
+[流程图](/write/diagrams/flowchart) · [时序图](/write/diagrams/sequence) · [状态图](/write/diagrams/state) · [类图](/write/diagrams/class) · [实体关系图](/write/diagrams/er) · [甘特图](/write/diagrams/gantt) · [饼图](/write/diagrams/pie) · [架构图](/write/diagrams/architecture) · [系统上下文图](/write/diagrams/c4) · [数据流图](/write/diagrams/dataflow) · [思维导图](/write/diagrams/mindmap) · [git 分支图](/write/diagrams/gitgraph) · [块图](/write/diagrams/block)
+
+### 画得出来但有瑕疵的
+
+`timeline` / `quadrantChart` / `journey` / `packet-beta` / `radar-beta` / `xychart-beta` 能画，但**有几处颜色不跟主题走**，会报 `DIAG-304`。原因是那几种图的配色由引擎从主色算出来，算完的值既不是我们喂进去的哨兵、又躲过了替换。
+
+### 不认中文的两种
+
+`sankey-beta`（桑基图）和 `requirementDiagram`（需求图）的解析器**只认 ASCII 标识符**，中文节点名直接报 `DIAG-303`。实测于 mermaid 11.17.2。
+
+要画流量分配，用[流程图](/write/diagrams/flowchart)把数值写在连线标签上。
+
 ## 图源写错了怎么办
 
-得到 `DIAG-303`，提示会建议把图源贴到 <https://mermaid.live> 上定位 —— 那是 Mermaid 官方的在线编辑器，报错比命令行清楚。
+得到 `DIAG-303`，提示会建议把图源贴到 <https://mermaid.live> 上定位——那是 Mermaid 官方的在线编辑器，报错比命令行清楚。
+
+**图画不出来时产物照样写出来**：那张图的位置留一个占位框写明原因，其余部分完全正常，退出码是 `1`。
 
 ## CI 里要多做一步
 

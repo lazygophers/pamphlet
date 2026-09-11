@@ -22,7 +22,7 @@ Output goes **next to the source file** by default: `plan.md` → `plan.html`.
 | `--continue-on-error` | Keep going after a document fails |
 
 :::warning Quote your globs
-Globs are expanded by Pamphlet, not the shell. **And nothing is excluded by default** — `"**/*.md"` sweeps up hundreds of third-party documents under `node_modules`. See [Images and assets](/en/write/assets).
+Globs are expanded by Pamphlet, not the shell. **And nothing is excluded by default** — `"**/*.md"` sweeps up hundreds of third-party documents under `node_modules`. See [Images and assets](/en/write/diagrams/images).
 :::
 
 ## A failed diagram still produces output

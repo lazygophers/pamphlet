@@ -21,13 +21,13 @@ pamphlet lint "docs/**/*.md" --format json
 
 ```
 pflint/b.md
-  error[DIR-204] tab 缺少标题
+  error[DIR-204] tab 缺少指令标题
     --> pflint/b.md:3:1
     |
   3 | :::tab
     | ^
     |
-    = 标题写在方括号里：:::tab[标题]。Tab 的标题就是那个可以点的按钮
+    = 指令标题写在方括号里：:::tab[指令标题]。Tab 的指令标题就是那个可以点的按钮
     https://lazygophers.github.io/pamphlet/reference/diagnostics.html#dir-204
 
   warning[DIR-201] 未知指令 note，内容已按普通段落输出

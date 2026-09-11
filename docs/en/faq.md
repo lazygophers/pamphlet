@@ -61,7 +61,7 @@ You can also put it in frontmatter so it travels with the document (`--theme` ov
 
 Because **raw HTML passes through unfiltered**. A `<style>` block can override the entire theme system.
 
-That is the design, not a bug — see [CommonMark basics](/en/write/markdown/commonmark).
+That is the design, not a bug — see [CommonMark basics](/en/write/).
 
 ## Why is the output so large
 
@@ -81,7 +81,7 @@ Since iOS 18.5 Safari does not open local HTML files directly, and WeChat's brow
 
 ## My footnote disappeared
 
-Writing `[^1]` now **fails with `DOC-105`** rather than vanishing silently. Alternatives in [GFM extensions](/en/write/markdown/gfm).
+Writing `[^1]` now **fails with `DOC-105`** rather than vanishing silently. Alternatives in [GFM extensions](/en/write/blocks/table).
 
 ## Can I write inline maths
 

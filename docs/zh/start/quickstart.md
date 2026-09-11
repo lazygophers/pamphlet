@@ -124,5 +124,5 @@ npx @nekoleapuki/pamphlet-cli build 方案.md --verbose
 ## 接下来
 
 - 常用的话[装到本地](/start/install)，命令名就变成 `pamphlet`，不用每次打 `npx @nekoleapuki/pamphlet-cli`
-- [九个指令怎么写](/write/directives/) —— 提示块、标签页、折叠、步骤
+- [九个指令怎么写](/write/components/) —— 提示块、标签页、折叠、步骤
 - [产物是什么样的](/design/output) —— 它承诺什么、不承诺什么

@@ -28,7 +28,7 @@ jobs:
       - run: npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md"
 ```
 
-**通配符必须加引号** —— 不加的话 shell 会先抢着展开，而 `bash` 默认不支持 `**` 递归匹配，结果是只检查了一层却没有任何报错。详见[图片与资源](/write/assets)。
+**通配符必须加引号** —— 不加的话 shell 会先抢着展开，而 `bash` 默认不支持 `**` 递归匹配，结果是只检查了一层却没有任何报错。详见[图片与资源](/write/diagrams/images)。
 
 ## 把警告也当成失败
 

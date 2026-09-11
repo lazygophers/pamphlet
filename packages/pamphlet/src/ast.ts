@@ -9,7 +9,7 @@ import type { Root as MdastRoot, RootContent } from 'mdast'
 
 /**
  * 全部容器指令。语法规则见 ADR-0038：
- * `[label]` 永远是给读者看的标题，`{attrs}` 永远是给编译器看的参数。
+ * `[label]` 永远是给读者看的**指令标题**，`{attrs}` 永远是给编译器看的参数。
  */
 export const KNOWN_DIRECTIVES = [
   'tabs',
@@ -32,7 +32,7 @@ export function isCallout(name: string): name is CalloutDirective {
   return (CALLOUT_DIRECTIVES as readonly string[]).includes(name)
 }
 
-/** 标题必填的指令：没有标题就没法点开或切换 */
+/** 指令标题必填的那两个：没有它就没法点开或切换 */
 export const LABEL_REQUIRED = ['tab', 'collapse'] as const
 
 /** `:::reveal{effect=…}` 认识的效果名，缺省 fade-up */

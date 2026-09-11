@@ -49,13 +49,13 @@ error[DIR-203] 指令 :::tabs 没有闭合
   = 在它的内容之后补一行 ::::（闭合的冒号数要不少于开启的）
   https://lazygophers.github.io/pamphlet/reference/diagnostics.html#dir-203
 
-error[DIR-204] tab 缺少标题
+error[DIR-204] tab 缺少指令标题
   --> broken.md:9:1
   |
 9 | :::tab
   | ^
   |
-  = 标题写在方括号里：:::tab[标题]。Tab 的标题就是那个可以点的按钮
+  = 指令标题写在方括号里：:::tab[指令标题]。Tab 的指令标题就是那个可以点的按钮
   https://lazygophers.github.io/pamphlet/reference/diagnostics.html#dir-204
 
 warning[DIR-201] 未知指令 calout，内容已按普通段落输出

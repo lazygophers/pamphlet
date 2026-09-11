@@ -74,9 +74,14 @@ _Avoid_: 错误框, fallback, placeholder
 四种提示块的统称。它**不是指令名**——四个指令名分别是 `info` / `tip` / `warn` / `danger`。产物里它们只有左侧一条竖线的颜色不同：底色四种共用 `--pf-bg-subtle`，也不渲染图标。
 _Avoid_: admonition, 警告框, `:::callout`
 
-**标题**:
+**指令标题**:
 指令的 `[label]` 部分，给读者看的那行字。区别于「属性」。
-_Avoid_: label, 名称, 标签
+**不叫「标题」**——那个词归 Markdown 的 `#`（一到六级），两个不同的东西不能同名。
+_Avoid_: label, 名称, 标签, 标题
+
+**标题**:
+Markdown 的 `#` 到 `######`，一到六级。文档里第一个 `#` 是文档标题本身，不进目录。
+_Avoid_: heading, 章节名, 指令的 `[label]`
 
 **属性**:
 指令的 `{attrs}` 部分，给编译器看的参数（`{default}`、`{effect=fade-up}`）。

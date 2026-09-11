@@ -22,7 +22,7 @@ pamphlet build 方案.md --theme editorial
 
 链接、Tab 的选中下划线、步骤的圆圈全部跟着变 —— 因为它们的默认值都是从 `--pf-primary` 派生的。
 
-这条能生效是因为[裸 HTML 原样通过](/write/markdown/commonmark)。
+这条能生效是因为[裸 HTML 原样通过](/write/)。
 
 ## 改一整套
 

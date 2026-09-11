@@ -2,18 +2,23 @@
   "index",
   {
     "type": "dir",
-    "name": "markdown",
-    "label": "Basic syntax"
+    "name": "text",
+    "label": "Text formatting"
   },
   {
     "type": "dir",
-    "name": "directives",
-    "label": "Directives"
+    "name": "blocks",
+    "label": "Paragraphs and lists"
+  },
+  {
+    "type": "dir",
+    "name": "components",
+    "label": "Interactive components"
   },
   {
     "type": "dir",
     "name": "diagrams",
     "label": "Diagrams"
   },
-  "assets"
+  "html"
 ]

@@ -124,5 +124,5 @@ The segments do not overlap and add up to the whole file. Pamphlet **sets no siz
 ## Next
 
 - If you use it often, [install it](/en/start/install) so the command becomes `pamphlet` instead of `npx @nekoleapuki/pamphlet-cli`
-- [The nine directives](/en/write/directives/) — callouts, tabs, collapsibles, steps
+- [The nine directives](/en/write/components/) — callouts, tabs, collapsibles, steps
 - [What the output is](/en/design/output) — what it promises and what it does not

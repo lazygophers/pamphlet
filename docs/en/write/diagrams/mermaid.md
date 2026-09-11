@@ -1,48 +1,10 @@
-# Mermaid
+# Mermaid (the drawing engine)
 
-**The only engine implemented in this version.** One fence language, `mermaid`, covering more than a dozen kinds of diagram.
+## What it is
 
-````markdown
-```mermaid
-flowchart LR
-  A[request] --> B{in Redis?}
-  B -->|yes| C[return it]
-  B -->|no| D[query database]
-```
-````
+**Every diagram above is drawn by it.** Mermaid turns text into pictures, and it is the **only engine implemented** in this version.
 
-Mermaid's own syntax reference is at <https://mermaid.js.org/intro/>. Pamphlet neither changes its syntax nor adds extensions to it.
-
-
-## Which kinds it draws
-
-Every one of them appears for real in the [example document](https://lazygophers.github.io/pamphlet/demo/), with colours that follow the theme. The first keyword decides the kind:
-
-| Write | You get |
-|---|---|
-| `flowchart` / `graph` | Flowcharts. **Data-flow diagrams too**: boxes for external actors, rounded nodes for processes, `[(…)]` for stores |
-| `sequenceDiagram` | Sequence diagrams |
-| `stateDiagram-v2` | State diagrams |
-| `classDiagram` | Class diagrams |
-| `erDiagram` | Entity-relationship diagrams |
-| `gantt` | Gantt charts |
-| `pie` | Pie charts |
-| `architecture-beta` | **Architecture diagrams**, with built-in `cloud` `database` `disk` `server` icons |
-| `C4Context` / `C4Container` / `C4Component` | **System context diagrams** (the C4 model) |
-| `mindmap` | Mind maps |
-| `gitGraph` | Branch graphs |
-| `block-beta` | Block diagrams |
-| `timeline` / `quadrantChart` / `journey` / `packet-beta` / `radar-beta` / `xychart-beta` | They render, but **a few colours do not follow the theme** and report `DIAG-304` |
-
-:::warn Two kinds reject non-ASCII labels
-The parsers for `sankey-beta` and `requirementDiagram` only accept ASCII identifiers; CJK node names fail outright with `DIAG-303`. Verified against mermaid 11.17.2.
-
-For flow quantities, use a `flowchart` and put the numbers on the edge labels.
-:::
-
-:::info Architecture IDs must be ASCII
-In `architecture-beta`, group and service **IDs** have to be ASCII (`service src(disk)[Source]`); the **label** in brackets can be anything.
-:::
+One fence language, `mermaid`; the first keyword decides which kind of diagram you get.
 
 ## Install it once
 
@@ -80,18 +42,25 @@ Measured:
 
 The `DIAG-303` timeout is **10 seconds**, roughly 13× the worst measured case.
 
-## When the diagram source is wrong
+## Which kinds it draws
 
-You get `DIAG-303`, and the hint suggests pasting the source into <https://mermaid.live> — Mermaid's official online editor, whose errors are clearer than the command line's.
+Thirteen, one page each:
 
-## One extra step in CI
+[Flowcharts](/en/write/diagrams/flowchart) · [Sequence](/en/write/diagrams/sequence) · [State](/en/write/diagrams/state) · [Class](/en/write/diagrams/class) · [ER](/en/write/diagrams/er) · [Gantt](/en/write/diagrams/gantt) · [Pie](/en/write/diagrams/pie) · [Architecture](/en/write/diagrams/architecture) · [System context](/en/write/diagrams/c4) · [Data flow](/en/write/diagrams/dataflow) · [Mind maps](/en/write/diagrams/mindmap) · [Branch graphs](/en/write/diagrams/gitgraph) · [Block](/en/write/diagrams/block)
 
-The image needs Chromium and its system dependencies:
+### They render, but imperfectly
 
-```bash
-npx playwright install --with-deps chromium
-```
+`timeline` / `quadrantChart` / `journey` / `packet-beta` / `radar-beta` / `xychart-beta` draw, but **a few colours do not follow the theme** and they report `DIAG-304`. The engine computes those colours from the primary colour, and the computed values are neither our sentinels nor caught by the substitution.
 
-A full CI setup is in [Checking documents in CI](/en/howto/ci).
+### Two kinds reject non-ASCII labels
 
-> Source: [ADR-0004](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0004-mermaid-via-headless-browser.md)
+The parsers for `sankey-beta` and `requirementDiagram` **only accept ASCII identifiers**; CJK node names fail outright with `DIAG-303`. Verified against mermaid 11.17.2.
+
+For flow quantities, use a [flowchart](/en/write/diagrams/flowchart) and put the numbers on the edge labels.
+
+## When the source is wrong
+
+You get `DIAG-303`, and the hint suggests pasting the source into <https://mermaid.live> — Mermaid's own editor, whose errors are clearer than a command line's.
+
+**The output is still written when a diagram fails**: a placeholder box explains the reason in its place, the rest of the document is fine, and the exit code is `1`.
+

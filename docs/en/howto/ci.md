@@ -28,7 +28,7 @@ jobs:
       - run: npx @nekoleapuki/pamphlet-cli lint "docs/**/*.md"
 ```
 
-**Quote the glob.** Unquoted, the shell expands first, and `bash` does not match `**` recursively by default — so you check one level and nothing tells you. See [Images and assets](/en/write/assets).
+**Quote the glob.** Unquoted, the shell expands first, and `bash` does not match `**` recursively by default — so you check one level and nothing tells you. See [Images and assets](/en/write/diagrams/images).
 
 ## Treat warnings as failures
 

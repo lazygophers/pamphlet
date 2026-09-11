@@ -22,7 +22,7 @@ pamphlet build "docs/**/*.md" --continue-on-error
 | `--continue-on-error` | 某份出错后继续编译剩下的 |
 
 :::warning 通配符要加引号
-通配符由 Pamphlet 自己展开，不依赖 shell。**而且不做任何默认排除** —— `"**/*.md"` 会把 `node_modules` 里成百上千份第三方文档一起编译。详见[图片与资源](/write/assets)。
+通配符由 Pamphlet 自己展开，不依赖 shell。**而且不做任何默认排除** —— `"**/*.md"` 会把 `node_modules` 里成百上千份第三方文档一起编译。详见[图片与资源](/write/diagrams/images)。
 :::
 
 ## 图没画出来时仍然写出产物

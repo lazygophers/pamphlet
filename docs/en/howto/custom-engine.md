@@ -45,7 +45,7 @@ The cost is one process start per diagram. For compile-time work that happens on
 
 There is no substitute path. For diagrams other than Mermaid there are two options:
 
-1. **Draw the SVG yourself and paste it in as inline `<svg>`.** Note that it [bypasses sanitising and recolouring](/en/write/markdown/commonmark) — it will not follow the dark colour scheme.
-2. **Export it as an image and reference it.** Via [`![]()`](/en/write/assets), which base64-embeds it into the output.
+1. **Draw the SVG yourself and paste it in as inline `<svg>`.** Note that it [bypasses sanitising and recolouring](/en/write/) — it will not follow the dark colour scheme.
+2. **Export it as an image and reference it.** Via [`![]()`](/en/write/diagrams/images), which base64-embeds it into the output.
 
 > Source: [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)

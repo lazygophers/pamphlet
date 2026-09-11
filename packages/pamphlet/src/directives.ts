@@ -1,6 +1,7 @@
 /**
  * 指令校验。语法规则只有一条（ADR-0038）：
- *   `[label]` 是给读者看的标题，`{attrs}` 是给编译器看的参数。
+ *   `[label]` 是给读者看的**指令标题**，`{attrs}` 是给编译器看的参数。
+ *   （「标题」这个词归 Markdown 的 `#`，指令方括号里那行字一律叫「指令标题」。）
  */
 
 import type { ContainerDirective, LeafDirective, TextDirective } from 'mdast-util-directive'
@@ -49,7 +50,7 @@ export function validateDirective(node: AnyDirective, ancestors: AnyDirective[])
     return [
       diagnostic('DIR-202', 'error', `${name} 必须写成容器指令（冒号成对包住内容）`, {
         start,
-        hint: `写法：${':'.repeat(3)}${name}${LABEL_REQUIRED.includes(name as 'tab' | 'collapse') ? '[标题]' : ''} … ${':'.repeat(3)}`,
+        hint: `写法：${':'.repeat(3)}${name}${LABEL_REQUIRED.includes(name as 'tab' | 'collapse') ? '[指令标题]' : ''} … ${':'.repeat(3)}`,
       }),
     ]
   }
@@ -111,12 +112,12 @@ function validateLabel(
   if (labelOf(node)) return []
   const why =
     name === 'tab'
-      ? 'Tab 的标题就是那个可以点的按钮'
-      : '折叠块没有标题，无 JavaScript 时降级成 <details> 也没有可点的部分'
+      ? 'Tab 的指令标题就是那个可以点的按钮'
+      : '折叠块没有指令标题，无 JavaScript 时降级成 <details> 也没有可点的部分'
   return [
-    diagnostic('DIR-204', 'error', `${name} 缺少标题`, {
+    diagnostic('DIR-204', 'error', `${name} 缺少指令标题`, {
       start,
-      hint: `标题写在方括号里：:::${name}[标题]。${why}`,
+      hint: `指令标题写在方括号里：:::${name}[指令标题]。${why}`,
     }),
   ]
 }
@@ -133,7 +134,7 @@ function validatePlacement(
   return [
     diagnostic('DIR-202', 'error', 'tab 只能直接放在 tabs 里面', {
       start,
-      hint: '外层的冒号要比内层多一个：::::tabs 里面套 :::tab[标题]',
+      hint: '外层的冒号要比内层多一个：::::tabs 里面套 :::tab[指令标题]',
     }),
   ]
 }
@@ -147,7 +148,7 @@ function validateTabsChildren(node: ContainerDirective, start: Point): Diagnosti
     return [
       diagnostic('DIR-204', 'error', 'tabs 里面没有任何 tab', {
         start,
-        hint: '至少放一个 :::tab[标题] … :::；注意外层的冒号要比内层多一个',
+        hint: '至少放一个 :::tab[指令标题] … :::；注意外层的冒号要比内层多一个',
       }),
     ]
   }

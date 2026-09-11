@@ -1,1 +1,90 @@
-["index", "mermaid", "others"]
+[
+  "flowchart",
+  "sequence",
+  "state",
+  "class",
+  "er",
+  "gantt",
+  "pie",
+  "architecture",
+  "c4",
+  "dataflow",
+  "mindmap",
+  "gitgraph",
+  "block",
+  {
+    "type": "custom-link",
+    "label": "Mermaid (engine)",
+    "link": "/en/write/diagrams/mermaid",
+    "collapsed": true,
+    "items": [
+      {
+        "type": "custom-link",
+        "label": "Flowcharts",
+        "link": "/en/write/diagrams/flowchart"
+      },
+      {
+        "type": "custom-link",
+        "label": "Sequence",
+        "link": "/en/write/diagrams/sequence"
+      },
+      {
+        "type": "custom-link",
+        "label": "State",
+        "link": "/en/write/diagrams/state"
+      },
+      {
+        "type": "custom-link",
+        "label": "Class",
+        "link": "/en/write/diagrams/class"
+      },
+      {
+        "type": "custom-link",
+        "label": "ER",
+        "link": "/en/write/diagrams/er"
+      },
+      {
+        "type": "custom-link",
+        "label": "Gantt",
+        "link": "/en/write/diagrams/gantt"
+      },
+      {
+        "type": "custom-link",
+        "label": "Pie",
+        "link": "/en/write/diagrams/pie"
+      },
+      {
+        "type": "custom-link",
+        "label": "Architecture",
+        "link": "/en/write/diagrams/architecture"
+      },
+      {
+        "type": "custom-link",
+        "label": "System context",
+        "link": "/en/write/diagrams/c4"
+      },
+      {
+        "type": "custom-link",
+        "label": "Data flow",
+        "link": "/en/write/diagrams/dataflow"
+      },
+      {
+        "type": "custom-link",
+        "label": "Mind maps",
+        "link": "/en/write/diagrams/mindmap"
+      },
+      {
+        "type": "custom-link",
+        "label": "Branch graphs",
+        "link": "/en/write/diagrams/gitgraph"
+      },
+      {
+        "type": "custom-link",
+        "label": "Block",
+        "link": "/en/write/diagrams/block"
+      }
+    ]
+  },
+  "others",
+  "images"
+]

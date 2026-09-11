@@ -2,18 +2,23 @@
   "index",
   {
     "type": "dir",
-    "name": "markdown",
-    "label": "基础语法"
+    "name": "text",
+    "label": "文本格式"
   },
   {
     "type": "dir",
-    "name": "directives",
-    "label": "指令"
+    "name": "blocks",
+    "label": "段落与列表"
+  },
+  {
+    "type": "dir",
+    "name": "components",
+    "label": "交互组件"
   },
   {
     "type": "dir",
     "name": "diagrams",
     "label": "图表"
   },
-  "assets"
+  "html"
 ]

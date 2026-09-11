@@ -1,22 +1,96 @@
-# Writing
+# Syntax overview
 
-Pamphlet's syntax is a **strict CommonMark superset**: everything standard Markdown does keeps working, plus two additions.
+**This page lists every piece of syntax Pamphlet understands.** The menu on the left maps to it one-to-one: what is in the menu is here, and what is not here is not supported.
 
-| What you want to write | Which page |
+A source file is plain `.md` and still reads fine on GitHub.
+
+## Text formatting
+
+Things inside a sentence.
+
+| Write | Looks like | Notes |
+|---|---|---|
+| [Headings](/en/write/text/headings) | `# one` … `###### six` | Six levels; the first `#` is the document title and skips the ToC |
+| [Paragraphs and breaks](/en/write/text/paragraphs) | blank line separates | In-paragraph break: trailing backslash |
+| [Emphasis](/en/write/text/emphasis) | `**bold**` `*italic*` `~~struck~~` | Asterisks, not underscores, inside non-Latin runs |
+| [Inline code](/en/write/text/inline-code) | `` `code` `` | Verbatim; nothing inside is syntax |
+| [Escaping](/en/write/text/escaping) | `\*` `\#` `\|` | Show a character as itself |
+
+## Paragraphs and lists
+
+Things that own a block.
+
+| Write | Looks like | Notes |
+|---|---|---|
+| [Block quotes](/en/write/blocks/quote) | `> quoted` | Every line needs `>`, blank ones included |
+| [Lists](/en/write/blocks/lists) | `- item` / `1. item` / `- [x] item` | Unordered, ordered, task; nestable |
+| [Code blocks](/en/write/blocks/code) | ` ```ts ` around lines | Highlighted at compile time |
+| [Tables](/en/write/blocks/table) | `\| col \| col \|` | Column alignment; no merged cells |
+| [Thematic breaks](/en/write/blocks/rule) | `---` alone on a line | `---` at the very top is config, not a rule |
+
+## Interactive components
+
+The five things Pamphlet adds on top of standard Markdown, collectively [container directives](/en/write/components/). One rule: `:::name[label]{attributes}`.
+
+| Directive | What it does | Label | Attributes |
+|---|---|---|---|
+| [`info` `tip` `warn` `danger`](/en/write/components/callout) | Four kinds of callout | optional | none |
+| [`tabs` / `tab`](/en/write/components/tabs) | Tabbed panels | `tab` **required** | `default` |
+| [`collapse`](/en/write/components/collapse) | Collapsible block | **required** | `open` |
+| [`steps`](/en/write/components/steps) | Numbered steps | — | none |
+| [`reveal`](/en/write/components/reveal) | Reveal on scroll | — | `effect` |
+
+Attribute values: `default` and `open` take no value; `effect` is one of `fade-up` (default) / `fade-in` / `slide-left` / `slide-right`.
+
+`class` and `id` do not error, but **are not emitted** — the values are dropped silently.
+
+## Diagrams
+
+Written as a fenced code block with a language tag and drawn to SVG **at compile time**. The reader downloads no drawing library and makes no network request.
+
+| To draw | First line |
 |---|---|
-| Headings (six levels), paragraphs, line breaks, bold and italic, block quotes, lists, code blocks, links, images, rules, escaping | [Basic Markdown syntax](/en/write/markdown/commonmark) |
-| **Tables** (with column alignment), strikethrough, task lists, autolinks | [GFM extensions](/en/write/markdown/gfm) |
-| Callouts, tabs, collapsibles, steps, scroll reveals | [The nine directives](/en/write/directives/) |
-| Flowcharts, sequence, architecture, data-flow, C4, Gantt… | [Diagram fences](/en/write/diagrams/) |
-| Images, embedded fonts, size limits | [Images and assets](/en/write/assets) |
-| Document title, table of contents, theme, language | [Frontmatter reference](/en/reference/frontmatter) |
+| [Flowcharts](/en/write/diagrams/flowchart) | `flowchart LR` |
+| [Sequence](/en/write/diagrams/sequence) | `sequenceDiagram` |
+| [State](/en/write/diagrams/state) | `stateDiagram-v2` |
+| [Class](/en/write/diagrams/class) | `classDiagram` |
+| [ER](/en/write/diagrams/er) | `erDiagram` |
+| [Gantt](/en/write/diagrams/gantt) | `gantt` |
+| [Pie](/en/write/diagrams/pie) | `pie` |
+| [Architecture](/en/write/diagrams/architecture) | `architecture-beta` |
+| [System context](/en/write/diagrams/c4) | `C4Context` |
+| [Data flow](/en/write/diagrams/dataflow) | `flowchart LR` (shapes carry the roles) |
+| [Mind maps](/en/write/diagrams/mindmap) | `mindmap` |
+| [Branch graphs](/en/write/diagrams/gitgraph) | `gitGraph` |
+| [Block](/en/write/diagrams/block) | `block-beta` |
 
-**The first two rows are standard Markdown**; everything below is what Pamphlet adds. Each page spells the syntax out item by item rather than waving at "same as standard Markdown".
+All thirteen come from one engine, [Mermaid](/en/write/diagrams/mermaid), which needs installing once. The other seven fence languages (`d2` `dot` `math` `vega-lite` `wavedrom` `bytefield` `plantuml`) are **not implemented**; using one reports `DIAG-301` and fails the build — see [The other seven](/en/write/diagrams/others).
 
-To look up what a directive takes, go to the [syntax cheat sheet](/en/reference/syntax) — that page is tables only, no explanation.
+Images have their own page: [Images and assets](/en/write/diagrams/images).
 
-## Source files have no special extension
+## Whole-document settings
 
-A source file is just `.md`, and it still reads fine on GitHub: directives show up as ordinary paragraphs, and ` ```mermaid ` fences are rendered natively by GitHub.
+Not written in the body but between the `---` pair at the very top.
 
-This is called **escape compatibility** — your content is never locked inside Pamphlet.
+| Field | What it does |
+|---|---|
+| `title` | The output's browser-tab title |
+| `theme` | Which [built-in theme](/en/reference/themes) to use |
+| `toc` | Table of contents: on/off, depth, side or inline |
+| `lang` | The output's language attribute |
+| `spec` | Minimum compiler version this document needs |
+
+Full details in the [frontmatter reference](/en/reference/frontmatter).
+
+## Not supported
+
+| If you write it | |
+|---|---|
+| **Footnotes** `[^1]` | `DOC-105`, an **error**. Dropping them silently would make your notes vanish, so it errors instead. Use a parenthetical or a `:::info` block |
+| **Inline maths** `$x$` | Unsupported; only a block ` ```math ` fence exists, and that is not implemented either |
+| **`:::callout`** | `DIR-201` warning. `callout` is the collective name for the four callouts, not a directive |
+| **Single-line directives** `::name[content]` | `DIR-202`. All nine directives are container directives |
+
+## You can also write HTML
+
+HTML in a source file **passes through unfiltered** — both an escape hatch and the one place that can override the theme system. See [Raw HTML](/en/write/html).

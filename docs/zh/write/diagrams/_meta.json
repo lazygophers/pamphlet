@@ -1,1 +1,90 @@
-["index", "mermaid", "others"]
+[
+  "flowchart",
+  "sequence",
+  "state",
+  "class",
+  "er",
+  "gantt",
+  "pie",
+  "architecture",
+  "c4",
+  "dataflow",
+  "mindmap",
+  "gitgraph",
+  "block",
+  {
+    "type": "custom-link",
+    "label": "Mermaid（引擎）",
+    "link": "/write/diagrams/mermaid",
+    "collapsed": true,
+    "items": [
+      {
+        "type": "custom-link",
+        "label": "流程图",
+        "link": "/write/diagrams/flowchart"
+      },
+      {
+        "type": "custom-link",
+        "label": "时序图",
+        "link": "/write/diagrams/sequence"
+      },
+      {
+        "type": "custom-link",
+        "label": "状态图",
+        "link": "/write/diagrams/state"
+      },
+      {
+        "type": "custom-link",
+        "label": "类图",
+        "link": "/write/diagrams/class"
+      },
+      {
+        "type": "custom-link",
+        "label": "实体关系图",
+        "link": "/write/diagrams/er"
+      },
+      {
+        "type": "custom-link",
+        "label": "甘特图",
+        "link": "/write/diagrams/gantt"
+      },
+      {
+        "type": "custom-link",
+        "label": "饼图",
+        "link": "/write/diagrams/pie"
+      },
+      {
+        "type": "custom-link",
+        "label": "架构图",
+        "link": "/write/diagrams/architecture"
+      },
+      {
+        "type": "custom-link",
+        "label": "系统上下文图",
+        "link": "/write/diagrams/c4"
+      },
+      {
+        "type": "custom-link",
+        "label": "数据流图",
+        "link": "/write/diagrams/dataflow"
+      },
+      {
+        "type": "custom-link",
+        "label": "思维导图",
+        "link": "/write/diagrams/mindmap"
+      },
+      {
+        "type": "custom-link",
+        "label": "git 分支图",
+        "link": "/write/diagrams/gitgraph"
+      },
+      {
+        "type": "custom-link",
+        "label": "块图",
+        "link": "/write/diagrams/block"
+      }
+    ]
+  },
+  "others",
+  "images"
+]

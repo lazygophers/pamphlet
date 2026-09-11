@@ -45,7 +45,7 @@ engines:
 
 没有替代路径。要画 Mermaid 之外的图，只有两条：
 
-1. **自己画成 SVG，用内联 `<svg>` 贴进文档。** 注意它[绕过消毒和换色](/write/markdown/commonmark) —— 切深色模式时不会跟着变。
-2. **画成图片再引用。** 走 [`![]()`](/write/assets)，会被 base64 内嵌进产物。
+1. **自己画成 SVG，用内联 `<svg>` 贴进文档。** 注意它[绕过消毒和换色](/write/) —— 切深色模式时不会跟着变。
+2. **画成图片再引用。** 走 [`![]()`](/write/diagrams/images)，会被 base64 内嵌进产物。
 
 > 出处：[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)

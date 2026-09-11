@@ -1,6 +1,9 @@
 [
-  "syntax",
-  { "type": "dir", "name": "cli", "label": "Command line" },
+  {
+    "type": "dir",
+    "name": "cli",
+    "label": "Command line"
+  },
   "frontmatter",
   "themes",
   "theme-tokens",

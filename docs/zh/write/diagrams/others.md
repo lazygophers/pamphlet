@@ -34,7 +34,7 @@ E = mc^2
 
 原因是 `$` 在技术文档里到处都是 —— `$ npm install`、`$HOME`、`$99` —— 支持它就必须设计冲突判定和转义规则，而误判会把一段正常文字变成公式。
 
-只有一个符号也要写成块级围栏；或者用裸 HTML 的 `<sub>` / `<sup>`（[裸 HTML 原样通过](/write/markdown/commonmark)）。
+只有一个符号也要写成块级围栏；或者用裸 HTML 的 `<sub>` / `<sup>`（[裸 HTML 原样通过](/write/)）。
 
 顺带一提，数学引擎选的是 MathJax v3 而不是 KaTeX：KaTeX 默认输出 HTML+CSS 而不是 SVG（<https://katex.org/>），不适合「预渲染为内联 SVG」这条管线。
 

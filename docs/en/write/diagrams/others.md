@@ -34,7 +34,7 @@ E = mc^2
 
 `$` is everywhere in technical writing — `$ npm install`, `$HOME`, `$99`. Supporting it would require conflict detection and escaping rules, and a false positive turns ordinary prose into a formula.
 
-Even a single symbol has to be a block fence; or use raw HTML `<sub>` / `<sup>` ([raw HTML passes through](/en/write/markdown/commonmark)).
+Even a single symbol has to be a block fence; or use raw HTML `<sub>` / `<sup>` ([raw HTML passes through](/en/write/)).
 
 Incidentally the maths engine will be MathJax v3 rather than KaTeX: KaTeX emits HTML+CSS rather than SVG by default (<https://katex.org/>), which does not suit a "pre-render to inline SVG" pipeline.
 

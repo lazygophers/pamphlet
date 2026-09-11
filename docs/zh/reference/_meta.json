@@ -1,6 +1,9 @@
 [
-  "syntax",
-  { "type": "dir", "name": "cli", "label": "命令行" },
+  {
+    "type": "dir",
+    "name": "cli",
+    "label": "命令行"
+  },
   "frontmatter",
   "themes",
   "theme-tokens",
