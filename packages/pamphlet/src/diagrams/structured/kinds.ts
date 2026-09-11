@@ -14,10 +14,10 @@ import { renderChart, renderOrgchart, renderSwimlane, renderTopology } from './s
 import {
   parseDeclaration,
   parseRelation,
+  parseRelations,
   requireBlock,
   unknownTargets,
   type Declaration,
-  type Entry,
   type Relation,
 } from './parse.js'
 
@@ -43,6 +43,9 @@ export const STRUCTURED_KINDS = [
 ] as const
 export type StructuredKind = (typeof STRUCTURED_KINDS)[number]
 
+/** 自己算布局、自己出 SVG 的四种：Mermaid 画不了，也就不需要装引擎 */
+export const SELF_DRAWN_KINDS = ['swimlane', 'topology', 'chart', 'orgchart'] as const
+
 export function isStructuredKind(name: string): name is StructuredKind {
   return (STRUCTURED_KINDS as readonly string[]).includes(name)
 }
@@ -62,23 +65,17 @@ export const STRUCTURED_ATTRIBUTES: Record<StructuredKind, readonly string[]> = 
   mindmap: [],
   gitgraph: [],
   block: ['columns'],
-  swimlane: ['dir'],
+  swimlane: [],
   topology: [],
   chart: ['type'],
   orgchart: [],
 }
 
-const DIRECTIONS: Record<string, string> = {
-  LR: 'LR',
-  RL: 'RL',
-  TD: 'TD',
-  TB: 'TB',
-  BT: 'BT',
-}
+const DIRECTIONS = new Set(['LR', 'RL', 'TD', 'TB', 'BT'])
 
 function direction(attrs: TranslateInput['attrs'], fallback: string): string {
   const raw = typeof attrs['dir'] === 'string' ? attrs['dir'].toUpperCase() : ''
-  return DIRECTIONS[raw] ?? fallback
+  return DIRECTIONS.has(raw) ? raw : fallback
 }
 
 /** Mermaid 的标签里不能直接出现引号和方括号 */
@@ -164,7 +161,7 @@ function flowEdge(relation: Relation): string {
   return `${relation.from} -->${label} ${relation.to}`
 }
 
-const TRANSLATORS: Partial<Record<StructuredKind, (input: TranslateInput) => TranslateResult>> = {
+const TRANSLATORS: Record<StructuredKind, (input: TranslateInput) => TranslateResult> = {
   swimlane: renderSwimlane,
   topology: renderTopology,
   chart: renderChart,
@@ -195,7 +192,7 @@ const TRANSLATORS: Partial<Record<StructuredKind, (input: TranslateInput) => Tra
     graphLike(input, {
       declBlock: 'states',
       relBlock: 'transitions',
-      header: () => 'stateDiagram-v2',
+      header: (dir) => `stateDiagram-v2\n  direction ${dir === 'TD' ? 'TB' : dir}`,
       renderNode: (d) => (d.id === d.text ? `${d.id}` : `${d.id} : ${safe(d.text)}`),
       renderEdge: (r) =>
         `${r.from} --> ${r.to}${r.label === undefined ? '' : ` : ${safe(r.label)}`}`,
@@ -207,7 +204,7 @@ const TRANSLATORS: Partial<Record<StructuredKind, (input: TranslateInput) => Tra
     graphLike(input, {
       declBlock: 'classes',
       relBlock: 'relations',
-      header: () => 'classDiagram',
+      header: (dir) => `classDiagram\n  direction ${dir === 'TD' ? 'TB' : dir}`,
       renderNode: (d) => `class ${d.id}`,
       renderEdge: (r) =>
         `${r.from} --> ${r.to}${r.label === undefined ? '' : ` : ${safe(r.label)}`}`,
@@ -223,21 +220,14 @@ const TRANSLATORS: Partial<Record<StructuredKind, (input: TranslateInput) => Tra
     diagnostics.push(...decl.diagnostics, ...rel.diagnostics)
 
     const declarations = decl.entries.map(parseDeclaration)
-    const relations: Relation[] = []
-    for (const entry of rel.entries) {
-      // `-->` 是虚线回复，`->` 是实线请求——时序图里这两条语义不同
-      const parsed = parseRelation(entry, ['-->', '->'])
-      if (!parsed) {
-        diagnostics.push(
-          diagnostic('DIAG-306', 'error', '这一行不是一条消息', {
-            start: { line: entry.line, column: 1 },
-            hint: '写成 甲 -> 乙 : 消息内容；回复用 甲 --> 乙 : 内容',
-          }),
-        )
-        continue
-      }
-      relations.push(parsed)
-    }
+    // `-->` 是虚线回复，`->` 是实线请求——时序图里这两条语义不同
+    const { relations, diagnostics: relationDiagnostics } = parseRelations(
+      rel.entries,
+      ['-->', '->'],
+      '这一行不是一条消息',
+      '写成 甲 -> 乙 : 消息内容；回复用 甲 --> 乙 : 内容',
+    )
+    diagnostics.push(...relationDiagnostics)
     diagnostics.push(...unknownTargets(relations, new Set(declarations.map((d) => d.id))))
     if (diagnostics.some((d) => d.severity === 'error')) return { diagnostics }
 
@@ -261,6 +251,10 @@ const TRANSLATORS: Partial<Record<StructuredKind, (input: TranslateInput) => Tra
 
     // 任务行：`阶段 : 名字 : 起 : 长度`，起可以是 after 某个任务
     const bySection = new Map<string, string[]>()
+    const known = new Set<string>()
+    const sectionNames = new Set(
+      sections.entries.map((entry) => entry.text.split('=')[0]?.trim() ?? entry.text),
+    )
     for (const entry of tasks.entries) {
       const parts = entry.text.split(':').map((s) => s.trim())
       if (parts.length < 3) {
@@ -276,6 +270,18 @@ const TRANSLATORS: Partial<Record<StructuredKind, (input: TranslateInput) => Tra
       const list = bySection.get(section) ?? []
       list.push(`  ${name} :${rest.join(', ')}`)
       bySection.set(section, list)
+      known.add(section)
+    }
+    // 阶段名对不上时报错而不是静默丢掉那条任务——丢了作者不会发现
+    for (const name of known) {
+      if (sectionNames.has(name)) continue
+      const at = tasks.entries.find((entry) => entry.text.startsWith(name))
+      diagnostics.push(
+        diagnostic('DIAG-306', 'error', `没有叫 ${name} 的阶段`, {
+          start: { line: at?.line ?? input.at.line, column: 1 },
+          hint: `已经声明的阶段：${[...sectionNames].join(' / ')}`,
+        }),
+      )
     }
     if (diagnostics.some((d) => d.severity === 'error')) return { diagnostics }
 
@@ -390,20 +396,13 @@ const TRANSLATORS: Partial<Record<StructuredKind, (input: TranslateInput) => Tra
 
     // 服务行：`id = 图标 "文字"`，图标名直接透给 Mermaid
     const declarations = services.entries.map(parseDeclaration)
-    const relations: Relation[] = []
-    for (const entry of links.entries) {
-      const parsed = parseRelation(entry, ['--', '->'])
-      if (!parsed) {
-        diagnostics.push(
-          diagnostic('DIAG-306', 'error', '这一行不是一条连线', {
-            start: { line: entry.line, column: 1 },
-            hint: '写成 甲 -- 乙',
-          }),
-        )
-        continue
-      }
-      relations.push(parsed)
-    }
+    const { relations, diagnostics: linkDiagnostics } = parseRelations(
+      links.entries,
+      ['--', '->'],
+      '这一行不是一条连线',
+      '写成 甲 -- 乙',
+    )
+    diagnostics.push(...linkDiagnostics)
     diagnostics.push(...unknownTargets(relations, new Set(declarations.map((d) => d.id))))
     if (diagnostics.some((d) => d.severity === 'error')) return { diagnostics }
 
@@ -439,20 +438,13 @@ const TRANSLATORS: Partial<Record<StructuredKind, (input: TranslateInput) => Tra
         )
       }
     }
-    const parsedRelations: Relation[] = []
-    for (const entry of relations.entries) {
-      const parsed = parseRelation(entry, ['->'])
-      if (!parsed) {
-        diagnostics.push(
-          diagnostic('DIAG-306', 'error', '这一行不是一条关系', {
-            start: { line: entry.line, column: 1 },
-            hint: '写成 甲 -> 乙 : 做什么',
-          }),
-        )
-        continue
-      }
-      parsedRelations.push(parsed)
-    }
+    const { relations: parsedRelations, diagnostics: relationDiagnostics } = parseRelations(
+      relations.entries,
+      ['->'],
+      '这一行不是一条关系',
+      '写成 甲 -> 乙 : 做什么',
+    )
+    diagnostics.push(...relationDiagnostics)
     diagnostics.push(...unknownTargets(parsedRelations, new Set(declarations.map((d) => d.id))))
     if (diagnostics.some((d) => d.severity === 'error')) return { diagnostics }
 
@@ -473,9 +465,9 @@ const TRANSLATORS: Partial<Record<StructuredKind, (input: TranslateInput) => Tra
       declBlock: 'entities',
       relBlock: 'relations',
       header: () => 'erDiagram',
-      renderNode: () => '',
-      renderEdge: (r) =>
-        `${r.from} ||--o{ ${r.to} : ${safe(r.label ?? 'relates')}`,
+      // 空实体块 `甲 {}` 是必须的：只写关系的话，没参与任何关系的实体会整个消失
+      renderNode: (d) => `${d.id} {\n  }`,
+      renderEdge: (r) => `${r.from} ||--o{ ${r.to} : ${safe(r.label ?? 'relates')}`,
       defaultDir: 'TD',
       checkShapes: false,
     }),
@@ -494,28 +486,12 @@ const TITLE_SUPPORTED = new Set<StructuredKind>([
 ])
 
 export function translate(kind: StructuredKind, input: TranslateInput): TranslateResult {
-  const translator = TRANSLATORS[kind]
-  if (!translator) {
-    return {
-      diagnostics: [
-        diagnostic('DIAG-308', 'error', `${kind} 的自有写法还没实现`, {
-          start: input.at,
-          hint: `这一版先实现了 ${Object.keys(TRANSLATORS).join(' / ')}；其余的先用 \`\`\`mermaid 围栏写`,
-        }),
-      ],
-    }
-  }
-  const result = translator(input)
+  const result = TRANSLATORS[kind](input)
   if (result.mermaid === undefined || input.label === undefined) return result
   if (!TITLE_SUPPORTED.has(kind)) return result
-  // 指令标题成为图的标题，走 Mermaid 的 frontmatter 写法。
+  // 指令标题写进图里当图名，走 Mermaid 的 frontmatter 写法。
   // 不是每种图都吃这一套——block-beta 加上它会直接解析失败，所以按图种放行
   return { ...result, mermaid: `---\ntitle: ${safe(input.label)}\n---\n${result.mermaid}` }
-}
-
-/** 声明块里一条都没有时，调用方拿这个做兜底诊断 */
-export function emptyEntries(entries: readonly Entry[]): boolean {
-  return entries.length === 0
 }
 
 export type { TranslateInput, TranslateResult } from './types.js'

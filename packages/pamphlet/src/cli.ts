@@ -19,6 +19,7 @@ import { parse } from './parse.js'
 import { artifactPath, compileFile } from './compile.js'
 import { extract } from './assemble/index.js'
 import { createMermaidEngine } from './diagrams/mermaid.js'
+import { STRUCTURED_KINDS, SELF_DRAWN_KINDS } from './diagrams/structured/index.js'
 import { serveUntilInterrupt } from './serve.js'
 import { countBySeverity, formatDiagnostic, type FileReport } from './diagnostics.js'
 import type { SizeReport } from './assemble/report.js'
@@ -275,6 +276,15 @@ async function runDoctor(): Promise<number> {
       process.stdout.write(`✗ ${engine.name}（${engine.langs.join('、')}）：${probe.hint}\n`)
     }
   }
+  // 结构化写法是指令不是引擎，但作者关心的是同一个问题：这张图我现在画不画得出来
+  const selfDrawn = new Set<string>(SELF_DRAWN_KINDS)
+  const viaMermaid = STRUCTURED_KINDS.filter((kind) => !selfDrawn.has(kind))
+  process.stdout.write(
+    `\n结构化写法（:::flow 这一路）共 ${STRUCTURED_KINDS.length} 种：\n` +
+      `  翻译成 Mermaid 图源的 ${viaMermaid.length} 种：${viaMermaid.join(' / ')}\n` +
+      `  自己出 SVG、不需要引擎的 ${SELF_DRAWN_KINDS.length} 种：${SELF_DRAWN_KINDS.join(' / ')}\n`,
+  )
+
   return missing > 0 ? 3 : 0
 }
 

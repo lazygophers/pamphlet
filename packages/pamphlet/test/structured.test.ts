@@ -140,6 +140,16 @@ describe('其余几种翻译成 Mermaid 的图', () => {
     expect(code).toContain('b-->>a: 产物')
   })
 
+  it('关系块里那一行读不成关系时，三种图各自给自己的说法', () => {
+    expect(compiled(':::flow\nnodes:\n  a\nedges:\n  乱写\n:::').codes).toContain('DIAG-306')
+    expect(
+      compiled(':::sequence\nparticipants:\n  a\nmessages:\n  乱写\n:::').codes,
+    ).toContain('DIAG-306')
+    expect(
+      compiled(':::gantt\nsections:\n  设计\ntasks:\n  乱写\n:::').codes,
+    ).toContain('DIAG-306')
+  })
+
   it('饼图：名字和数值', () => {
     const { code } = compiled(':::pie\nslices:\n  样式 : 17\n  正文 : 12\n:::')
     expect(code).toContain('pie')
@@ -159,6 +169,38 @@ describe('其余几种翻译成 Mermaid 的图', () => {
   it('块图：每个格子有自己的 id，否则 block-beta 解析不了', () => {
     const { code } = compiled(':::block\nblocks:\n  甲 | - | 乙\n:::')
     expect(code).toContain('b1["甲"] space b2["乙"]')
+  })
+
+  it('git 图：branch / checkout / merge 三个操作原样带过去', () => {
+    const { code, codes } = compiled(
+      ':::gitgraph\ncommits:\n  commit 起步\n  branch dev\n  checkout dev\n  merge main\n:::',
+    )
+    expect(codes).toEqual([])
+    expect(code).toContain('branch dev')
+    expect(code).toContain('checkout dev')
+    expect(code).toContain('merge main')
+  })
+
+  it('块图：columns 属性决定一行几格', () => {
+    expect(compiled(':::block{columns=2}\nblocks:\n  甲 | 乙\n:::').code).toContain('columns 2')
+  })
+
+  it('架构图：连线那一行读不成一条连线时报错', () => {
+    expect(
+      compiled(':::architecture\nservices:\n  api = server "接口"\nlinks:\n  乱写\n:::').codes,
+    ).toContain('DIAG-306')
+  })
+
+  it('系统上下文图：不认识的角色类型报错', () => {
+    expect(
+      compiled(':::c4\nactors:\n  a = robot "机器人"\nrelations:\n  a -> a : 自己\n:::').codes,
+    ).toContain('DIAG-307')
+  })
+
+  it('系统上下文图：关系那一行读不成一条关系时报错', () => {
+    expect(
+      compiled(':::c4\nactors:\n  a = person "作者"\nrelations:\n  乱写\n:::').codes,
+    ).toContain('DIAG-306')
   })
 
   it('git 图：不认识的操作报错', () => {
@@ -201,6 +243,56 @@ describe('自己画 SVG 的四种', () => {
     expect(compiled(':::chart{type=donut}\npoints:\n  一月 : 1\n:::').codes).toContain('DIAG-307')
   })
 
+  it('网络拓扑：网段画成虚线框，主机排在框里，链路连起来并带标签', () => {
+    const { svg, codes } = compiled(
+      [
+        ':::topology',
+        'zones:',
+        '  dmz = "DMZ"',
+        '  lan = "内网"',
+        'hosts:',
+        '  gw = dmz "网关"',
+        '  app = lan "应用"',
+        'links:',
+        '  gw -- app : eth0',
+        ':::',
+      ].join('\n'),
+    )
+    expect(codes).toEqual([])
+    expect(svg).toContain('DMZ')
+    expect(svg).toContain('网关')
+    expect(svg).toContain('stroke-dasharray')
+    expect(svg).toContain('eth0')
+  })
+
+  it('网络拓扑：链路那一行读不成一条链路时报错', () => {
+    expect(
+      compiled(':::topology\nzones:\n  dmz = "DMZ"\nhosts:\n  gw = dmz "网关"\nlinks:\n  乱写\n:::')
+        .codes,
+    ).toContain('DIAG-306')
+  })
+
+  it('数据图表：数据点那一行没有数值时报错', () => {
+    expect(compiled(':::chart\npoints:\n  一月\n:::').codes).toContain('DIAG-306')
+  })
+
+  it('组织架构图：三层也画得出来，父子之间有连线', () => {
+    const { svg, codes } = compiled(
+      ':::orgchart\nmembers:\n  总部\n  > 一组\n  >> 甲\n  >> 乙\n  > 二组\n:::',
+    )
+    expect(codes).toEqual([])
+    expect(svg).toContain('甲')
+    expect(svg).toContain('<path')
+  })
+
+  it('泳道图：同一条道上连着两步时箭头首尾相接', () => {
+    const { svg } = compiled(
+      ':::swimlane[下单流程]\nlanes:\n  u = "用户"\nsteps:\n  u : 下单\n  u : 付款\n:::',
+    )
+    expect(svg).toContain('付款')
+    expect(svg).toContain('下单流程')
+  })
+
   it('网络拓扑：主机挂在不存在的网段上时报错', () => {
     expect(
       compiled(':::topology\nzones:\n  dmz = "DMZ"\nhosts:\n  h = ghost "主机"\n:::').codes,
@@ -222,12 +314,63 @@ describe('两套写法并存', () => {
     }
   })
 
-  it('没实现自有写法的图种给一条说得清的诊断', () => {
+  it('翻译器可以脱开解析直接调，结构进、图源出', () => {
     const result = translate('flow', {
       body: parseStructuredBody('nodes:\n  a\nedges:\n  a -> a', 1),
       attrs: {},
       at: { line: 1, column: 1 },
     })
-    expect(result.mermaid).toBeDefined()
+    expect(result.mermaid).toContain('flowchart')
+    expect(result.diagnostics).toEqual([])
+  })
+})
+
+describe('每一种都翻得出图源', () => {
+  /** 十七种各一份最小可用的指令体，兼作「这种图怎么写」的活样例 */
+  const SAMPLES: Record<string, string> = {
+    flow: 'nodes:\n  a\nedges:\n  a -> a',
+    sequence: 'participants:\n  a\n  b\nmessages:\n  a -> b : hi',
+    state: 'states:\n  idle\n  busy\ntransitions:\n  idle -> busy : 开工',
+    class: 'classes:\n  Parser\n  Ast\nrelations:\n  Parser -> Ast : 产出',
+    er: 'entities:\n  文档\n  图表\nrelations:\n  文档 -> 图表 : 含有',
+    gantt: 'sections:\n  设计\ntasks:\n  设计 : 画稿 : 2026-01-01 : 3d',
+    pie: 'slices:\n  样式 : 17',
+    architecture: 'services:\n  api = server "接口"\n  db = database "库"\nlinks:\n  api -- db',
+    c4: 'actors:\n  a = person "作者"\n  s = system "编译器"\nrelations:\n  a -> s : 写文档',
+    dataflow: 'nodes:\n  p = "编译"\n  db = cylinder "库"\nflows:\n  p -> db : 写入',
+    mindmap: 'root:\n  Pamphlet\nbranches:\n  > 语法',
+    gitgraph: 'commits:\n  commit 起步',
+    block: 'blocks:\n  甲 | 乙',
+  }
+
+  for (const [kind, body] of Object.entries(SAMPLES)) {
+    it(`${kind} 翻出图源且不带诊断`, () => {
+      const { code, codes } = compiled(`:::${kind}\n${body}\n:::`)
+      expect(codes, kind).toEqual([])
+      expect(code, kind).toBeTruthy()
+    })
+  }
+
+  it('状态图和类图把 dir 写成 Mermaid 的 direction，不静默丢掉', () => {
+    expect(compiled(`:::state{dir=LR}\n${SAMPLES['state']}\n:::`).code).toContain('direction LR')
+    // Mermaid 的 direction 不认 TD，只认 TB
+    expect(compiled(`:::class{dir=TD}\n${SAMPLES['class']}\n:::`).code).toContain('direction TB')
+  })
+
+  it('实体关系图给每个实体写一个空实体块，没连线的实体才不会消失', () => {
+    const { code } = compiled(':::er\nentities:\n  文档\n  孤儿\nrelations:\n  文档 -> 文档 : 引用\n:::')
+    expect(code).toContain('孤儿 {')
+  })
+
+  it('甘特图：任务挂在没声明过的阶段上时报错，不静默丢掉那条任务', () => {
+    const { codes, failed } = compiled(
+      ':::gantt\nsections:\n  设计\ntasks:\n  开发 : 写码 : 2026-01-01 : 3d\n:::',
+    )
+    expect(codes).toContain('DIAG-306')
+    expect(failed).toContain('开发')
+  })
+
+  it('甘特图的 axis 属性决定日期格式', () => {
+    expect(compiled(`:::gantt{axis=YYYY-MM}\n${SAMPLES['gantt']}\n:::`).code).toContain('YYYY-MM')
   })
 })

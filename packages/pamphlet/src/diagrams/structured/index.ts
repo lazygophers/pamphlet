@@ -12,6 +12,7 @@
 
 import type { Root, RootContent, Code } from 'mdast'
 import type { ContainerDirective } from 'mdast-util-directive'
+import type { DiagramData } from '../index.js'
 import type { Diagnostic } from '../../diagnostics.js'
 import { diagnostic } from '../../diagnostics.js'
 import { parseStructuredBody } from './parse.js'
@@ -22,7 +23,12 @@ import {
   type StructuredKind,
 } from './kinds.js'
 
-export { STRUCTURED_KINDS, STRUCTURED_ATTRIBUTES, isStructuredKind } from './kinds.js'
+export {
+  STRUCTURED_KINDS,
+  STRUCTURED_ATTRIBUTES,
+  SELF_DRAWN_KINDS,
+  isStructuredKind,
+} from './kinds.js'
 export type { StructuredKind } from './kinds.js'
 
 /**
@@ -91,13 +97,7 @@ function expandOne(
   // 自己画的那四种：SVG 已经好了，挂在 data 上直接内联。
   // 语言名故意不是围栏语言，图表管线就不会再去渲染它一遍
   if (result.svg !== undefined) {
-    return {
-      type: 'code',
-      lang: 'pf-svg',
-      value: '',
-      position: node.position,
-      data: { svg: result.svg },
-    } as Code
+    return codeNode(node, 'pf-svg', '', { svg: result.svg })
   }
 
   // 翻译不出来时也换成一个节点：那张图的位置留占位框写明原因，
@@ -105,20 +105,28 @@ function expandOne(
   if (result.mermaid === undefined) {
     const reason =
       result.diagnostics.find((d) => d.severity === 'error')?.message ?? `${kind} 写错了`
-    return {
-      type: 'code',
-      lang: 'pf-svg',
-      value: body,
-      position: node.position,
-      data: { failed: { reason } },
-    } as Code
+    return codeNode(node, 'pf-svg', body, { failed: { reason } })
   }
 
+  return codeNode(node, 'mermaid', result.mermaid)
+}
+
+/**
+ * 造一个替换用的代码节点。`data` 走图表管线那份 `DiagramData`，
+ * 组装器取的就是它——这里断言一次，别处不再手搓 `as Code`。
+ */
+function codeNode(
+  node: ContainerDirective,
+  lang: string,
+  value: string,
+  data?: DiagramData,
+): Code {
   return {
     type: 'code',
-    lang: 'mermaid',
-    value: result.mermaid,
+    lang,
+    value,
     position: node.position,
+    ...(data !== undefined && { data: data as Code['data'] }),
   }
 }
 

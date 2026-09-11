@@ -241,3 +241,35 @@ exports[`golden 快照 > plain.md > AST 轮廓与 frontmatter 1`] = `
 `;
 
 exports[`golden 快照 > plain.md > 诊断 1`] = `""`;
+
+exports[`golden 快照 > structured-diagrams.md > AST 轮廓与 frontmatter 1`] = `
+{
+  "frontmatter": {
+    "title": "结构化写法",
+  },
+  "outline": [
+    "root @1",
+    "  yaml @1",
+    "  heading(depth=1) @5",
+    "    text @5",
+    "  code(lang=mermaid) @7",
+    "  code(lang=mermaid) @17",
+    "  code(lang=mermaid) @26",
+    "  code(lang=pf-svg) @34",
+    "  paragraph @43",
+    "    text @43",
+    "  code(lang=pf-svg) @45",
+  ],
+}
+`;
+
+exports[`golden 快照 > structured-diagrams.md > 诊断 1`] = `
+"error[DIAG-306] 连线里的 ghost 没有声明过
+   --> structured-diagrams.md:49:1
+   |
+49 |   a -> ghost
+   | ^
+   |
+   = 先在声明块里写上它，或者检查是不是拼错了
+   https://lazygophers.github.io/pamphlet/reference/diagnostics.html#diag-306"
+`;

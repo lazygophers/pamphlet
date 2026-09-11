@@ -44,7 +44,6 @@ export function parseStructuredBody(body: string, firstLine: number): Structured
   const blocks = new Map<string, Entry[]>()
   const diagnostics: Diagnostic[] = []
   let current: Entry[] | undefined
-  let currentName = ''
 
   body.split('\n').forEach((raw, index) => {
     const line = firstLine + index
@@ -63,7 +62,6 @@ export function parseStructuredBody(body: string, firstLine: number): Structured
         )
       }
       current = []
-      currentName = name
       blocks.set(name, current)
       return
     }
@@ -90,7 +88,6 @@ export function parseStructuredBody(body: string, firstLine: number): Structured
     )
   }
 
-  void currentName
   return { blocks, diagnostics }
 }
 
@@ -120,6 +117,11 @@ export function requireBlock(
  */
 export interface Declaration {
   id: string
+  /**
+   * 等号后面、引号前面的那个词。叫「形状」是因为流程图里它就是形状，
+   * 但每种图各自解释它：架构图当图标名、系统上下文图当角色类型、网络拓扑图当网段名。
+   * 解析这一层不判断对错，认不认识由各自的翻译器说了算。
+   */
   shape?: string
   text: string
   line: number
@@ -173,6 +175,30 @@ export function parseRelation(entry: Entry, arrows: readonly string[]): Relation
     return { from, to: rest, arrow, line: entry.line, ...(label !== undefined && { label }) }
   }
   return undefined
+}
+
+/**
+ * 把整块关系行读出来；读不成一条关系的那行给诊断（各图种的说法不同，所以文案由调用方给）。
+ */
+export function parseRelations(
+  entries: readonly Entry[],
+  arrows: readonly string[],
+  message: string,
+  hint: string,
+): { relations: Relation[]; diagnostics: Diagnostic[] } {
+  const relations: Relation[] = []
+  const diagnostics: Diagnostic[] = []
+  for (const entry of entries) {
+    const parsed = parseRelation(entry, arrows)
+    if (!parsed) {
+      diagnostics.push(
+        diagnostic('DIAG-306', 'error', message, { start: { line: entry.line, column: 1 }, hint }),
+      )
+      continue
+    }
+    relations.push(parsed)
+  }
+  return { relations, diagnostics }
 }
 
 /** 关系行引用了没声明过的名字——最常见的写错法 */

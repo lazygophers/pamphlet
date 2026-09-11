@@ -218,6 +218,44 @@ A diagram served from cache still runs the diagnostic. Without that step, "diagr
 
 ---
 
+### DIAG-305
+
+**A block in a structured diagram is malformed.** Severity `error`.
+
+The structured syntax (`:::flow` and friends) writes a block name on its own line with the entries indented under it. This code covers four ways to get that wrong:
+
+| What you wrote | What the hint says |
+|---|---|
+| No blocks at all | There must be at least one block name (e.g. `nodes:`) |
+| An entry before any block name | Write the block name first, then the entries |
+| The same block name more than once | Write each block once, with all its entries under it |
+| A block this diagram kind requires is missing | Add a `<block>:` line with the entries indented under it |
+
+The diagram's place gets a placeholder box; the document still compiles.
+
+### DIAG-306
+
+**A relation in a structured diagram is malformed.** Severity `error`.
+
+A line in the relation block does not read as a relation, or it references a name the declaration block never declared:
+
+- `a -> ghost` where `ghost` was never declared in `nodes:`
+- A pie slice whose value is not a number
+- A Gantt task filed under a section that was never declared
+- A git graph operation that is not recognised
+
+The hint lists the names that *were* declared, so typos are easy to spot.
+
+### DIAG-307
+
+**A structured diagram uses an unknown shape.** Severity `error`.
+
+The `triangle` in `a = triangle "A"` is not in this diagram kind's shape table. The hint lists the ones that are (for flowcharts: `box` / `round` / `stadium` / `diamond` / `circle` / `hexagon` / `cylinder` / `parallelogram`).
+
+`{type=donut}` on a chart reports the same code.
+
+---
+
 ## EMB-4xx asset embedding
 
 ### EMB-401

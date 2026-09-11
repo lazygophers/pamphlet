@@ -14,7 +14,7 @@
  */
 
 import { diagnostic, type Diagnostic } from '../../diagnostics.js'
-import { parseDeclaration, parseRelation, requireBlock, type Relation } from './parse.js'
+import { parseDeclaration, parseRelations, requireBlock } from './parse.js'
 import type { TranslateInput, TranslateResult } from './types.js'
 
 const FONT = 14
@@ -40,11 +40,22 @@ function escape(text: string): string {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
-function svg(width: number, height: number, body: string): string {
+/**
+ * 包一层 `<svg>`。给了指令标题就在顶上留一条 26px 的横带写标题，
+ * 图本身整体下移那么多——各渲染器的坐标因此不用改。
+ */
+function svg(width: number, height: number, body: string, title?: string): string {
+  const band = title === undefined ? 0 : 26
+  const total = height + band
+  const heading =
+    title === undefined
+      ? ''
+      : `<text x="12" y="17" fill="${TEXT}" font-size="15">${escape(title)}</text>`
   return (
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" ` +
-    `width="${width}" height="${height}" font-family="inherit" font-size="${FONT}">` +
-    `<rect width="${width}" height="${height}" fill="${BG}"/>${body}</svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${total}" ` +
+    `width="${width}" height="${total}" font-family="inherit" font-size="${FONT}">` +
+    `<rect width="${width}" height="${total}" fill="${BG}"/>${heading}` +
+    `<g transform="translate(0 ${band})">${body}</g></svg>`
   )
 }
 
@@ -146,7 +157,7 @@ export function renderSwimlane(input: TranslateInput): TranslateResult {
     x += w + gap
   })
 
-  return { svg: svg(width, height, parts.join('')), diagnostics }
+  return { svg: svg(width, height, parts.join(''), input.label), diagnostics }
 }
 
 /** 网络拓扑图：网段一个框，主机排在框里，链路连主机 */
@@ -171,20 +182,13 @@ export function renderTopology(input: TranslateInput): TranslateResult {
       )
     }
   }
-  const relations: Relation[] = []
-  for (const entry of links) {
-    const parsed = parseRelation(entry, ['--', '->'])
-    if (!parsed) {
-      diagnostics.push(
-        diagnostic('DIAG-306', 'error', '这一行不是一条链路', {
-          start: { line: entry.line, column: 1 },
-          hint: '写成 甲 -- 乙，要标端口就再加 : 标签',
-        }),
-      )
-      continue
-    }
-    relations.push(parsed)
-  }
+  const { relations, diagnostics: linkDiagnostics } = parseRelations(
+    links,
+    ['--', '->'],
+    '这一行不是一条链路',
+    '写成 甲 -- 乙，要标端口就再加 : 标签',
+  )
+  diagnostics.push(...linkDiagnostics)
   if (diagnostics.some((d) => d.severity === 'error')) return { diagnostics }
 
   const boxHeight = FONT + PAD_Y * 2 + 4
@@ -231,7 +235,7 @@ export function renderTopology(input: TranslateInput): TranslateResult {
     }
   }
 
-  return { svg: svg(Math.max(maxWidth, 240), y, parts.join('')), diagnostics }
+  return { svg: svg(Math.max(maxWidth, 240), y, parts.join(''), input.label), diagnostics }
 }
 
 /** 数据图表：柱状或折线 */
@@ -309,7 +313,7 @@ export function renderChart(input: TranslateInput): TranslateResult {
     }
   }
 
-  return { svg: svg(width, height, parts.join('')), diagnostics }
+  return { svg: svg(width, height, parts.join(''), input.label), diagnostics }
 }
 
 /** 组织架构图：自上而下的树，按子树宽度分配横向空间 */
@@ -398,5 +402,5 @@ export function renderOrgchart(input: TranslateInput): TranslateResult {
   }
 
   const height = 24 + (maxDepth + 1) * boxHeight + maxDepth * levelGap
-  return { svg: svg(totalWidth + 24, height, parts.join('')), diagnostics }
+  return { svg: svg(totalWidth + 24, height, parts.join(''), input.label), diagnostics }
 }
