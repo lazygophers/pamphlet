@@ -64,3 +64,15 @@ You get `DIAG-303`, and the hint suggests pasting the source into <https://merma
 
 **The output is still written when a diagram fails**: a placeholder box explains the reason in its place, the rest of the document is fine, and the exit code is `1`.
 
+
+## CI needs one extra step
+
+The image needs Chromium and its system dependencies:
+
+```bash
+npx playwright install --with-deps chromium
+```
+
+See [checking docs in CI](/howto/ci) for a full CI configuration.
+
+> Source: [ADR-0004](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0004-mermaid-via-headless-browser.md)
