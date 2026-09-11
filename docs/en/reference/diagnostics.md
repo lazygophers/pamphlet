@@ -68,12 +68,11 @@ The diagnostic points at **the line of the offending field**, not vaguely at the
 
 ### DOC-104
 
-**The value is valid but this version does not implement it.** Severity depends on the field.
+**The value is valid but this version does not implement it.** Severity `warning`.
 
-Two cases today:
+One case today: `engines` (custom engines) — the declaration has no effect for now; the built-in engines keep working.
 
-- `engines` (custom engines) — `warning`; the declaration has no effect for now
-- `toc.position: side` (sticky sidebar) — `error`
+(`toc.position: side` used to report this too. Once the side menu was implemented it became the default, and it no longer reports anything.)
 
 ### DOC-105
 

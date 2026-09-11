@@ -71,6 +71,6 @@ Using a planned one reports `DIAG-301` and fails the build.
 | `toc` | boolean or object | off |
 | `engines` | object | ⚠️ not implemented |
 
-`toc` subfields: `enable` (boolean, default `false`) / `deep` (1–6, default `2`) / `skipTabs` (boolean, default `true`) / `position` (`top` / `side`, where `side` errors).
+`toc` subfields: `enable` (boolean, default `false`) / `deep` (1–6, default `2`) / `skipTabs` (boolean, default `true`) / `position` (`top` / `side`, default `side`).
 
 Full detail in the [frontmatter reference](/en/reference/frontmatter).

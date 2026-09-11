@@ -85,7 +85,7 @@ toc:
   enable: true
   deep: 3
   skipTabs: true
-  position: top
+  position: side
 ```
 
 | 子字段 | 类型 | 缺省 | 说明 |
@@ -93,7 +93,7 @@ toc:
 | `enable` | 布尔 | `false` | 不显式打开就没有目录 |
 | `deep` | 1–6 的整数 | `2` | 收到第几级标题 |
 | `skipTabs` | 布尔 | `true` | 目录里跳过 Tab 生成的标题 |
-| `position` | `top` / `side` | `top` | `side` 尚未实现 |
+| `position` | `top` / `side` | `side` | 常驻侧边菜单，或收在正文开头 |
 
 目录是**纯静态的**：一段嵌套列表加锚点链接，零 JavaScript。
 
@@ -105,16 +105,18 @@ Tab 面板在语义上是**同一话题的几种视角**，出现在目录里会
 
 但 Tab 标题为了无障碍和深链被做成了**真标题**，注定会进文档大纲 —— 所以目录这一侧必须有这个开关。
 
-### position: side 会报错
+### position 放哪一侧
+
+缺省是 `side`：一个常驻的侧边菜单，纯 CSS sticky，零 JavaScript。窄屏（< 60rem）自动退回文档顶部。
+
+想让目录收在正文开头、跟着页面一起往下滚：
 
 ```yaml
 toc:
-  position: side
+  position: top
 ```
 
-得到 `DOC-104` **错误**（不是警告），提示改用 `position: top`。
-
-报错而不是静默降级成 `top` 是有意的：静默降级会让你以为侧边栏已经生效了，只是样式没生效。
+这两个值之外的写法报 `DOC-103` 错误 —— 不静默退回缺省，否则你会以为写的那个值生效了。
 
 ## engines
 

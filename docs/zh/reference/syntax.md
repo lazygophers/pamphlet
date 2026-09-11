@@ -71,6 +71,6 @@
 | `toc` | 布尔或对象 | 关 |
 | `engines` | 对象 | ⚠️ 未实现 |
 
-`toc` 的子字段：`enable`（布尔，缺省 `false`）/ `deep`（1–6，缺省 `2`）/ `skipTabs`（布尔，缺省 `true`）/ `position`（`top` / `side`，`side` 报错）。
+`toc` 的子字段：`enable`（布尔，缺省 `false`）/ `deep`（1–6，缺省 `2`）/ `skipTabs`（布尔，缺省 `true`）/ `position`（`top` / `side`，缺省 `side`）。
 
 完整说明见 [frontmatter 参考](/reference/frontmatter)。
