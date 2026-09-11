@@ -10,6 +10,24 @@
 
 ## 怎么写
 
+Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
+
+````````````markdown
+:::architecture[编译阶段]
+services:
+  src = disk "源文档"
+  engine = server "图表引擎"
+  out = database "产物"
+links:
+  src -- engine
+  engine -- out
+:::
+````````````
+
+上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
+
+### 另一种写法：Mermaid 围栏
+
 ````````````markdown
 `````````mermaid
 architecture-beta

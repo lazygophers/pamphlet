@@ -17,6 +17,7 @@ import { isDirective, validateDirective, type AnyDirective } from './directives.
 import { diagnostic, type Diagnostic, type Point } from './diagnostics.js'
 import { parseFrontmatter } from './frontmatter.js'
 import { findUnclosedDirectives } from './unclosed.js'
+import { expandStructuredDiagrams } from './diagrams/structured/index.js'
 
 export interface ParseResult {
   ast: Root
@@ -45,6 +46,10 @@ export function parse(source: string): ParseResult {
     parsedFrontmatter = result.frontmatter
     diagnostics.push(...result.diagnostics)
   }
+
+  // 结构化图表指令先换成 mermaid 围栏，再走后面的校验——
+  // 换完树里就没有这些指令节点了，validateTree 不会把它们当成未知指令
+  diagnostics.push(...expandStructuredDiagrams(ast, source))
 
   diagnostics.push(...validateTree(ast))
 

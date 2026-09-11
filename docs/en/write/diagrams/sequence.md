@@ -10,6 +10,23 @@ Call order across services, a handshake, anywhere "who goes first" is unclear.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::sequence[One compile]
+participants:
+  author = "Author"
+  compiler = "Compiler"
+messages:
+  author -> compiler : pamphlet build plan.md
+  compiler --> author : plan.html
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 sequenceDiagram

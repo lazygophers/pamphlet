@@ -46,25 +46,31 @@ Pamphlet 在标准 Markdown 之上加的五种，统称[容器指令](/write/com
 
 ## 图表
 
-写成带语言标记的代码块，**编译时**就画成 SVG 内联进产物。读者那边不下载绘图库，也不联网。
+**两种写法都行**：Pamphlet 自己的结构化写法（`:::flow` 这一路，先列声明再列关系），或者 ` ```mermaid ` 围栏。两种都在**编译时**画成 SVG 内联进产物，读者那边不下载绘图库、也不联网。
 
-| 画什么 | 第一行写 |
-|---|---|
-| [流程图](/write/diagrams/flowchart) | `flowchart LR` |
-| [时序图](/write/diagrams/sequence) | `sequenceDiagram` |
-| [状态图](/write/diagrams/state) | `stateDiagram-v2` |
-| [类图](/write/diagrams/class) | `classDiagram` |
-| [实体关系图](/write/diagrams/er) | `erDiagram` |
-| [甘特图](/write/diagrams/gantt) | `gantt` |
-| [饼图](/write/diagrams/pie) | `pie` |
-| [架构图](/write/diagrams/architecture) | `architecture-beta` |
-| [系统上下文图](/write/diagrams/c4) | `C4Context` |
-| [数据流图](/write/diagrams/dataflow) | `flowchart LR`（用形状区分角色） |
-| [思维导图](/write/diagrams/mindmap) | `mindmap` |
-| [git 分支图](/write/diagrams/gitgraph) | `gitGraph` |
-| [块图](/write/diagrams/block) | `block-beta` |
+自有写法在 GitHub 上不渲染，围栏写法会——要哪一种看你把源文档发到哪里。
 
-十三种全部由 [Mermaid](/write/diagrams/mermaid) 这一个引擎画，要先装一次。其余七种引擎（`d2` `dot` `math` `vega-lite` `wavedrom` `bytefield` `plantuml`）**都还没实现**，写了报 `DIAG-301` 并且构建失败，见[其余七种](/write/diagrams/others)。
+| 画什么 | 自有写法 | Mermaid 围栏第一行 |
+|---|---|---|
+| [流程图](/write/diagrams/flowchart) | `:::flow` | `flowchart LR` |
+| [时序图](/write/diagrams/sequence) | `:::sequence` | `sequenceDiagram` |
+| [状态图](/write/diagrams/state) | `:::state` | `stateDiagram-v2` |
+| [类图](/write/diagrams/class) | `:::class` | `classDiagram` |
+| [实体关系图](/write/diagrams/er) | `:::er` | `erDiagram` |
+| [甘特图](/write/diagrams/gantt) | `:::gantt` | `gantt` |
+| [饼图](/write/diagrams/pie) | `:::pie` | `pie` |
+| [架构图](/write/diagrams/architecture) | `:::architecture` | `architecture-beta` |
+| [系统上下文图](/write/diagrams/c4) | `:::c4` | `C4Context` |
+| [数据流图](/write/diagrams/dataflow) | `:::dataflow` | `flowchart LR` |
+| [思维导图](/write/diagrams/mindmap) | `:::mindmap` | `mindmap` |
+| [git 分支图](/write/diagrams/gitgraph) | `:::gitgraph` | `gitGraph` |
+| [块图](/write/diagrams/block) | `:::block` | `block-beta` |
+| [泳道图](/write/diagrams/swimlane) | `:::swimlane` | — Mermaid 画不了 |
+| [网络拓扑图](/write/diagrams/topology) | `:::topology` | — Mermaid 画不了 |
+| [数据图表](/write/diagrams/chart) | `:::chart` | — Mermaid 画不了 |
+| [组织架构图](/write/diagrams/orgchart) | `:::orgchart` | — Mermaid 画不了 |
+
+**前十三种由 [Mermaid](/write/diagrams/mermaid) 画**（要先装一次），自有写法会被翻译成它的图源；**后四种 Mermaid 画不了**，由 Pamphlet 自己算布局、自己出 SVG，编译时不需要浏览器。其余七种引擎（`d2` `dot` `math` `vega-lite` `wavedrom` `bytefield` `plantuml`）**都还没实现**，写了报 `DIAG-301` 并且构建失败，见[其余七种](/write/diagrams/others)。
 
 图片单独一页：[图片与资源](/write/diagrams/images)。
 

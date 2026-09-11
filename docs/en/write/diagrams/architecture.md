@@ -10,6 +10,24 @@ Deployment architecture, what a system is composed of.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::architecture[Build stage]
+services:
+  src = disk "Source"
+  engine = server "Diagram engine"
+  out = database "Output"
+links:
+  src -- engine
+  engine -- out
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 architecture-beta

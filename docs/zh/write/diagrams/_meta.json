@@ -12,6 +12,10 @@
   "mindmap",
   "gitgraph",
   "block",
+  "swimlane",
+  "topology",
+  "chart",
+  "orgchart",
   {
     "type": "custom-link",
     "label": "Mermaid（引擎）",

@@ -10,6 +10,26 @@ Business processes, decision branches, the few hops of a request path.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::flow[Login path]{dir=LR}
+nodes:
+  request = "request"
+  cache = diamond "in cache?"
+  hit = "return it"
+  miss = cylinder "query the database"
+edges:
+  request -> cache
+  cache -> hit : yes
+  cache -> miss : no
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 flowchart LR

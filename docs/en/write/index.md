@@ -46,25 +46,31 @@ Attribute values: `default` and `open` take no value; `effect` is one of `fade-u
 
 ## Diagrams
 
-Written as a fenced code block with a language tag and drawn to SVG **at compile time**. The reader downloads no drawing library and makes no network request.
+**Two ways to write one**: Pamphlet's own structured syntax (`:::flow` and friends — declarations first, relationships second), or a ` ```mermaid ` fence. Both are drawn to SVG **at compile time** and inlined, so the reader downloads no drawing library and makes no network request.
 
-| To draw | First line |
-|---|---|
-| [Flowcharts](/en/write/diagrams/flowchart) | `flowchart LR` |
-| [Sequence](/en/write/diagrams/sequence) | `sequenceDiagram` |
-| [State](/en/write/diagrams/state) | `stateDiagram-v2` |
-| [Class](/en/write/diagrams/class) | `classDiagram` |
-| [ER](/en/write/diagrams/er) | `erDiagram` |
-| [Gantt](/en/write/diagrams/gantt) | `gantt` |
-| [Pie](/en/write/diagrams/pie) | `pie` |
-| [Architecture](/en/write/diagrams/architecture) | `architecture-beta` |
-| [System context](/en/write/diagrams/c4) | `C4Context` |
-| [Data flow](/en/write/diagrams/dataflow) | `flowchart LR` (shapes carry the roles) |
-| [Mind maps](/en/write/diagrams/mindmap) | `mindmap` |
-| [Branch graphs](/en/write/diagrams/gitgraph) | `gitGraph` |
-| [Block](/en/write/diagrams/block) | `block-beta` |
+The structured syntax does not render on GitHub; the fence does. Which you want depends on where the source file goes.
 
-All thirteen come from one engine, [Mermaid](/en/write/diagrams/mermaid), which needs installing once. The other seven fence languages (`d2` `dot` `math` `vega-lite` `wavedrom` `bytefield` `plantuml`) are **not implemented**; using one reports `DIAG-301` and fails the build — see [The other seven](/en/write/diagrams/others).
+| To draw | Own syntax | Mermaid fence keyword |
+|---|---|---|
+| [Flowcharts](/en/write/diagrams/flowchart) | `:::flow` | `flowchart LR` |
+| [Sequence](/en/write/diagrams/sequence) | `:::sequence` | `sequenceDiagram` |
+| [State](/en/write/diagrams/state) | `:::state` | `stateDiagram-v2` |
+| [Class](/en/write/diagrams/class) | `:::class` | `classDiagram` |
+| [ER](/en/write/diagrams/er) | `:::er` | `erDiagram` |
+| [Gantt](/en/write/diagrams/gantt) | `:::gantt` | `gantt` |
+| [Pie](/en/write/diagrams/pie) | `:::pie` | `pie` |
+| [Architecture](/en/write/diagrams/architecture) | `:::architecture` | `architecture-beta` |
+| [System context](/en/write/diagrams/c4) | `:::c4` | `C4Context` |
+| [Data flow](/en/write/diagrams/dataflow) | `:::dataflow` | `flowchart LR` |
+| [Mind maps](/en/write/diagrams/mindmap) | `:::mindmap` | `mindmap` |
+| [Branch graphs](/en/write/diagrams/gitgraph) | `:::gitgraph` | `gitGraph` |
+| [Block](/en/write/diagrams/block) | `:::block` | `block-beta` |
+| [Swimlane](/en/write/diagrams/swimlane) | `:::swimlane` | — Mermaid cannot |
+| [Network topology](/en/write/diagrams/topology) | `:::topology` | — Mermaid cannot |
+| [Data charts](/en/write/diagrams/chart) | `:::chart` | — Mermaid cannot |
+| [Org charts](/en/write/diagrams/orgchart) | `:::orgchart` | — Mermaid cannot |
+
+**The first thirteen are drawn by [Mermaid](/en/write/diagrams/mermaid)** (installed once); the structured syntax is translated into its source. **The last four Mermaid cannot draw** — Pamphlet lays those out and emits the SVG itself, with no browser needed at compile time. The other seven fence languages (`d2` `dot` `math` `vega-lite` `wavedrom` `bytefield` `plantuml`) are **not implemented**; using one reports `DIAG-301` and fails the build — see [The other seven](/en/write/diagrams/others).
 
 Images have their own page: [Images and assets](/en/write/diagrams/images).
 

@@ -10,6 +10,24 @@ A schedule, the timing of a release, the order of dependencies.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::gantt[Redesign schedule]
+sections:
+  Design
+  Build
+tasks:
+  Design : Draft : 2026-03-02 : 5d
+  Design : Review : after Draft : 2d
+  Build : Compiler : after Review : 8d
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 gantt

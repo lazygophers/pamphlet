@@ -10,6 +10,22 @@ Size breakdowns, cost shares, traffic sources.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::pie[Output size]
+slices:
+  diagram SVG : 48
+  styles : 17
+  body HTML : 12
+  runtime : 9
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 pie title Output size

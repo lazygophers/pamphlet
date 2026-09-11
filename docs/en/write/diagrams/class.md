@@ -10,6 +10,22 @@ Data structures, interface hierarchies, which module depends on which.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::class[Theme data]
+classes:
+  Theme
+  ThemeTokens
+relations:
+  Theme -> ThemeTokens : light / dark
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 classDiagram

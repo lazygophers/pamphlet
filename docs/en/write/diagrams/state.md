@@ -10,6 +10,25 @@ Order status, connection lifecycle, an approval flow.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::state[Compile states]
+states:
+  parse = "parse"
+  render = "render"
+  assemble = "assemble"
+transitions:
+  parse -> render : has a diagram fence
+  parse -> assemble : text only
+  render -> assemble
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 stateDiagram-v2

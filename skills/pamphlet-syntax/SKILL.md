@@ -118,6 +118,21 @@ flowchart LR
 
 - **本版本只实现了 `mermaid`。** `d2` / `dot` / `math` / `vega-lite` / `wavedrom` / `bytefield` / `plantuml` 写了报 `DIAG-301`，构建失败
 - 语言名就是引擎自己的名字，没有自有别名——在 Pamphlet 里练会的 Mermaid 语法，在 GitHub、Notion 里同样有效
+- **有两套写法**：Pamphlet 自己的结构化指令（`:::flow` / `:::sequence` / … 共十七种，指令体是「声明块 + 关系块」，关键字英文），和 ` ```mermaid ` 围栏。**两套永久并存**，自有写法是推荐写法，围栏写法在 GitHub 上能渲染
+- 自有写法长这样：
+
+  ```markdown
+  :::flow[登录链路]{dir=LR}
+  nodes:
+    request = "请求"
+    cache = diamond "有缓存吗？"
+  edges:
+    request -> cache : 先查
+  :::
+  ```
+
+  形状：`box`（缺省）/ `round` / `stadium` / `diamond` / `cylinder` / `circle`。块名按图种变：时序图是 `participants:` / `messages:`，甘特图是 `sections:` / `tasks:`，饼图是 `slices:`，思维导图是 `root:` / `branches:`
+- **泳道图 `:::swimlane`、网络拓扑 `:::topology`、数据图表 `:::chart`、组织架构 `:::orgchart` 只有自有写法**——Mermaid 画不了这四种，它们的 SVG 由 Pamphlet 自己生成，编译时不需要浏览器
 - **一个 `mermaid` 围栏画十几种图**，第一行的关键字决定画哪种：`flowchart` / `sequenceDiagram` / `stateDiagram-v2` / `classDiagram` / `erDiagram` / `gantt` / `pie` / `architecture-beta`（架构图）/ `C4Context`（系统上下文）/ `mindmap` / `gitGraph` / `block-beta`。**数据流图用 `flowchart`**：方框是外部的人、圆角是处理、`[(…)]` 是存起来的东西
 - **两种图不认中文**：`sankey-beta` 和 `requirementDiagram` 的解析器只认 ASCII 标识符，中文节点名直接报 `DIAG-303`。`architecture-beta` 的 ID 也必须是 ASCII，但方括号里的标签可以是中文
 - 图的颜色会被换成主题变量，所以深色模式下线和字一起变。换不掉的硬编码色值报 `DIAG-304` 警告

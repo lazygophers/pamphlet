@@ -10,6 +10,20 @@
 
 ## 怎么写
 
+Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
+
+````````````markdown
+:::block[编译的三段]{columns=3}
+blocks:
+  方案.md | - | 方案.html
+  解析 | 画图 | 组装
+:::
+````````````
+
+上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
+
+### 另一种写法：Mermaid 围栏
+
 ````````````markdown
 `````````mermaid
 block-beta

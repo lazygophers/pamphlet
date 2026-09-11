@@ -10,6 +10,28 @@ A data pipeline, the handling of one request.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::dataflow[Compiling a document]
+nodes:
+  author = "Author"
+  parse = round "parse"
+  render = round "render"
+  cache = cylinder "diagram cache"
+  reader = "Reader"
+flows:
+  author -> parse : plan.md
+  parse -> render : AST
+  cache -> render
+  render -> reader : plan.html
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 flowchart LR

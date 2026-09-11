@@ -10,6 +10,28 @@
 
 ## 怎么写
 
+Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
+
+````````````markdown
+:::dataflow[编译一份文档]
+nodes:
+  author = "作者"
+  parse = round "解析"
+  render = round "画图"
+  cache = cylinder "图表缓存"
+  reader = "读者"
+flows:
+  author -> parse : 方案.md
+  parse -> render : AST
+  cache -> render
+  render -> reader : 方案.html
+:::
+````````````
+
+上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
+
+### 另一种写法：Mermaid 围栏
+
 ````````````markdown
 `````````mermaid
 flowchart LR

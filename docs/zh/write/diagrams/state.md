@@ -10,6 +10,25 @@
 
 ## 怎么写
 
+Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
+
+````````````markdown
+:::state[编译状态]
+states:
+  parse = "解析"
+  render = "画图"
+  assemble = "组装"
+transitions:
+  parse -> render : 有图表围栏
+  parse -> assemble : 纯文字
+  render -> assemble
+:::
+````````````
+
+上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
+
+### 另一种写法：Mermaid 围栏
+
 ````````````markdown
 `````````mermaid
 stateDiagram-v2

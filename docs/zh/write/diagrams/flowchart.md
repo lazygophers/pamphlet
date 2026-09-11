@@ -10,6 +10,26 @@
 
 ## 怎么写
 
+Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
+
+````````````markdown
+:::flow[登录链路]{dir=LR}
+nodes:
+  request = "请求"
+  cache = diamond "有缓存吗？"
+  hit = "直接返回"
+  miss = cylinder "查数据库"
+edges:
+  request -> cache
+  cache -> hit : 有
+  cache -> miss : 没有
+:::
+````````````
+
+上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
+
+### 另一种写法：Mermaid 围栏
+
 ````````````markdown
 `````````mermaid
 flowchart LR

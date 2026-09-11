@@ -10,6 +10,26 @@ Sketching an outline, mapping the facets of a concept.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::mindmap[What Pamphlet is made of]
+root:
+  Pamphlet
+branches:
+  > Syntax
+  >> Directives
+  >> Diagram fences
+  > Themes
+  >> Palette
+  >> Layout
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 mindmap

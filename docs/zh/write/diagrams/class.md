@@ -10,6 +10,22 @@
 
 ## 怎么写
 
+Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
+
+````````````markdown
+:::class[主题的数据结构]
+classes:
+  Theme
+  ThemeTokens
+relations:
+  Theme -> ThemeTokens : light / dark
+:::
+````````````
+
+上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
+
+### 另一种写法：Mermaid 围栏
+
 ````````````markdown
 `````````mermaid
 classDiagram

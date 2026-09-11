@@ -10,6 +10,20 @@ Memory layout, protocol fields, how a page divides into regions.
 
 ## How to write it
 
+Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
+
+````````````markdown
+:::block[Three stages]{columns=3}
+blocks:
+  plan.md | - | plan.html
+  parse | render | assemble
+:::
+````````````
+
+That syntax does not render on GitHub. If you need it to, use this instead:
+
+### The other way: a Mermaid fence
+
 ````````````markdown
 `````````mermaid
 block-beta

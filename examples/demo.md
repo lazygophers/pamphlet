@@ -172,6 +172,38 @@ toc:
 
 ### 流程图
 
+自有写法：先列节点、再列连线。
+
+```markdown
+:::flow[编译的四步]{dir=LR}
+nodes:
+  src = "方案.md"
+  parse = "解析"
+  render = "画图"
+  out = "方案.html"
+edges:
+  src -> parse
+  parse -> render
+  render -> out
+:::
+```
+
+真的画出来是这样：
+
+:::flow[编译的四步]{dir=LR}
+nodes:
+  src = "方案.md"
+  parse = "解析"
+  render = "画图"
+  out = "方案.html"
+edges:
+  src -> parse
+  parse -> render
+  render -> out
+:::
+
+同一张图用 ` ```mermaid ` 围栏写也行，两套写法永久并存：
+
 ```mermaid
 graph LR
   A[方案.md] --> B[解析]
@@ -336,6 +368,43 @@ block-beta
   源文档["方案.md"] space 产物["方案.html"]
   解析 画图 组装
 ```
+
+### 泳道图
+
+这一种 Mermaid 画不了，SVG 由 Pamphlet 自己算布局、自己生成。
+
+:::swimlane[下单流程]
+lanes:
+  user = "用户"
+  order = "订单服务"
+  pay = "支付服务"
+steps:
+  user : 提交订单
+  order : 锁库存
+  pay : 扣款
+  order : 出单
+:::
+
+### 组织架构图
+
+:::orgchart[技术团队]
+members:
+  技术部
+  > 前端组
+  >> 张三
+  >> 李四
+  > 后端组
+  >> 王五
+:::
+
+### 数据图表
+
+:::chart[月度请求量]{type=bar}
+points:
+  一月 : 120
+  二月 : 180
+  三月 : 150
+:::
 
 ## 图片是内嵌的
 
