@@ -12,14 +12,14 @@ Showing a trend or a comparison. Mermaid's `xychart-beta` can draw one, but its 
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::chart[Monthly requests]{type=bar}
 points:
   January : 120
   February : 180
   March : 150
 :::
-````````````
+````
 
 **Mermaid cannot draw this kind**, so there is no "other way" — Pamphlet lays it out and emits the SVG itself.
 

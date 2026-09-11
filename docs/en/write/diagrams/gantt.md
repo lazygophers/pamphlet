@@ -12,7 +12,7 @@ A schedule, the timing of a release, the order of dependencies.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::gantt[Redesign schedule]
 sections:
   Design
@@ -22,14 +22,14 @@ tasks:
   Design : Review : after Draft : 2d
   Build : Compiler : after Review : 8d
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 gantt
   title Redesign schedule
   dateFormat YYYY-MM-DD
@@ -39,8 +39,8 @@ gantt
   Review           :done, a2, after a1, 2d
   section Build
   Compiler changes :active, b1, after a2, 8d
-`````````
-````````````
+```
+````
 
 ## What comes out
 

@@ -12,7 +12,7 @@
 
 Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
 
-````````````markdown
+````markdown
 :::gantt[一次改版的排期]
 sections:
   设计
@@ -22,14 +22,14 @@ tasks:
   设计 : 评审 : after 定方案 : 2d
   实现 : 编译器改动 : after 评审 : 8d
 :::
-````````````
+````
 
 上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
 
 ### 另一种写法：Mermaid 围栏
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 gantt
   title 一次改版的排期
   dateFormat YYYY-MM-DD
@@ -39,8 +39,8 @@ gantt
   评审          :done, a2, after a1, 2d
   section 实现
   编译器改动     :active, b1, after a2, 8d
-`````````
-````````````
+```
+````
 
 ## 出来是什么样
 

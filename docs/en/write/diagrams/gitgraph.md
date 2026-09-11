@@ -12,7 +12,7 @@ Explaining a release branching strategy, reviewing a messy merge.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::gitgraph[One redesign]
 commits:
   commit initial
@@ -21,22 +21,22 @@ commits:
   checkout main
   merge themes
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 gitGraph
   commit id: "initial"
   branch themes
   commit id: "thirteen themes"
   checkout main
   merge themes
-`````````
-````````````
+```
+````
 
 ## What comes out
 

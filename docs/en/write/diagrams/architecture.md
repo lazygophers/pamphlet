@@ -12,7 +12,7 @@ Deployment architecture, what a system is composed of.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::architecture[Build stage]
 services:
   src = disk "Source"
@@ -22,14 +22,14 @@ links:
   src -- engine
   engine -- out
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 architecture-beta
   group build(cloud)[Build stage]
   service src(disk)[Source] in build
@@ -37,8 +37,8 @@ architecture-beta
   service out(database)[Output] in build
   src:R -- L:engine
   engine:R -- L:out
-`````````
-````````````
+```
+````
 
 ## What comes out
 

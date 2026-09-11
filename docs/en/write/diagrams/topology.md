@@ -12,7 +12,7 @@ Documenting infrastructure: Mermaid's architecture diagram has a fixed icon set 
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::topology[Production]
 zones:
   dmz = "DMZ"
@@ -25,7 +25,7 @@ links:
   lb -- web1 : 443
   lb -- web2 : 443
 :::
-````````````
+````
 
 **Mermaid cannot draw this kind**, so there is no "other way" — Pamphlet lays it out and emits the SVG itself.
 

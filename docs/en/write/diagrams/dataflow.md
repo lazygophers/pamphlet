@@ -12,7 +12,7 @@ A data pipeline, the handling of one request.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::dataflow[Compiling a document]
 nodes:
   author = "Author"
@@ -26,22 +26,22 @@ flows:
   cache -> render
   render -> reader : plan.html
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 flowchart LR
   Author[Author] -->|plan.md| P1(parse)
   P1 -->|AST| P2(render)
   P2 -->|SVG| P3(assemble)
   D1[(diagram cache)] --- P2
   P3 -->|plan.html| Reader[Reader]
-`````````
-````````````
+```
+````
 
 ## What comes out
 

@@ -12,7 +12,7 @@
 
 Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
 
-````````````markdown
+````markdown
 :::state[编译状态]
 states:
   parse = "解析"
@@ -23,22 +23,22 @@ transitions:
   parse -> assemble : 纯文字
   render -> assemble
 :::
-````````````
+````
 
 上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
 
 ### 另一种写法：Mermaid 围栏
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 stateDiagram-v2
   [*] --> 解析
   解析 --> 画图: 有图表围栏
   解析 --> 组装: 纯文字
   画图 --> 组装
   组装 --> [*]
-`````````
-````````````
+```
+````
 
 ## 出来是什么样
 

@@ -12,7 +12,7 @@ Database design, a domain model.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::er[A source file and its parts]
 entities:
   SOURCE
@@ -22,20 +22,20 @@ relations:
   SOURCE -> FENCE : contains
   SOURCE -> ASSET : references
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 erDiagram
   SOURCE ||--|| OUTPUT : compiles-to
   SOURCE ||--o{ FENCE : contains
   SOURCE ||--o{ ASSET : references
-`````````
-````````````
+```
+````
 
 ## What comes out
 

@@ -12,7 +12,7 @@
 
 Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
 
-````````````markdown
+````markdown
 :::dataflow[编译一份文档]
 nodes:
   author = "作者"
@@ -26,22 +26,22 @@ flows:
   cache -> render
   render -> reader : 方案.html
 :::
-````````````
+````
 
 上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
 
 ### 另一种写法：Mermaid 围栏
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 flowchart LR
   作者[作者] -->|方案.md| P1(解析)
   P1 -->|AST| P2(画图)
   P2 -->|SVG| P3(组装)
   D1[(图表缓存)] --- P2
   P3 -->|方案.html| 读者[读者]
-`````````
-````````````
+```
+````
 
 ## 出来是什么样
 

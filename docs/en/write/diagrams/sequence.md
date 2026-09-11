@@ -12,7 +12,7 @@ Call order across services, a handshake, anywhere "who goes first" is unclear.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::sequence[One compile]
 participants:
   author = "Author"
@@ -21,21 +21,21 @@ messages:
   author -> compiler : pamphlet build plan.md
   compiler --> author : plan.html
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 sequenceDiagram
   participant Author
   participant Compiler
   Author->>Compiler: pamphlet build plan.md
   Compiler-->>Author: plan.html
-`````````
-````````````
+```
+````
 
 ## What comes out
 

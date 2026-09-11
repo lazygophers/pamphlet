@@ -12,7 +12,7 @@ Team structure or module ownership. Drawn as a flowchart, deep hierarchies spraw
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::orgchart[Engineering]
 members:
   Engineering
@@ -22,7 +22,7 @@ members:
   > Backend
   >> Carol
 :::
-````````````
+````
 
 **Mermaid cannot draw this kind**, so there is no "other way" — Pamphlet lays it out and emits the SVG itself.
 

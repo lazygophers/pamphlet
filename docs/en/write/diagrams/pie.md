@@ -12,7 +12,7 @@ Size breakdowns, cost shares, traffic sources.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::pie[Output size]
 slices:
   diagram SVG : 48
@@ -20,21 +20,21 @@ slices:
   body HTML : 12
   runtime : 9
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 pie title Output size
   "diagram SVG" : 48
   "styles" : 17
   "body HTML" : 12
   "runtime" : 9
-`````````
-````````````
+```
+````
 
 ## What comes out
 

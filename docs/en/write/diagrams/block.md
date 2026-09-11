@@ -12,26 +12,26 @@ Memory layout, protocol fields, how a page divides into regions.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::block[Three stages]{columns=3}
 blocks:
   plan.md | - | plan.html
   parse | render | assemble
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 block-beta
   columns 3
   source["plan.md"] space output["plan.html"]
   parse render assemble
-`````````
-````````````
+```
+````
 
 ## What comes out
 

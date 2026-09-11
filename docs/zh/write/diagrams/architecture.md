@@ -12,7 +12,7 @@
 
 Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
 
-````````````markdown
+````markdown
 :::architecture[编译阶段]
 services:
   src = disk "源文档"
@@ -22,14 +22,14 @@ links:
   src -- engine
   engine -- out
 :::
-````````````
+````
 
 上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
 
 ### 另一种写法：Mermaid 围栏
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 architecture-beta
   group build(cloud)[编译阶段]
   service src(disk)[源文档] in build
@@ -37,8 +37,8 @@ architecture-beta
   service out(database)[产物] in build
   src:R -- L:engine
   engine:R -- L:out
-`````````
-````````````
+```
+````
 
 ## 出来是什么样
 

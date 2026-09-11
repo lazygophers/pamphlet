@@ -12,7 +12,7 @@ Business processes, decision branches, the few hops of a request path.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::flow[Login path]{dir=LR}
 nodes:
   request = "request"
@@ -24,20 +24,20 @@ edges:
   cache -> hit : yes
   cache -> miss : no
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 flowchart LR
   A[request] --> B{in Redis?}
   B -->|yes| C[return it]
   B -->|no| D[query the database]
-`````````
-````````````
+```
+````
 
 ## What comes out
 

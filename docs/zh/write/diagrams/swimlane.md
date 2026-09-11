@@ -12,7 +12,7 @@
 
 Pamphlet 自己的写法——**先列声明、再列关系**，十七种图共用这副骨架：
 
-````````````markdown
+````markdown
 :::swimlane[下单流程]
 lanes:
   user = "用户"
@@ -24,7 +24,7 @@ steps:
   pay : 扣款
   order : 出单
 :::
-````````````
+````
 
 **这一种 Mermaid 画不了**，所以没有「另一种写法」——它的 SVG 由 Pamphlet 自己算布局、自己生成。
 

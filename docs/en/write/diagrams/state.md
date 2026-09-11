@@ -12,7 +12,7 @@ Order status, connection lifecycle, an approval flow.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::state[Compile states]
 states:
   parse = "parse"
@@ -23,22 +23,22 @@ transitions:
   parse -> assemble : text only
   render -> assemble
 :::
-````````````
+````
 
 That syntax does not render on GitHub. If you need it to, use this instead:
 
 ### The other way: a Mermaid fence
 
-````````````markdown
-`````````mermaid
+````markdown
+```mermaid
 stateDiagram-v2
   [*] --> Parse
   Parse --> Render: has a diagram fence
   Parse --> Assemble: text only
   Render --> Assemble
   Assemble --> [*]
-`````````
-````````````
+```
+````
 
 ## What comes out
 

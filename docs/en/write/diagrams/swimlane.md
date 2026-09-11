@@ -12,7 +12,7 @@ Cross-team or cross-service processes, where "who does this step" is the point.
 
 Pamphlet's own syntax — **declarations first, relationships second**; all seventeen kinds share this skeleton:
 
-````````````markdown
+````markdown
 :::swimlane[Checkout]
 lanes:
   user = "User"
@@ -24,7 +24,7 @@ steps:
   pay : charge
   order : confirm
 :::
-````````````
+````
 
 **Mermaid cannot draw this kind**, so there is no "other way" — Pamphlet lays it out and emits the SVG itself.
 
