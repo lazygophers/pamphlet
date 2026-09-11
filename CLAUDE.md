@@ -7,7 +7,10 @@
 规矩不变的部分：
 
 - 一批相关改动打成一个 commit，commit message 说清**为什么**，不是罗列改了哪些文件
-- **push 仍然要问** —— 推送会触发 GitHub Actions 部署文档站和发布 npm 包
+- **push 也不用问了。** 用户 2026-09-11 明确授权（原话：「后续不用询问我，直接push，使用cicd部署，我只看结果」）。改完自己 commit、自己 push，然后用 `cicd` 等两条工作流跑完，**只把结果报给用户**
+  - 推送会触发 GitHub Actions：部署文档站、以及在三个 `package.json` 的 `version` 变过时发布 npm 包
+  - 版本号没变的推送不会发任何包，工作流输出 `There are no new packages that should be published`
+  - 等结果用 `cicd`（`cicd` 等当前分支跑完、`cicd now` 看最新状态、`cicd fail <id>` 看失败日志）
 - 强制推送、改写历史、`rm -rf`、删表这类不可逆操作，照旧要先停下来确认
 
 ## 包源
