@@ -49,7 +49,7 @@ With equal counts, the first `:::` closes the outer one.
 
 ## Can I change the fonts and colours
 
-Yes. The twelve [built-in themes](/en/reference/themes) are sorted by document type, each with its own palette and layout:
+Yes. The [built-in themes](/en/reference/themes) are sorted by document type, each with its own palette and layout:
 
 ```bash
 pamphlet build plan.md --theme fiction

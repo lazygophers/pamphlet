@@ -1,11 +1,11 @@
 ---
 name: pamphlet-theme
-description: 给一份 Pamphlet 文档挑内置主题，或只覆盖几个颜色。十二套内置主题按「这份文档是什么」分（小说 / 需求文档 / 系统设计 / 故障报告…），每套是独立的配色和版式。改 --theme、写 frontmatter 的 theme、或者报 DOC-106 时用它。
+description: 给一份 Pamphlet 文档挑内置主题，或只覆盖几个颜色。内置主题按「这份文档是什么」分（小说 / 需求文档 / 系统设计 / 故障报告…），每套是独立的配色和版式。改 --theme、写 frontmatter 的 theme、或者报 DOC-106 时用它。
 ---
 
 # 挑一套 Pamphlet 主题
 
-**按文档类型挑，不按好不好看挑。** 十二套内置主题每套都是独立的配色**和版式**——正文宽度、标题体系、提示块形态、Tab 形态、表格线各不相同。
+**按文档类型挑，不按好不好看挑。** 内置主题每套都是独立的配色**和版式**——正文宽度、标题体系、提示块形态、Tab 形态、表格线各不相同。
 
 清单在 [themes.md](themes.md)（由源码生成，不会和代码对不上）。
 
@@ -60,20 +60,20 @@ theme: incident
 
 链接、Tab 的选中下划线、步骤的圆圈全部跟着变——它们的默认值都从 `--pf-primary` 派生。
 
-深浅两套要分开写，产物靠 `prefers-color-scheme` 切换：
+**产物一律深色，不看读者的系统设置**，所以写在 `:root` 上的就该是深色的值。浅色只在打印时用得上：
 
 ```markdown
 <style>
   :root {
-    --pf-primary: #7c3aed;
-    --pf-bg: #fffbf5;
-    --pf-fg: #2a2118;
+    --pf-primary: #a78bfa;
+    --pf-bg: #1a1614;
+    --pf-fg: #ede4d8;
   }
-  @media (prefers-color-scheme: dark) {
+  @media print {
     :root {
-      --pf-primary: #a78bfa;
-      --pf-bg: #1a1614;
-      --pf-fg: #ede4d8;
+      --pf-primary: #7c3aed;
+      --pf-bg: #fffbf5;
+      --pf-fg: #2a2118;
     }
   }
 </style>

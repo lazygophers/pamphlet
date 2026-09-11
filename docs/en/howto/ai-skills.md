@@ -47,6 +47,6 @@ Every page on this site is also published as Markdown: swap `.html` for `.md` in
 npx skills update
 ```
 
-The theme list, the token list and the diagnostic-code table are **generated from the source** (`pnpm skills:sync`), and a test in the repository keeps them from going stale — so "the code gained a theme but the skill still lists twelve" cannot happen quietly.
+The theme list, the token list and the diagnostic-code table are **generated from the source** (`pnpm skills:sync`), and a test in the repository keeps them from going stale — so "the code gained a theme but the skill still lists the old set" cannot happen quietly.
 
 The `skills` CLI is not a Pamphlet tool; it is <https://github.com/vercel-labs/skills>, and it supports Claude Code, Cursor, Codex and dozens of other assistants.

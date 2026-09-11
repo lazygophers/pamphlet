@@ -49,7 +49,7 @@ Mermaid 必须用真实浏览器的布局引擎算文字宽度，jsdom 没实现
 
 ## 能改字体和颜色吗
 
-能。十二套[内置主题](/reference/themes)按文档类型分，各有独立的配色和版式：
+能。[内置主题](/reference/themes)按文档类型分，各有独立的配色和版式：
 
 ```bash
 pamphlet build 方案.md --theme fiction

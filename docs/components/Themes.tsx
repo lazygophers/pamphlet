@@ -21,6 +21,12 @@ const OPEN_SAMPLE: Record<Lang, string> = {
   en: 'Open the full sample ↗',
 }
 
+/** 两张图各自的说明。产物一律深色，浅色那套值只在打印时用得上 */
+const SHOT_CAPTIONS: Record<Lang, [string, string]> = {
+  zh: ['屏幕上', '打印时'],
+  en: ['On screen', 'Printed'],
+}
+
 /**
  * 每套主题在画廊里的那段长说明。它只服务文档站——注册表里那一句是**给挑主题的人和诊断看的**，
  * 塞进注册表会让一个零依赖的数据包背上文档站的文案。
@@ -77,6 +83,10 @@ const DETAILS: Partial<Record<ThemeName, Record<Lang, string>>> = {
     zh: '步骤变时间轴（竖线 + 红点）。标题带「事故报告」眉批，`danger` 压过页面上其它一切，影响面表格一眼看完。',
     en: 'Steps become a timeline (a rule with red nodes). The title carries an "incident report" eyebrow, `danger` outranks everything else on the page, and the impact table reads at a glance.',
   },
+  lesson: {
+    zh: '讲义。46rem 窄栏、衬线正文、标题下一行小号大写等宽眉批。提示块退成一条左线的旁注（`tip` 例外，是一个描边的重点框），表格只有横线，表头是小号大写等宽。',
+    en: 'A lesson handout. A 46rem column, serif body, and a small uppercase monospace eyebrow under the title. Callouts shrink to an aside on a hairline rule (except `tip`, which becomes an outlined key box); tables keep horizontal rules only, with small uppercase monospace headers.',
+  },
 }
 
 export function ThemeTable({ lang }: { lang: Lang }) {
@@ -114,11 +124,22 @@ export function ThemeGallery({ lang }: { lang: Lang }) {
           <h2 id={theme}>{theme}</h2>
           <p>{DETAILS[theme]?.[lang] ?? THEMES[theme].purpose[lang]}</p>
           {/* 图和样例由 `pnpm themes:shots` 从**同一次**真实编译现产，文件名都是主题名（issue 01）。
+              两张：屏幕上（深色，产物的缺省）和打印时（浅色，唯一的例外）。
               走 normalizeImagePath / withBase 补站点 base——Markdown 里的图是 Rspress 自己补的，
               组件里这一步得自己做，否则线上路径少一层 `/pamphlet/` */}
+          <p>
+            <strong>{SHOT_CAPTIONS[lang][0]}</strong>
+          </p>
           <a href={withBase(`/themes/${theme}.html`)} target="_blank" rel="noreferrer">
-            <img src={normalizeImagePath(`/themes/${theme}.png`)} alt={`${theme} theme`} />
+            <img src={normalizeImagePath(`/themes/${theme}.png`)} alt={`${theme} theme on screen`} />
           </a>
+          <p>
+            <strong>{SHOT_CAPTIONS[lang][1]}</strong>
+          </p>
+          <img
+            src={normalizeImagePath(`/themes/${theme}-print.png`)}
+            alt={`${theme} theme printed`}
+          />
           {/* 截图只有第一屏，且点不动。Tab、折叠块、侧边菜单这些主题之间差别最大的东西，
               只有在真页面里才看得出来，所以样例是链接而不是又一张图 */}
           <p>

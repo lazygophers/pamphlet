@@ -96,7 +96,7 @@ toc:
 |---|---|---|
 | `spec` | 整数 | 不填 = 不检查。当前编译器支持 `1` |
 | `title` | 字符串 | 第一个 `#` 标题，都没有就用 `pamphlet` |
-| `theme` | 字符串 | `default`，十二套见 `pamphlet-theme` |
+| `theme` | 字符串 | `default`，全部内置主题见 `pamphlet-theme` |
 | `lang` | 字符串 | `zh-CN` |
 | `toc` | 布尔或对象 | 关 |
 | `engines` | 对象 | ⚠️ 尚未实现，写了报 `DOC-104` 警告 |

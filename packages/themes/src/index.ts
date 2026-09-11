@@ -65,6 +65,10 @@ const SANS =
 const MONO = 'ui-monospace, "SF Mono", Consolas, monospace'
 const SERIF =
   '"Songti SC", "Source Han Serif SC", "Noto Serif CJK SC", Georgia, "Times New Roman", serif'
+/** 讲义那套字：西文优先 Palatino 一路的老衬线，中文仍落回宋体 */
+const LESSON_SERIF =
+  '"Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", "Source Han Serif SC", serif'
+const LESSON_MONO = '"Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
 
 /** 间距、行高、圆角这几档大多数主题不动，抽出来免得每套抄一遍 */
 const METRICS = {
@@ -822,6 +826,83 @@ blockquote{border-left-width:4px;background:var(--pf-bg-subtle);padding:var(--pf
 `.trim()
 
 
+// ── lesson ───────────────────────────────────────────────────────────────
+// 讲义。窄栏暖纸、衬线正文、小号等宽眉批、旁注是一条左线——Tufte 那一路。
+// 取自一份真实的教学讲义（bcpay 的 lesson.css）：它把「讲一件事给人听懂」
+// 排成了一页纸，和 paper 的差别在于**它是讲给人听的，不是发表给人评审的**。
+
+const lessonLight: ThemeTokens = {
+  bg: '#fffdf9',
+  'bg-subtle': '#f6f2ea',
+  fg: '#1b1b18',
+  'fg-muted': '#6e6e64',
+  primary: '#9a3412',
+  border: '#e2ddd2',
+  info: '#9a3412',
+  tip: '#1b855e',
+  warn: '#b04e0c',
+  danger: '#cf0e5b',
+  'font-sans': LESSON_SERIF,
+  'font-mono': LESSON_MONO,
+  ...METRICS,
+  'line-height': '1.62',
+  radius: '3px',
+}
+
+const lessonDark: ThemeTokens = {
+  ...lessonLight,
+  bg: '#171613',
+  'bg-subtle': '#1f1d19',
+  fg: '#ece7dc',
+  'fg-muted': '#9c9589',
+  primary: '#e8845c',
+  border: '#312d27',
+  info: '#e8845c',
+  tip: '#5fc39b',
+  warn: '#d9924a',
+  danger: '#f2718f',
+}
+
+const lessonCss = `
+.pf-layout{grid-template-columns:13rem minmax(0,46rem);gap:var(--pf-space-4);max-width:64rem}
+.pf-doc{font-size:1.0625rem;text-rendering:optimizeLegibility}
+h1,h2,h3{line-height:1.25;font-weight:600}
+h1{font-size:1.9rem;margin:0 0 var(--pf-space-1)}
+h2{font-size:1.32rem;margin:calc(var(--pf-space-4) * 1.35) 0 var(--pf-space-2);scroll-margin-top:var(--pf-space-2)}
+h3{font-size:1.0625rem;margin:calc(var(--pf-space-4) * .85) 0 var(--pf-space-1)}
+/* 眉批：标题上面那行小号大写等宽。写在 ::before 而不是拿第一段来当眉批——
+   第一段是正文，把它缩到 11px 等于把内容做小了（浏览器层测试就是这么抓出来的） */
+h1::before{content:"LESSON";display:block;font-family:var(--pf-font-mono);font-size:.6875rem;letter-spacing:.12em;color:var(--pf-fg-muted);margin-bottom:var(--pf-space-2)}
+/* 引言：标题底下第一段放大、压暗，像讲义开头那句总述 */
+h1+p{font-size:1.1875rem;color:var(--pf-fg-muted)}
+p{margin:0 0 var(--pf-space-3)}
+a{color:var(--pf-primary);text-underline-offset:2px}
+hr{border:0;border-top:1px solid var(--pf-border);margin:calc(var(--pf-space-4) * 1.1) 0}
+code{font-size:.86em;border-radius:3px}
+/* 旁注：Tufte 那条左线，不是一块底色 */
+.pf-callout{background:none;border:none;border-left:2px solid var(--pf-border);border-radius:0;padding:0 0 0 var(--pf-space-3);font-size:.9375rem;color:var(--pf-fg-muted)}
+.pf-callout-title{font-weight:600;color:var(--pf-fg)}
+.pf-callout-info{border-left-color:var(--pf-info)}
+.pf-callout-tip{border:1px solid var(--pf-tip);border-radius:4px;padding:var(--pf-space-3) calc(var(--pf-space-3) * 1.1);color:var(--pf-fg)}
+.pf-callout-tip .pf-callout-title{color:var(--pf-tip)}
+.pf-callout-warn{border-left-color:var(--pf-warn)}
+.pf-callout-danger{border-left-color:var(--pf-danger);color:var(--pf-fg-muted)}
+/* 链路表：只有横线，表头是小号大写等宽 */
+table{font-size:.9375rem}
+th{background:none;border:none;border-bottom:1px solid var(--pf-border);font-family:var(--pf-font-mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pf-fg-muted);font-weight:400}
+td{border:none;border-bottom:1px solid var(--pf-border);vertical-align:top}
+pre{font-size:.78125rem;line-height:1.55;background:var(--pf-bg-subtle);border:1px solid var(--pf-border);border-radius:3px}
+blockquote{border-left:2px solid var(--pf-border);color:var(--pf-fg-muted);font-size:.9375rem}
+/* 步骤：编号用等宽小字，不用实心圆 */
+.pf-steps li::before{background:none;border:1px solid var(--pf-border);color:var(--pf-fg-muted);font-family:var(--pf-font-mono);font-size:.6875rem;border-radius:50%}
+.pf-tab-list{gap:var(--pf-space-3)}
+.pf-tab-button{font-family:var(--pf-font-mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;padding:var(--pf-space-1) 0;border-bottom-width:1px}
+.pf-collapse{border:1px solid var(--pf-border);border-radius:4px}
+.pf-toc-side{font-size:.875rem}
+.pf-toc-side a{border-radius:3px}
+`.trim()
+
+
 /**
  * 用 `satisfies` 而不是 `: Record<string, Theme>`：注解成索引签名会让
  * `THEMES['default']` 的类型变成 `Theme | undefined`（`noUncheckedIndexedAccess`），
@@ -948,6 +1029,16 @@ export const THEMES = {
     light: incidentLight,
     dark: incidentDark,
     css: incidentCss,
+  },
+  lesson: {
+    name: 'lesson',
+    purpose: {
+      zh: '教学讲义：暖纸窄栏、衬线正文、等宽眉批、旁注靠一条左线',
+      en: 'Teaching notes: a warm narrow column, serif body, monospace eyebrows, asides on a hairline rule',
+    },
+    light: lessonLight,
+    dark: lessonDark,
+    css: lessonCss,
   },
 } satisfies Record<string, Theme>
 
