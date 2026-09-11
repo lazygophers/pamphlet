@@ -12,6 +12,9 @@ The skills speak in terms of five canonical triage roles. This file maps those r
 
 When a skill mentions a role (e.g. "apply the AFK-ready triage label"), use the corresponding label string from this table.
 
-In the local-markdown tracker, the role is recorded as a `Status:` line near the top of the issue file (`Status: ready-for-agent`).
+The role is recorded as a GitHub label on the issue: `gh issue edit <number> --add-label ready-for-agent`.
+
+All five labels exist in the repository already (created 2026-09-11); `wontfix` shipped with GitHub's
+default set, the other four were added for this.
 
 Edit the right-hand column to match whatever vocabulary you actually use.

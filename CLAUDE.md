@@ -29,7 +29,9 @@
 
 ### Issue tracker
 
-Issues 存本地 markdown：`.scratch/<feature-slug>/issues/NN-<slug>.md`（每 ticket 一个文件）。见 `docs/agents/issue-tracker.md`。
+Issues 存 GitHub：<https://github.com/lazygophers/pamphlet/issues>，用 `gh` 命令行读写。见 `docs/agents/issue-tracker.md`。
+
+2026-09-11 从本地 markdown 换过来的，理由不是偏好：`.scratch/` 被 `.gitignore` 排除，写在那儿的票从来没进过版本库——上一个功能的五张票连同 spec 随目录一起没了，git 里找不回来。
 
 ### Triage labels
 
