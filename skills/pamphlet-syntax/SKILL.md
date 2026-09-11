@@ -118,6 +118,8 @@ flowchart LR
 
 - **本版本只实现了 `mermaid`。** `d2` / `dot` / `math` / `vega-lite` / `wavedrom` / `bytefield` / `plantuml` 写了报 `DIAG-301`，构建失败
 - 语言名就是引擎自己的名字，没有自有别名——在 Pamphlet 里练会的 Mermaid 语法，在 GitHub、Notion 里同样有效
+- **一个 `mermaid` 围栏画十几种图**，第一行的关键字决定画哪种：`flowchart` / `sequenceDiagram` / `stateDiagram-v2` / `classDiagram` / `erDiagram` / `gantt` / `pie` / `architecture-beta`（架构图）/ `C4Context`（系统上下文）/ `mindmap` / `gitGraph` / `block-beta`。**数据流图用 `flowchart`**：方框是外部的人、圆角是处理、`[(…)]` 是存起来的东西
+- **两种图不认中文**：`sankey-beta` 和 `requirementDiagram` 的解析器只认 ASCII 标识符，中文节点名直接报 `DIAG-303`。`architecture-beta` 的 ID 也必须是 ASCII，但方括号里的标签可以是中文
 - 图的颜色会被换成主题变量，所以深色模式下线和字一起变。换不掉的硬编码色值报 `DIAG-304` 警告
 - 单张图 SVG 超过 200KB 报 `DIAG-302` 警告——通常意味着节点太多，读者也看不清
 - **图画不出来时产物照样写出来**：那张图的位置留一个占位框写明原因，退出码 `1`

@@ -1,6 +1,6 @@
 # Mermaid
 
-本版本**唯一实现了的引擎**。流程图、时序图、甘特图、状态图都归它画。
+本版本**唯一实现了的引擎**。一个围栏语言 `mermaid`，十几种图都归它画。
 
 ````markdown
 ```mermaid
@@ -12,6 +12,36 @@ flowchart LR
 ````
 
 Mermaid 自己的语法手册在 <https://mermaid.js.org/intro/>。Pamphlet 不改它的语法，也不加自己的扩展。
+
+## 画得出哪些图
+
+每一种都在[示例文档](https://lazygophers.github.io/pamphlet/demo/)里有一张真的，颜色全部跟着主题走。第一行的关键字决定画哪种：
+
+| 写什么 | 画出来是 |
+|---|---|
+| `flowchart` / `graph` | 流程图。**数据流图也用它**：方框是外部的人、圆角是处理、`[(…)]` 是存起来的东西 |
+| `sequenceDiagram` | 时序图 |
+| `stateDiagram-v2` | 状态图 |
+| `classDiagram` | 类图 |
+| `erDiagram` | 实体关系图 |
+| `gantt` | 甘特图 |
+| `pie` | 饼图 |
+| `architecture-beta` | **架构图**，自带 `cloud` `database` `disk` `server` 等图标 |
+| `C4Context` / `C4Container` / `C4Component` | **系统上下文图**（C4 那一套） |
+| `mindmap` | 思维导图 |
+| `gitGraph` | 分支图 |
+| `block-beta` | 块图 |
+| `timeline` / `quadrantChart` / `journey` / `packet-beta` / `radar-beta` / `xychart-beta` | 画得出来，但**有几处颜色不跟主题走**，会报 `DIAG-304` |
+
+:::warn 两种图不认中文
+`sankey-beta`（桑基图）和 `requirementDiagram`（需求图）的解析器只认 ASCII 标识符，中文节点名会直接报 `DIAG-303`。实测于 mermaid 11.17.2。
+
+要画数据流量分配，用 `flowchart` 把数值写在连线标签上。
+:::
+
+:::info 架构图的 ID 要用英文
+`architecture-beta` 的 group / service **ID** 必须是 ASCII（`service src(disk)[源文档]`），方括号里的**标签**照样可以写中文。
+:::
 
 ## 先装一次
 

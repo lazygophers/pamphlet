@@ -116,6 +116,79 @@ const THEME_VARIABLES = {
   pieSectionTextColor: SENTINELS.text,
   pieLegendTextColor: SENTINELS.text,
 
+  // 架构图（architecture-beta）
+  archEdgeColor: SENTINELS.line,
+  archEdgeArrowColor: SENTINELS.line,
+  archGroupBorderColor: SENTINELS.line,
+
+  // 块图、思维导图、数据包图共用的这三个填充
+  blockFillColor: SENTINELS.fill,
+  leafFillColor: SENTINELS.fill,
+  sectionFillColor: SENTINELS.fill,
+
+  // 时间线、旅程图的十二档配色。留给 Mermaid 自己算，它会把主色一档档调亮，
+  // 算出来的是 `#ff0508` 这种擦着哨兵边的值——既换不掉，又刺眼
+  cScale0: SENTINELS.accent,
+  cScale1: SENTINELS.muted,
+  cScale2: SENTINELS.line,
+  cScale3: SENTINELS.fill,
+  cScale4: SENTINELS.accent,
+  cScale5: SENTINELS.muted,
+  cScale6: SENTINELS.line,
+  cScale7: SENTINELS.fill,
+  cScale8: SENTINELS.accent,
+  cScale9: SENTINELS.muted,
+  cScale10: SENTINELS.line,
+  cScale11: SENTINELS.fill,
+  cScaleLabel0: SENTINELS.bg,
+  cScaleLabel1: SENTINELS.text,
+  cScaleLabel2: SENTINELS.text,
+  cScaleLabel3: SENTINELS.text,
+  cScaleLabel4: SENTINELS.bg,
+  cScaleLabel5: SENTINELS.text,
+  cScaleLabel6: SENTINELS.text,
+  cScaleLabel7: SENTINELS.text,
+  cScaleLabel8: SENTINELS.bg,
+  cScaleLabel9: SENTINELS.text,
+  cScaleLabel10: SENTINELS.text,
+  cScaleLabel11: SENTINELS.text,
+
+  // 象限图
+  quadrant1Fill: SENTINELS.fill,
+  quadrant2Fill: SENTINELS.bg,
+  quadrant3Fill: SENTINELS.fill,
+  quadrant4Fill: SENTINELS.bg,
+  quadrantPointFill: SENTINELS.accent,
+  quadrantPointTextFill: SENTINELS.text,
+  quadrantTitleFill: SENTINELS.text,
+  quadrantXAxisTextFill: SENTINELS.text,
+  quadrantYAxisTextFill: SENTINELS.text,
+  quadrantInternalBorderStrokeFill: SENTINELS.line,
+  quadrantExternalBorderStrokeFill: SENTINELS.line,
+
+  // git 分支图
+  git0: SENTINELS.accent,
+  git1: SENTINELS.muted,
+  git2: SENTINELS.line,
+  git3: SENTINELS.fill,
+  git4: SENTINELS.accent,
+  git5: SENTINELS.muted,
+  git6: SENTINELS.line,
+  git7: SENTINELS.fill,
+  gitBranchLabel0: SENTINELS.bg,
+  gitBranchLabel1: SENTINELS.text,
+  gitBranchLabel2: SENTINELS.text,
+  gitBranchLabel3: SENTINELS.text,
+  gitBranchLabel4: SENTINELS.bg,
+  gitBranchLabel5: SENTINELS.text,
+  gitBranchLabel6: SENTINELS.text,
+  gitBranchLabel7: SENTINELS.text,
+  commitLabelColor: SENTINELS.text,
+  commitLabelBackground: SENTINELS.bg,
+  tagLabelColor: SENTINELS.text,
+  tagLabelBackground: SENTINELS.fill,
+  tagLabelBorder: SENTINELS.line,
+
   // 类图、ER 图、状态图
   classText: SENTINELS.text,
   attributeBackgroundColorOdd: SENTINELS.fill,
@@ -131,6 +204,48 @@ const THEME_VARIABLES = {
   transitionLabelColor: SENTINELS.text,
   labelBackgroundColor: SENTINELS.bg,
 } as const
+
+/**
+ * C4 图（`C4Context` 等）的颜色**不走 themeVariables**，走 `c4` 这个配置段，
+ * 键名是 `person_bg_color` 这一路的下划线写法（mermaid@11.17.2 的默认配置里共 42 个）。
+ * 不钉住的话它用自己那套 C4 官方蓝，在深色页面上是一块看不清的深蓝。
+ *
+ * 「本体填充 + 边框」这个结构重复十几遍，所以按前缀生成，不手抄四十行。
+ */
+const C4_SHAPES = [
+  'person',
+  'external_person',
+  'system',
+  'system_db',
+  'system_queue',
+  'external_system',
+  'external_system_db',
+  'external_system_queue',
+  'container',
+  'container_db',
+  'container_queue',
+  'external_container',
+  'external_container_db',
+  'external_container_queue',
+  'component',
+  'component_db',
+  'component_queue',
+  'external_component',
+  'external_component_db',
+  'external_component_queue',
+] as const
+
+const C4_CONFIG: Record<string, string> = {
+  ...Object.fromEntries(
+    C4_SHAPES.flatMap((shape) => [
+      // 外部系统用次要色，自家的用强调色——这是 C4 图本身的读法，不是随便分的
+      [`${shape}_bg_color`, shape.startsWith('external_') ? SENTINELS.muted : SENTINELS.accent],
+      [`${shape}_border_color`, SENTINELS.line],
+    ]),
+  ),
+  rect_border_color: SENTINELS.line,
+  text_color: SENTINELS.bg,
+}
 
 type MermaidRenderer = (
   diagrams: readonly string[],
@@ -169,7 +284,7 @@ export function createMermaidEngine(options: MermaidOptions = {}): Engine {
     name: 'mermaid',
     langs: ['mermaid'],
     fingerprint: createHash('sha256')
-      .update(JSON.stringify(THEME_VARIABLES))
+      .update(JSON.stringify({ THEME_VARIABLES, C4_CONFIG }))
       .digest('hex')
       .slice(0, 8),
 
@@ -194,7 +309,7 @@ export function createMermaidEngine(options: MermaidOptions = {}): Engine {
         results = await withTimeout(
           render(
             requests.map((r) => r.code),
-            { mermaidConfig: { theme: 'base', themeVariables: THEME_VARIABLES } },
+            { mermaidConfig: { theme: 'base', themeVariables: THEME_VARIABLES, c4: C4_CONFIG } },
           ),
           timeoutMs,
           () => new Error(`渲染超过 ${timeoutMs / 1000} 秒`),

@@ -57,11 +57,10 @@ export function recolor(svg: string): RecolorResult {
     // 引擎自己调的，实色不影响可读性，而 `color-mix` 在老浏览器里会整条失效。
     if (sentinel) return substitute(sentinel)
 
-    // 非哨兵的半透明留着不动：换成实色变量会把一层阴影变成一块实心色
-    if (alpha !== undefined && Number(alpha) !== 1) {
-      unmapped.add(whole.toLowerCase())
-      return whole
-    }
+    // 非哨兵的半透明**留着不动，也不报**：引擎拿它画阴影和高光，
+    // 换成实色变量会把一层阴影变成一块实心色；而每次构建都为几处阴影报一条警告，
+    // 结果是没有人再看 DIAG-304——那条警告本来是给「暗色下看不见的字」用的
+    if (alpha !== undefined && Number(alpha) !== 1) return whole
 
     const token = HARDCODED_ALIASES[hex]
     if (!token) {

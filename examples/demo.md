@@ -262,6 +262,81 @@ pie title 产物体积构成
   "骨架" : 3
 ```
 
+### 架构图
+
+```mermaid
+architecture-beta
+  group build(cloud)[编译阶段]
+  service src(disk)[源文档] in build
+  service engine(server)[图表引擎] in build
+  service cache(database)[图表缓存] in build
+  service out(disk)[产物] in build
+  src:R -- L:engine
+  engine:B -- T:cache
+  engine:R -- L:out
+```
+
+### 系统上下文图（C4）
+
+```mermaid
+C4Context
+  title 谁在用 Pamphlet
+  Person(author, "作者", "写 Markdown 的人")
+  System(pamphlet, "Pamphlet", "把一份 .md 编译成一个 HTML")
+  System_Ext(reader, "读者的浏览器", "双击打开产物")
+  Rel(author, pamphlet, "pamphlet build")
+  Rel(pamphlet, reader, "一个自包含的 HTML 文件")
+```
+
+### 数据流图
+
+```mermaid
+flowchart LR
+  作者[作者] -->|方案.md| P1(解析)
+  P1 -->|AST| P2(画图)
+  P2 -->|SVG| P3(组装)
+  D1[(图表缓存)] --- P2
+  P3 -->|方案.html| 读者[读者]
+```
+
+方框是外部的人，圆角是处理步骤，圆柱是存起来的东西——这是数据流图的老规矩。
+
+### 思维导图
+
+```mermaid
+mindmap
+  root((Pamphlet))
+    语法
+      指令
+      图表围栏
+    主题
+      配色
+      版式
+    产物
+      自包含
+```
+
+### git 分支图
+
+```mermaid
+gitGraph
+  commit id: "初始"
+  branch themes
+  commit id: "十三套主题"
+  commit id: "深色缺省"
+  checkout main
+  merge themes
+```
+
+### 块图
+
+```mermaid
+block-beta
+  columns 3
+  源文档["方案.md"] space 产物["方案.html"]
+  解析 画图 组装
+```
+
 ## 图片是内嵌的
 
 图片在编译时编码成 base64 写进产物，所以断网、拷到 U 盘里都一样能看。

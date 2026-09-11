@@ -95,11 +95,11 @@ describe('颜色替换（ADR-0016）', () => {
     expect(result.unmapped).toEqual([])
   })
 
-  it('不是哨兵的半透明色留着不动——换成实色会把阴影变成实心块', () => {
+  it('不是哨兵的半透明色留着不动，也不报——那是阴影，不是看不见的字', () => {
     const result = recolor('<svg><rect fill="rgba(0,0,0,0.2)"/></svg>')
     expect(result.replaced).toBe(0)
     expect(result.svg).toContain('rgba(0,0,0,0.2)')
-    expect(result.unmapped).toEqual(['rgba(0,0,0,0.2)'])
+    expect(result.unmapped).toEqual([])
   })
 
   it('大小写不敏感', () => {

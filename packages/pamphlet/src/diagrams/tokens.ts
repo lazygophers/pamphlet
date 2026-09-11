@@ -85,7 +85,17 @@ export const HARDCODED_ALIASES: Record<string, DiagramToken> = {
   '#666666': 'muted',
   '#999': 'muted',
   '#999999': 'muted',
+  '#777': 'muted',
+  '#777777': 'muted',
   '#b9b9b9': 'line',
+  '#dedede': 'line',
   '#e0e0e0': 'fill',
   '#eaeaea': 'fill',
+  '#efefef': 'fill',
+  // base 主题自己的 primaryColor，某些图种绕过 themeVariables 直接读它
+  '#fff4dd': 'fill',
+  // C4 图里关系文字与边界框的兜底色，写死在渲染器里
+  '#444444': 'muted',
+  // 架构图默认图标本身是一段写死颜色的 SVG，连图标带这个蓝一起塞进输出
+  '#087ebf': 'accent',
 }
