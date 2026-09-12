@@ -89,6 +89,48 @@
       }
     ]
   },
-  "others",
+  {
+    "type": "custom-link",
+    "label": "The other seven engines (not yet)",
+    "link": "/en/write/diagrams/others",
+    "collapsed": true,
+    "items": [
+      {
+        "type": "custom-link",
+        "label": "d2",
+        "link": "/en/write/diagrams/d2"
+      },
+      {
+        "type": "custom-link",
+        "label": "Graphviz (dot)",
+        "link": "/en/write/diagrams/dot"
+      },
+      {
+        "type": "custom-link",
+        "label": "MathJax (math)",
+        "link": "/en/write/diagrams/math"
+      },
+      {
+        "type": "custom-link",
+        "label": "Vega-Lite",
+        "link": "/en/write/diagrams/vega-lite"
+      },
+      {
+        "type": "custom-link",
+        "label": "WaveDrom",
+        "link": "/en/write/diagrams/wavedrom"
+      },
+      {
+        "type": "custom-link",
+        "label": "bytefield-svg",
+        "link": "/en/write/diagrams/bytefield"
+      },
+      {
+        "type": "custom-link",
+        "label": "PlantUML",
+        "link": "/en/write/diagrams/plantuml"
+      }
+    ]
+  },
   "images"
 ]

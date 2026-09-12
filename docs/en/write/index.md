@@ -72,7 +72,7 @@ The structured syntax does not render on GitHub; the fence does. Which you want 
 | [Data charts](/en/write/diagrams/chart) | `:::chart` | — Mermaid cannot |
 | [Org charts](/en/write/diagrams/orgchart) | `:::orgchart` | — Mermaid cannot |
 
-**The first thirteen are drawn by [Mermaid](/en/write/diagrams/mermaid)** (installed once); the structured syntax is translated into its source. **The last four Mermaid cannot draw** — Pamphlet lays those out and emits the SVG itself, with no browser needed at compile time. The other seven fence languages (`d2` `dot` `math` `vega-lite` `wavedrom` `bytefield` `plantuml`) are **not implemented**; using one reports `DIAG-301` and fails the build — see [The other seven](/en/write/diagrams/others).
+**The first thirteen are drawn by [Mermaid](/en/write/diagrams/mermaid)** (installed once); the structured syntax is translated into its source. **The last four Mermaid cannot draw** — Pamphlet lays those out and emits the SVG itself, with no browser needed at compile time. The other seven engines are **not implemented**; using one reports `DIAG-301` and fails the build. Each has its own page: [d2](/en/write/diagrams/d2) · [Graphviz](/en/write/diagrams/dot) · [MathJax](/en/write/diagrams/math) · [Vega-Lite](/en/write/diagrams/vega-lite) · [WaveDrom](/en/write/diagrams/wavedrom) · [bytefield-svg](/en/write/diagrams/bytefield) · [PlantUML](/en/write/diagrams/plantuml); the shared trade-offs live in [The other seven engines](/en/write/diagrams/others).
 
 Images have their own page: [Images and assets](/en/write/diagrams/images).
 

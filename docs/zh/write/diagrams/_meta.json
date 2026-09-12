@@ -89,6 +89,48 @@
       }
     ]
   },
-  "others",
+  {
+    "type": "custom-link",
+    "label": "其余七种引擎（还没实现）",
+    "link": "/write/diagrams/others",
+    "collapsed": true,
+    "items": [
+      {
+        "type": "custom-link",
+        "label": "d2",
+        "link": "/write/diagrams/d2"
+      },
+      {
+        "type": "custom-link",
+        "label": "Graphviz（dot）",
+        "link": "/write/diagrams/dot"
+      },
+      {
+        "type": "custom-link",
+        "label": "MathJax（math）",
+        "link": "/write/diagrams/math"
+      },
+      {
+        "type": "custom-link",
+        "label": "Vega-Lite",
+        "link": "/write/diagrams/vega-lite"
+      },
+      {
+        "type": "custom-link",
+        "label": "WaveDrom",
+        "link": "/write/diagrams/wavedrom"
+      },
+      {
+        "type": "custom-link",
+        "label": "bytefield-svg",
+        "link": "/write/diagrams/bytefield"
+      },
+      {
+        "type": "custom-link",
+        "label": "PlantUML",
+        "link": "/write/diagrams/plantuml"
+      }
+    ]
+  },
   "images"
 ]

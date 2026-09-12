@@ -4,13 +4,15 @@
 
 | 围栏语言 | 引擎 | 将来的依赖形态 |
 |---|---|---|
-| `d2` | d2 | npm，WASM，无浏览器 |
-| `dot` | Graphviz | npm，WASM，无浏览器 |
-| `math` | MathJax v3 | npm，纯 JS，原生输出 SVG |
-| `vega-lite` | Vega-Lite | npm 库 |
-| `wavedrom` | WaveDrom | npm 库 |
-| `bytefield` | bytefield-svg | npm，纯 JS |
-| `plantuml` | PlantUML | **jar，需 Java ≥ 11** |
+| [`d2`](/write/diagrams/d2) | d2 | npm，WASM，无浏览器 |
+| [`dot`](/write/diagrams/dot) | Graphviz | npm，WASM，无浏览器 |
+| [`math`](/write/diagrams/math) | MathJax v3 | npm，纯 JS，原生输出 SVG |
+| [`vega-lite`](/write/diagrams/vega-lite) | Vega-Lite | npm 库 |
+| [`wavedrom`](/write/diagrams/wavedrom) | WaveDrom | npm 库 |
+| [`bytefield`](/write/diagrams/bytefield) | bytefield-svg | npm，纯 JS |
+| [`plantuml`](/write/diagrams/plantuml) | PlantUML | **jar，需 Java ≥ 11** |
+
+**每一种一页**，点上表第一列进去：那一页写清它是什么、能画哪些图、围栏里怎么写、现在什么状态。
 
 源码里 `packages/pamphlet/src/diagrams/` 目前只有 `mermaid.ts`。形态在 [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) 里已经定了，只是还没写。
 

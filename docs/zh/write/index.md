@@ -72,7 +72,7 @@ Pamphlet 在标准 Markdown 之上加的五种，统称[容器指令](/write/com
 | [数据图表](/write/diagrams/chart) | `:::chart` | — Mermaid 画不了 |
 | [组织架构图](/write/diagrams/orgchart) | `:::orgchart` | — Mermaid 画不了 |
 
-**前十三种由 [Mermaid](/write/diagrams/mermaid) 画**（要先装一次），自有写法会被翻译成它的图源；**后四种 Mermaid 画不了**，由 Pamphlet 自己算布局、自己出 SVG，编译时不需要浏览器。其余七种引擎（`d2` `dot` `math` `vega-lite` `wavedrom` `bytefield` `plantuml`）**都还没实现**，写了报 `DIAG-301` 并且构建失败，见[其余七种](/write/diagrams/others)。
+**前十三种由 [Mermaid](/write/diagrams/mermaid) 画**（要先装一次），自有写法会被翻译成它的图源；**后四种 Mermaid 画不了**，由 Pamphlet 自己算布局、自己出 SVG，编译时不需要浏览器。其余七种引擎**都还没实现**，写了报 `DIAG-301` 并且构建失败——它们各有一页：[d2](/write/diagrams/d2) · [Graphviz](/write/diagrams/dot) · [MathJax](/write/diagrams/math) · [Vega-Lite](/write/diagrams/vega-lite) · [WaveDrom](/write/diagrams/wavedrom) · [bytefield-svg](/write/diagrams/bytefield) · [PlantUML](/write/diagrams/plantuml)，共同的取舍写在[其余七种引擎](/write/diagrams/others)。
 
 图片单独一页：[图片与资源](/write/diagrams/images)。
 

@@ -4,13 +4,15 @@ The fence languages are recognised, but **the engines are not written yet**. Usi
 
 | Fence language | Engine | Future dependency shape |
 |---|---|---|
-| `d2` | d2 | npm, WASM, no browser |
-| `dot` | Graphviz | npm, WASM, no browser |
-| `math` | MathJax v3 | npm, pure JS, emits SVG natively |
-| `vega-lite` | Vega-Lite | npm library |
-| `wavedrom` | WaveDrom | npm library |
-| `bytefield` | bytefield-svg | npm, pure JS |
-| `plantuml` | PlantUML | **jar, needs Java ≥ 11** |
+| [`d2`](/en/write/diagrams/d2) | d2 | npm, WASM, no browser |
+| [`dot`](/en/write/diagrams/dot) | Graphviz | npm, WASM, no browser |
+| [`math`](/en/write/diagrams/math) | MathJax v3 | npm, pure JS, emits SVG natively |
+| [`vega-lite`](/en/write/diagrams/vega-lite) | Vega-Lite | npm library |
+| [`wavedrom`](/en/write/diagrams/wavedrom) | WaveDrom | npm library |
+| [`bytefield`](/en/write/diagrams/bytefield) | bytefield-svg | npm, pure JS |
+| [`plantuml`](/en/write/diagrams/plantuml) | PlantUML | **jar, needs Java ≥ 11** |
+
+**Each has its own page** — follow the first column: what it is, what it draws, what the fence looks like, and where it stands today.
 
 `packages/pamphlet/src/diagrams/` currently contains only `mermaid.ts`. The shape is settled in [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md); it just is not written.
 
