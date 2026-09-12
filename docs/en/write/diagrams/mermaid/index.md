@@ -44,9 +44,23 @@ The `DIAG-303` timeout is **10 seconds**, roughly 13× the worst measured case.
 
 ## Which kinds it draws
 
-Thirteen, one page each:
+Thirteen. **Each has two pages**: one for Pamphlet's own syntax and one for the Mermaid fence syntax described here. They draw the same diagram.
 
-[Flowcharts](/en/write/diagrams/flowchart) · [Sequence](/en/write/diagrams/sequence) · [State](/en/write/diagrams/state) · [Class](/en/write/diagrams/class) · [ER](/en/write/diagrams/er) · [Gantt](/en/write/diagrams/gantt) · [Pie](/en/write/diagrams/pie) · [Architecture](/en/write/diagrams/architecture) · [System context](/en/write/diagrams/c4) · [Data flow](/en/write/diagrams/dataflow) · [Mind maps](/en/write/diagrams/mindmap) · [Branch graphs](/en/write/diagrams/gitgraph) · [Block](/en/write/diagrams/block)
+| What it draws | Own syntax | The Mermaid fence |
+|---|---|---|
+| Flowcharts | [`:::flow`](/en/write/diagrams/flowchart) | [fence syntax](/en/write/diagrams/mermaid/flowchart) |
+| Sequence diagrams | [`:::sequence`](/en/write/diagrams/sequence) | [fence syntax](/en/write/diagrams/mermaid/sequence) |
+| State diagrams | [`:::state`](/en/write/diagrams/state) | [fence syntax](/en/write/diagrams/mermaid/state) |
+| Class diagrams | [`:::class`](/en/write/diagrams/class) | [fence syntax](/en/write/diagrams/mermaid/class) |
+| Entity-relationship diagrams | [`:::er`](/en/write/diagrams/er) | [fence syntax](/en/write/diagrams/mermaid/er) |
+| Gantt charts | [`:::gantt`](/en/write/diagrams/gantt) | [fence syntax](/en/write/diagrams/mermaid/gantt) |
+| Pie charts | [`:::pie`](/en/write/diagrams/pie) | [fence syntax](/en/write/diagrams/mermaid/pie) |
+| Architecture diagrams | [`:::architecture`](/en/write/diagrams/architecture) | [fence syntax](/en/write/diagrams/mermaid/architecture) |
+| System context diagrams | [`:::c4`](/en/write/diagrams/c4) | [fence syntax](/en/write/diagrams/mermaid/c4) |
+| Data-flow diagrams | [`:::dataflow`](/en/write/diagrams/dataflow) | [fence syntax](/en/write/diagrams/mermaid/dataflow) |
+| Mind maps | [`:::mindmap`](/en/write/diagrams/mindmap) | [fence syntax](/en/write/diagrams/mermaid/mindmap) |
+| Git branch diagrams | [`:::gitgraph`](/en/write/diagrams/gitgraph) | [fence syntax](/en/write/diagrams/mermaid/gitgraph) |
+| Block diagrams | [`:::block`](/en/write/diagrams/block) | [fence syntax](/en/write/diagrams/mermaid/block) |
 
 ### They render, but imperfectly
 

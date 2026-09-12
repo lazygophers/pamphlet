@@ -22,19 +22,7 @@ slices:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-pie title Output size
-  "diagram SVG" : 48
-  "styles" : 17
-  "body HTML" : 12
-  "runtime" : 9
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/pie) instead.
 
 ## What comes out
 
@@ -42,6 +30,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- **Quote the labels**, or one containing a space breaks apart
-- Slice colours follow the theme, but cycle through only four — **beyond four slices, neighbours may share a colour**, separated by the stroke
+- There is one block: `slices:`
+- Each line is `name : value`; the value must be a number, and "a lot" reports `DIAG-306`
+- The compiler adds the quotes around the name; you don't
 - Nobody reads proportions past six slices; use a [table](/en/write/blocks/table)

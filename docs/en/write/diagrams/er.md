@@ -24,18 +24,7 @@ relations:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-erDiagram
-  SOURCE ||--|| OUTPUT : compiles-to
-  SOURCE ||--o{ FENCE : contains
-  SOURCE ||--o{ ASSET : references
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/er) instead.
 
 ## What comes out
 
@@ -43,6 +32,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- `||--||` one-to-one, `||--o{` one-to-many, `}o--o{` many-to-many
-- After the colon goes **the name of the relationship** — a verb, not a noun
-- Entity names may be non-Latin
+- The block names are fixed: `entities:` and `relations:`
+- **Every relationship renders as one-to-many (`||--o{`)** — use a Mermaid fence for one-to-one or many-to-many
+- An entity that takes part in no relationship is still drawn; it does not vanish
+- After the colon goes the name of the relationship — a verb, not a noun

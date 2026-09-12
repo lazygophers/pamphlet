@@ -25,20 +25,7 @@ transitions:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-stateDiagram-v2
-  [*] --> Parse
-  Parse --> Render: has a diagram fence
-  Parse --> Assemble: text only
-  Render --> Assemble
-  Assemble --> [*]
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/state) instead.
 
 ## What comes out
 
@@ -46,6 +33,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- `[*]` is both start and end
-- Put the **trigger** after the colon; an unlabelled arrow never explains why the change happens
-- Use `stateDiagram-v2`, not the older `stateDiagram`
+- The block names are fixed: `states:` and `transitions:`
+- `{dir=...}` becomes Mermaid's `direction`; `TD` is rewritten to `TB` because Mermaid's state diagram only accepts `TB`
+- Put the trigger after the colon: `idle -> busy : work arrives`. An unlabelled arrow never explains why the change happens
+- **The start and end dots are not available here** — use `[*]` in a Mermaid fence if you need them

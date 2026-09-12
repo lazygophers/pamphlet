@@ -24,23 +24,7 @@ tasks:
 :::
 ````
 
-上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
-
-### 另一种写法：Mermaid 围栏
-
-````markdown
-```mermaid
-gantt
-  title 一次改版的排期
-  dateFormat YYYY-MM-DD
-  axisFormat %m-%d
-  section 设计
-  定方案        :done, a1, 2026-03-02, 5d
-  评审          :done, a2, after a1, 2d
-  section 实现
-  编译器改动     :active, b1, after a2, 8d
-```
-````
+这种写法在 GitHub 上不会渲染。要 GitHub 也能看，用[甘特图的 Mermaid 围栏写法](/write/diagrams/mermaid/gantt)，画出来是同一张图。
 
 ## 出来是什么样
 
@@ -48,6 +32,7 @@ gantt
 
 ## 坑
 
-- `done` 已完成（灰）、`active` 进行中（主色）、`crit` 关键路径（强调色）
-- `after a1` 表示接着上一项开始，不用自己算日期
-- **`dateFormat X`（纯数字轴）容易排得很奇怪**，用真实日期更稳
+- 块名固定是 `sections:` 和 `tasks:`
+- 任务行是四段：`阶段 : 任务名 : 开始 : 时长`，例如 `设计 : 定方案 : 2026-03-02 : 5d`
+- **阶段名必须在 `sections:` 里声明过**，否则报 `DIAG-306` 并列出已声明的阶段
+- 日期一律写 `YYYY-MM-DD`；`{axis=%m-%d}` 定的是横轴显示成什么样

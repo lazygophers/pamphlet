@@ -22,25 +22,7 @@ relations:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-classDiagram
-  class Theme {
-    +string name
-    +ThemeTokens light
-    +ThemeTokens dark
-  }
-  class ThemeTokens {
-    +string bg
-    +string fg
-  }
-  Theme --> ThemeTokens
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/class) instead.
 
 ## What comes out
 
@@ -48,6 +30,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- `+` public, `-` private
-- `-->` association, `<|--` inheritance, `*--` composition
-- Past seven or eight classes nobody can follow it
+- The block names are fixed: `classes:` and `relations:`
+- **Fields and methods cannot be listed**; only class-to-class relationships are drawn — use a Mermaid fence to list members
+- Every relationship renders as a plain arrow; inheritance and composition arrows exist only in the fence syntax
+- `{dir=...}` becomes Mermaid's `direction`, with `TD` rewritten to `TB`

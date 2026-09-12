@@ -26,22 +26,7 @@ branches:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-mindmap
-  root((Pamphlet))
-    Syntax
-      Directives
-      Diagram fences
-    Themes
-      Palette
-      Layout
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/mindmap) instead.
 
 ## What comes out
 
@@ -49,6 +34,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- **Indentation carries the hierarchy**; no arrows to draw
-- `root((text))` takes double parentheses and renders as a circle
+- The block names are fixed: `root:` and `branches:`
+- Inside `branches:`, **the number of `>` marks** is the level: one `>` is the first level, `>>` the second
+- The root renders as a circle; you don't write the parentheses
 - Past three levels prefer a [list](/en/write/blocks/lists) — a mind map earns its keep by showing the whole at a glance

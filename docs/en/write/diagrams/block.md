@@ -20,18 +20,7 @@ blocks:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-block-beta
-  columns 3
-  source["plan.md"] space output["plan.html"]
-  parse render assemble
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/block) instead.
 
 ## What comes out
 
@@ -39,6 +28,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- `columns 3` sets the row width; `space` leaves an empty cell
+- There is one block: `blocks:`
+- One line is one row of cells, separated by `|`; write `-` or leave it empty for a blank cell
+- `{columns=3}` sets how many cells a row holds; the default is 3
 - It draws no arrows and implies no order; for order use a [flowchart](/en/write/diagrams/flowchart)
-- Still beta syntax, so it may change

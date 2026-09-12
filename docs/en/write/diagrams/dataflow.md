@@ -28,20 +28,7 @@ flows:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-flowchart LR
-  Author[Author] -->|plan.md| P1(parse)
-  P1 -->|AST| P2(render)
-  P2 -->|SVG| P3(assemble)
-  D1[(diagram cache)] --- P2
-  P3 -->|plan.html| Reader[Reader]
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/dataflow) instead.
 
 ## What comes out
 
@@ -49,6 +36,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- **There is no dedicated syntax; use a [flowchart](/en/write/diagrams/flowchart)** and let shapes carry the roles
-- The convention: **boxes** are external actors, **rounded** nodes are processes, **cylinders** are stores
+- The block names are fixed: `nodes:` and `flows:` — note it is `flows:` here, not the flowchart's `edges:`
+- The six shapes are shared with [flowcharts](/en/write/diagrams/flowchart): **`box`** for external actors, **`round`** for processes, **`cylinder`** for stores
 - Edge labels are **the data flowing** (`plan.md`, `AST`), not the action
+- Without `{dir=...}` the default is `LR`, unlike the flowchart's `TD`

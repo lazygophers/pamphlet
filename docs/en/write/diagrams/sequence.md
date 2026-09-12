@@ -23,19 +23,7 @@ messages:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-sequenceDiagram
-  participant Author
-  participant Compiler
-  Author->>Compiler: pamphlet build plan.md
-  Compiler-->>Author: plan.html
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/sequence) instead.
 
 ## What comes out
 
@@ -43,6 +31,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- `->>` solid is a request, `-->>` dashed is a reply
-- Past five participants it stops being readable; split it
-- Participant names may be non-Latin
+- The block names are fixed: `participants:` and `messages:`
+- `->` is a solid request, `-->` a dashed reply — they mean different things
+- The message text goes after the colon: `author -> compiler : build`
+- A participant used in a message but never declared reports `DIAG-306`

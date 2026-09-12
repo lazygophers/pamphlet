@@ -20,18 +20,7 @@ blocks:
 :::
 ````
 
-上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
-
-### 另一种写法：Mermaid 围栏
-
-````markdown
-```mermaid
-block-beta
-  columns 3
-  源文档["方案.md"] space 产物["方案.html"]
-  解析 画图 组装
-```
-````
+这种写法在 GitHub 上不会渲染。要 GitHub 也能看，用[块图的 Mermaid 围栏写法](/write/diagrams/mermaid/block)，画出来是同一张图。
 
 ## 出来是什么样
 
@@ -39,6 +28,7 @@ block-beta
 
 ## 坑
 
-- `columns 3` 定一行几格，`space` 占一个空格子
+- 只有一个块：`blocks:`
+- 一行就是一排格子，`|` 分隔；写 `-` 或者留空表示这一格空着
+- `{columns=3}` 定一行几格，不写就是 3
 - 它不画箭头也不表示顺序，需要顺序用[流程图](/write/diagrams/flowchart)
-- 目前还是 beta 语法，将来可能变

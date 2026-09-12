@@ -26,18 +26,7 @@ edges:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-flowchart LR
-  A[request] --> B{in Redis?}
-  B -->|yes| C[return it]
-  B -->|no| D[query the database]
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/flowchart) instead.
 
 ## What comes out
 
@@ -45,6 +34,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- `LR` is left-to-right, `TD` top-down. Many nodes read better as `TD`; a few read flatter as `LR`
-- `[box]` `(rounded)` `{diamond}` `[(cylinder)]` `([stadium])` each mean something — don't mix them arbitrarily
-- **Fancy shapes like the trapezoid `[/text/]` blow up the SVG** (measured: 103KB for one diagram, 18KB after switching to rounded nodes)
+- The block names are fixed: `nodes:` and `edges:`. Missing one reports `DIAG-305`
+- There are six shapes: `box` / `round` / `stadium` / `diamond` / `cylinder` / `circle`. Anything else reports `DIAG-307` and lists the ones that work
+- A name in `edges:` that `nodes:` never declared reports `DIAG-306` — a typo in a name is the most common mistake
+- `{dir=...}` accepts `LR` / `RL` / `TD` / `TB` / `BT` only; the default is `TD`

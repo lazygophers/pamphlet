@@ -23,19 +23,7 @@ messages:
 :::
 ````
 
-上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
-
-### 另一种写法：Mermaid 围栏
-
-````markdown
-```mermaid
-sequenceDiagram
-  participant 作者
-  participant 编译器
-  作者->>编译器: pamphlet build 方案.md
-  编译器-->>作者: 方案.html
-```
-````
+这种写法在 GitHub 上不会渲染。要 GitHub 也能看，用[时序图的 Mermaid 围栏写法](/write/diagrams/mermaid/sequence)，画出来是同一张图。
 
 ## 出来是什么样
 
@@ -43,6 +31,7 @@ sequenceDiagram
 
 ## 坑
 
-- `->>` 实线箭头是请求，`-->>` 虚线是返回
-- 参与者超过五个就很难读，考虑拆成两张
-- 参与者名字可以写中文
+- 块名固定是 `participants:` 和 `messages:`
+- `->` 是实线请求，`-->` 是虚线回复，两条线的意思不同
+- 消息内容写在冒号后面：`作者 -> 编译器 : build`
+- 消息里引用了没声明过的参与者报 `DIAG-306`

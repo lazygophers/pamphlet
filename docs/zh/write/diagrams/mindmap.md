@@ -26,22 +26,7 @@ branches:
 :::
 ````
 
-上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
-
-### 另一种写法：Mermaid 围栏
-
-````markdown
-```mermaid
-mindmap
-  root((Pamphlet))
-    语法
-      指令
-      图表围栏
-    主题
-      配色
-      版式
-```
-````
+这种写法在 GitHub 上不会渲染。要 GitHub 也能看，用[思维导图的 Mermaid 围栏写法](/write/diagrams/mermaid/mindmap)，画出来是同一张图。
 
 ## 出来是什么样
 
@@ -49,6 +34,7 @@ mindmap
 
 ## 坑
 
-- **靠缩进表示层级**，不用画箭头
-- `root((文字))` 是双括号，画成圆形
-- 超过三层就该考虑改用[列表](/write/blocks/lists)——思维导图的优势在「一眼看到全貌」，层数多了就没这个优势了
+- 块名固定是 `root:` 和 `branches:`
+- `branches:` 里靠 **`>` 的个数**表示层级：一个 `>` 是第一层，两个 `>>` 是第二层
+- 根节点画成圆形，不用自己写括号
+- 超过三层就该考虑改用[列表](/write/blocks/lists)——思维导图的优势是「一眼看到全貌」

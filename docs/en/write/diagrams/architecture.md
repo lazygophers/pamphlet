@@ -24,21 +24,7 @@ links:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-architecture-beta
-  group build(cloud)[Build stage]
-  service src(disk)[Source] in build
-  service engine(server)[Diagram engine] in build
-  service out(database)[Output] in build
-  src:R -- L:engine
-  engine:R -- L:out
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/architecture) instead.
 
 ## What comes out
 
@@ -46,6 +32,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- **IDs must be ASCII** (`src` in `service src(disk)[Source]`); the label in brackets can be anything
-- The name in parentheses is the icon: `cloud` `database` `disk` `server` `internet` ship built in
-- In `src:R -- L:engine`, `R` `L` `T` `B` pick which edge the line leaves from
+- The block names are fixed: `services:` and `links:`
+- A service line is `id = icon "label"`; the icon name goes straight to Mermaid — `cloud` / `database` / `disk` / `server` / `internet`, defaulting to `server`
+- Write a link as `a -- b`; which edge it leaves from is chosen for you (always `R` to `L`)
+- **Groups (`group`) are not available here** — use a Mermaid fence for those

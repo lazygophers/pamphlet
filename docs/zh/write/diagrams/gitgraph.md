@@ -23,20 +23,7 @@ commits:
 :::
 ````
 
-上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
-
-### 另一种写法：Mermaid 围栏
-
-````markdown
-```mermaid
-gitGraph
-  commit id: "初始"
-  branch themes
-  commit id: "十三套主题"
-  checkout main
-  merge themes
-```
-````
+这种写法在 GitHub 上不会渲染。要 GitHub 也能看，用[git 分支图的 Mermaid 围栏写法](/write/diagrams/mermaid/gitgraph)，画出来是同一张图。
 
 ## 出来是什么样
 
@@ -44,6 +31,7 @@ gitGraph
 
 ## 坑
 
-- `branch` 拉分支，`checkout` 切回去，`merge` 合并
-- `id:` 里的字符串要加引号
+- 只有一个块：`commits:`
+- 每行一条操作，只有四个：`commit 名字` / `branch 名字` / `checkout 名字` / `merge 名字`，写别的报 `DIAG-306`
+- 提交名里的引号由编译器补
 - 提交超过十个就挤成一条线，只画关键的几个

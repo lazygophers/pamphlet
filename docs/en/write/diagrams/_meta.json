@@ -18,74 +18,74 @@
   "orgchart",
   {
     "type": "custom-link",
-    "label": "Mermaid (engine)",
+    "label": "The Mermaid fence syntax",
     "link": "/en/write/diagrams/mermaid",
     "collapsed": true,
     "items": [
       {
         "type": "custom-link",
         "label": "Flowcharts",
-        "link": "/en/write/diagrams/flowchart"
+        "link": "/en/write/diagrams/mermaid/flowchart"
       },
       {
         "type": "custom-link",
-        "label": "Sequence",
-        "link": "/en/write/diagrams/sequence"
+        "label": "Sequence diagrams",
+        "link": "/en/write/diagrams/mermaid/sequence"
       },
       {
         "type": "custom-link",
-        "label": "State",
-        "link": "/en/write/diagrams/state"
+        "label": "State diagrams",
+        "link": "/en/write/diagrams/mermaid/state"
       },
       {
         "type": "custom-link",
-        "label": "Class",
-        "link": "/en/write/diagrams/class"
+        "label": "Class diagrams",
+        "link": "/en/write/diagrams/mermaid/class"
       },
       {
         "type": "custom-link",
-        "label": "ER",
-        "link": "/en/write/diagrams/er"
+        "label": "Entity-relationship diagrams",
+        "link": "/en/write/diagrams/mermaid/er"
       },
       {
         "type": "custom-link",
-        "label": "Gantt",
-        "link": "/en/write/diagrams/gantt"
+        "label": "Gantt charts",
+        "link": "/en/write/diagrams/mermaid/gantt"
       },
       {
         "type": "custom-link",
-        "label": "Pie",
-        "link": "/en/write/diagrams/pie"
+        "label": "Pie charts",
+        "link": "/en/write/diagrams/mermaid/pie"
       },
       {
         "type": "custom-link",
-        "label": "Architecture",
-        "link": "/en/write/diagrams/architecture"
+        "label": "Architecture diagrams",
+        "link": "/en/write/diagrams/mermaid/architecture"
       },
       {
         "type": "custom-link",
-        "label": "System context",
-        "link": "/en/write/diagrams/c4"
+        "label": "System context diagrams",
+        "link": "/en/write/diagrams/mermaid/c4"
       },
       {
         "type": "custom-link",
-        "label": "Data flow",
-        "link": "/en/write/diagrams/dataflow"
+        "label": "Data-flow diagrams",
+        "link": "/en/write/diagrams/mermaid/dataflow"
       },
       {
         "type": "custom-link",
         "label": "Mind maps",
-        "link": "/en/write/diagrams/mindmap"
+        "link": "/en/write/diagrams/mermaid/mindmap"
       },
       {
         "type": "custom-link",
-        "label": "Branch graphs",
-        "link": "/en/write/diagrams/gitgraph"
+        "label": "Git branch diagrams",
+        "link": "/en/write/diagrams/mermaid/gitgraph"
       },
       {
         "type": "custom-link",
-        "label": "Block",
-        "link": "/en/write/diagrams/block"
+        "label": "Block diagrams",
+        "link": "/en/write/diagrams/mermaid/block"
       }
     ]
   },

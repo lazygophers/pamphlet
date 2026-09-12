@@ -18,74 +18,74 @@
   "orgchart",
   {
     "type": "custom-link",
-    "label": "Mermaid（引擎）",
+    "label": "Mermaid 围栏写法",
     "link": "/write/diagrams/mermaid",
     "collapsed": true,
     "items": [
       {
         "type": "custom-link",
         "label": "流程图",
-        "link": "/write/diagrams/flowchart"
+        "link": "/write/diagrams/mermaid/flowchart"
       },
       {
         "type": "custom-link",
         "label": "时序图",
-        "link": "/write/diagrams/sequence"
+        "link": "/write/diagrams/mermaid/sequence"
       },
       {
         "type": "custom-link",
         "label": "状态图",
-        "link": "/write/diagrams/state"
+        "link": "/write/diagrams/mermaid/state"
       },
       {
         "type": "custom-link",
         "label": "类图",
-        "link": "/write/diagrams/class"
+        "link": "/write/diagrams/mermaid/class"
       },
       {
         "type": "custom-link",
         "label": "实体关系图",
-        "link": "/write/diagrams/er"
+        "link": "/write/diagrams/mermaid/er"
       },
       {
         "type": "custom-link",
         "label": "甘特图",
-        "link": "/write/diagrams/gantt"
+        "link": "/write/diagrams/mermaid/gantt"
       },
       {
         "type": "custom-link",
         "label": "饼图",
-        "link": "/write/diagrams/pie"
+        "link": "/write/diagrams/mermaid/pie"
       },
       {
         "type": "custom-link",
         "label": "架构图",
-        "link": "/write/diagrams/architecture"
+        "link": "/write/diagrams/mermaid/architecture"
       },
       {
         "type": "custom-link",
         "label": "系统上下文图",
-        "link": "/write/diagrams/c4"
+        "link": "/write/diagrams/mermaid/c4"
       },
       {
         "type": "custom-link",
         "label": "数据流图",
-        "link": "/write/diagrams/dataflow"
+        "link": "/write/diagrams/mermaid/dataflow"
       },
       {
         "type": "custom-link",
         "label": "思维导图",
-        "link": "/write/diagrams/mindmap"
+        "link": "/write/diagrams/mermaid/mindmap"
       },
       {
         "type": "custom-link",
         "label": "git 分支图",
-        "link": "/write/diagrams/gitgraph"
+        "link": "/write/diagrams/mermaid/gitgraph"
       },
       {
         "type": "custom-link",
         "label": "块图",
-        "link": "/write/diagrams/block"
+        "link": "/write/diagrams/mermaid/block"
       }
     ]
   },

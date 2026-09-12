@@ -23,20 +23,7 @@ commits:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-gitGraph
-  commit id: "initial"
-  branch themes
-  commit id: "thirteen themes"
-  checkout main
-  merge themes
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/gitgraph) instead.
 
 ## What comes out
 
@@ -44,6 +31,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- `branch` forks, `checkout` switches back, `merge` merges
-- The string after `id:` needs quotes
+- There is one block: `commits:`
+- One operation per line, and there are only four: `commit <name>` / `branch <name>` / `checkout <name>` / `merge <name>`. Anything else reports `DIAG-306`
+- The compiler adds the quotes around a commit name
 - Past ten commits it compresses into a line; draw only the ones that matter

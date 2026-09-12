@@ -26,18 +26,7 @@ edges:
 :::
 ````
 
-上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
-
-### 另一种写法：Mermaid 围栏
-
-````markdown
-```mermaid
-flowchart LR
-  A[请求] --> B{Redis 有吗}
-  B -->|有| C[直接返回]
-  B -->|没有| D[查数据库]
-```
-````
+这种写法在 GitHub 上不会渲染。要 GitHub 也能看，用[流程图的 Mermaid 围栏写法](/write/diagrams/mermaid/flowchart)，画出来是同一张图。
 
 ## 出来是什么样
 
@@ -45,6 +34,7 @@ flowchart LR
 
 ## 坑
 
-- `LR` 是从左到右，`TD` 是从上到下。节点多时用 `TD`，节点少时 `LR` 更扁平
-- `[方框]` `(圆角)` `{菱形判断}` `[(圆柱)]` `([胶囊])` 各有含义，别混用
-- **梯形 `[/文字/]` 这种花哨形状会让 SVG 体积暴涨**（实测单张 103KB → 换成圆角后 18KB）
+- 块名固定是 `nodes:` 和 `edges:`，少一个报 `DIAG-305`
+- 形状只有六个：`box` / `round` / `stadium` / `diamond` / `cylinder` / `circle`，写别的报 `DIAG-307` 并把能用的列出来
+- `edges:` 里引用了 `nodes:` 没声明过的名字报 `DIAG-306`——名字拼错是最常见的写错法
+- `{dir=...}` 只认 `LR` / `RL` / `TD` / `TB` / `BT`，不写就是 `TD`

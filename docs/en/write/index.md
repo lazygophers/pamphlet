@@ -50,21 +50,23 @@ Attribute values: `default` and `open` take no value; `effect` is one of `fade-u
 
 The structured syntax does not render on GitHub; the fence does. Which you want depends on where the source file goes.
 
-| To draw | Own syntax | Mermaid fence keyword |
+**Each way has its own pages**: the second column below links to the own-syntax page, the third to the [Mermaid fence page](/en/write/diagrams/mermaid/) for the same diagram.
+
+| To draw | Own syntax | The Mermaid fence |
 |---|---|---|
-| [Flowcharts](/en/write/diagrams/flowchart) | `:::flow` | `flowchart LR` |
-| [Sequence](/en/write/diagrams/sequence) | `:::sequence` | `sequenceDiagram` |
-| [State](/en/write/diagrams/state) | `:::state` | `stateDiagram-v2` |
-| [Class](/en/write/diagrams/class) | `:::class` | `classDiagram` |
-| [ER](/en/write/diagrams/er) | `:::er` | `erDiagram` |
-| [Gantt](/en/write/diagrams/gantt) | `:::gantt` | `gantt` |
-| [Pie](/en/write/diagrams/pie) | `:::pie` | `pie` |
-| [Architecture](/en/write/diagrams/architecture) | `:::architecture` | `architecture-beta` |
-| [System context](/en/write/diagrams/c4) | `:::c4` | `C4Context` |
-| [Data flow](/en/write/diagrams/dataflow) | `:::dataflow` | `flowchart LR` |
-| [Mind maps](/en/write/diagrams/mindmap) | `:::mindmap` | `mindmap` |
-| [Branch graphs](/en/write/diagrams/gitgraph) | `:::gitgraph` | `gitGraph` |
-| [Block](/en/write/diagrams/block) | `:::block` | `block-beta` |
+| [Flowcharts](/en/write/diagrams/flowchart) | `:::flow` | [`flowchart LR`](/en/write/diagrams/mermaid/flowchart) |
+| [Sequence](/en/write/diagrams/sequence) | `:::sequence` | [`sequenceDiagram`](/en/write/diagrams/mermaid/sequence) |
+| [State](/en/write/diagrams/state) | `:::state` | [`stateDiagram-v2`](/en/write/diagrams/mermaid/state) |
+| [Class](/en/write/diagrams/class) | `:::class` | [`classDiagram`](/en/write/diagrams/mermaid/class) |
+| [ER](/en/write/diagrams/er) | `:::er` | [`erDiagram`](/en/write/diagrams/mermaid/er) |
+| [Gantt](/en/write/diagrams/gantt) | `:::gantt` | [`gantt`](/en/write/diagrams/mermaid/gantt) |
+| [Pie](/en/write/diagrams/pie) | `:::pie` | [`pie`](/en/write/diagrams/mermaid/pie) |
+| [Architecture](/en/write/diagrams/architecture) | `:::architecture` | [`architecture-beta`](/en/write/diagrams/mermaid/architecture) |
+| [System context](/en/write/diagrams/c4) | `:::c4` | [`C4Context`](/en/write/diagrams/mermaid/c4) |
+| [Data flow](/en/write/diagrams/dataflow) | `:::dataflow` | [`flowchart LR`](/en/write/diagrams/mermaid/dataflow) |
+| [Mind maps](/en/write/diagrams/mindmap) | `:::mindmap` | [`mindmap`](/en/write/diagrams/mermaid/mindmap) |
+| [Branch graphs](/en/write/diagrams/gitgraph) | `:::gitgraph` | [`gitGraph`](/en/write/diagrams/mermaid/gitgraph) |
+| [Block](/en/write/diagrams/block) | `:::block` | [`block-beta`](/en/write/diagrams/mermaid/block) |
 | [Swimlane](/en/write/diagrams/swimlane) | `:::swimlane` | — Mermaid cannot |
 | [Network topology](/en/write/diagrams/topology) | `:::topology` | — Mermaid cannot |
 | [Data charts](/en/write/diagrams/chart) | `:::chart` | — Mermaid cannot |

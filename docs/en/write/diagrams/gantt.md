@@ -24,23 +24,7 @@ tasks:
 :::
 ````
 
-That syntax does not render on GitHub. If you need it to, use this instead:
-
-### The other way: a Mermaid fence
-
-````markdown
-```mermaid
-gantt
-  title Redesign schedule
-  dateFormat YYYY-MM-DD
-  axisFormat %m-%d
-  section Design
-  Draft the plan   :done, a1, 2026-03-02, 5d
-  Review           :done, a2, after a1, 2d
-  section Build
-  Compiler changes :active, b1, after a2, 8d
-```
-````
+This syntax does not render on GitHub. If you need it to, write [the same diagram as a Mermaid fence](/en/write/diagrams/mermaid/gantt) instead.
 
 ## What comes out
 
@@ -48,6 +32,7 @@ Drawn to SVG at compile time and inlined into the output, so **the reader downlo
 
 ## Traps
 
-- `done` (grey), `active` (primary), `crit` (accent) for the critical path
-- `after a1` chains to the previous task so you never compute dates by hand
-- **`dateFormat X` (a plain numeric axis) lays out strangely**; real dates are safer
+- The block names are fixed: `sections:` and `tasks:`
+- A task line has four parts: `section : name : start : length`, e.g. `Design : pick an approach : 2026-03-02 : 5d`
+- **The section name must be declared in `sections:`**, otherwise it reports `DIAG-306` and lists the ones that were
+- Dates are always `YYYY-MM-DD`; `{axis=%m-%d}` controls how the axis is labelled

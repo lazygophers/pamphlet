@@ -24,21 +24,7 @@ links:
 :::
 ````
 
-上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
-
-### 另一种写法：Mermaid 围栏
-
-````markdown
-```mermaid
-architecture-beta
-  group build(cloud)[编译阶段]
-  service src(disk)[源文档] in build
-  service engine(server)[图表引擎] in build
-  service out(database)[产物] in build
-  src:R -- L:engine
-  engine:R -- L:out
-```
-````
+这种写法在 GitHub 上不会渲染。要 GitHub 也能看，用[架构图的 Mermaid 围栏写法](/write/diagrams/mermaid/architecture)，画出来是同一张图。
 
 ## 出来是什么样
 
@@ -46,6 +32,7 @@ architecture-beta
 
 ## 坑
 
-- **ID 必须是英文**（`service src(disk)[源文档]` 里的 `src`），方括号里的标签可以写中文
-- 括号里是图标名，内置的有 `cloud` `database` `disk` `server` `internet`
-- `src:R -- L:engine` 里的 `R` `L` `T` `B` 是从哪条边连出去
+- 块名固定是 `services:` 和 `links:`
+- 服务行是 `id = 图标 "文字"`，图标名直接透给 Mermaid：`cloud` / `database` / `disk` / `server` / `internet`，不写就是 `server`
+- 连线写 `甲 -- 乙`；连到哪条边由编译器定（一律 `R` 连 `L`）
+- **分组（`group`）画不出来**——要分组用 Mermaid 围栏

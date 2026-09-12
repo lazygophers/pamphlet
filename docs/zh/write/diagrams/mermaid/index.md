@@ -42,9 +42,23 @@ jsdom（一个纯 JavaScript 的假浏览器）没有实现 `SVGTextElement.getB
 
 ## 它能画哪些图
 
-十三种，每一种一页：
+十三种。**每一种都有两页**：一页讲 Pamphlet 自己的写法，一页讲这里的 Mermaid 围栏写法，画出来是同一张图。
 
-[流程图](/write/diagrams/flowchart) · [时序图](/write/diagrams/sequence) · [状态图](/write/diagrams/state) · [类图](/write/diagrams/class) · [实体关系图](/write/diagrams/er) · [甘特图](/write/diagrams/gantt) · [饼图](/write/diagrams/pie) · [架构图](/write/diagrams/architecture) · [系统上下文图](/write/diagrams/c4) · [数据流图](/write/diagrams/dataflow) · [思维导图](/write/diagrams/mindmap) · [git 分支图](/write/diagrams/gitgraph) · [块图](/write/diagrams/block)
+| 画什么 | 自有写法 | Mermaid 围栏写法 |
+|---|---|---|
+| 流程图 | [`:::flow`](/write/diagrams/flowchart) | [围栏写法](/write/diagrams/mermaid/flowchart) |
+| 时序图 | [`:::sequence`](/write/diagrams/sequence) | [围栏写法](/write/diagrams/mermaid/sequence) |
+| 状态图 | [`:::state`](/write/diagrams/state) | [围栏写法](/write/diagrams/mermaid/state) |
+| 类图 | [`:::class`](/write/diagrams/class) | [围栏写法](/write/diagrams/mermaid/class) |
+| 实体关系图 | [`:::er`](/write/diagrams/er) | [围栏写法](/write/diagrams/mermaid/er) |
+| 甘特图 | [`:::gantt`](/write/diagrams/gantt) | [围栏写法](/write/diagrams/mermaid/gantt) |
+| 饼图 | [`:::pie`](/write/diagrams/pie) | [围栏写法](/write/diagrams/mermaid/pie) |
+| 架构图 | [`:::architecture`](/write/diagrams/architecture) | [围栏写法](/write/diagrams/mermaid/architecture) |
+| 系统上下文图 | [`:::c4`](/write/diagrams/c4) | [围栏写法](/write/diagrams/mermaid/c4) |
+| 数据流图 | [`:::dataflow`](/write/diagrams/dataflow) | [围栏写法](/write/diagrams/mermaid/dataflow) |
+| 思维导图 | [`:::mindmap`](/write/diagrams/mindmap) | [围栏写法](/write/diagrams/mermaid/mindmap) |
+| git 分支图 | [`:::gitgraph`](/write/diagrams/gitgraph) | [围栏写法](/write/diagrams/mermaid/gitgraph) |
+| 块图 | [`:::block`](/write/diagrams/block) | [围栏写法](/write/diagrams/mermaid/block) |
 
 ### 画得出来但有瑕疵的
 

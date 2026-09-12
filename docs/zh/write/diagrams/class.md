@@ -22,25 +22,7 @@ relations:
 :::
 ````
 
-上面那种写法在 GitHub 上不会渲染。要 GitHub 也能看，用下面这种：
-
-### 另一种写法：Mermaid 围栏
-
-````markdown
-```mermaid
-classDiagram
-  class Theme {
-    +string name
-    +ThemeTokens light
-    +ThemeTokens dark
-  }
-  class ThemeTokens {
-    +string bg
-    +string fg
-  }
-  Theme --> ThemeTokens
-```
-````
+这种写法在 GitHub 上不会渲染。要 GitHub 也能看，用[类图的 Mermaid 围栏写法](/write/diagrams/mermaid/class)，画出来是同一张图。
 
 ## 出来是什么样
 
@@ -48,6 +30,7 @@ classDiagram
 
 ## 坑
 
-- `+` 是公开，`-` 是私有
-- `-->` 是关联，`<|--` 是继承，`*--` 是组合
-- 一张图里超过七八个类就读不动了
+- 块名固定是 `classes:` 和 `relations:`
+- **字段和方法列不出来**，只画类和类之间的关系——要列字段用 Mermaid 围栏
+- 所有关系都画成一条普通箭头；继承、组合这些专用箭头也只有围栏写法有
+- `{dir=...}` 翻成 Mermaid 的 `direction`，`TD` 自动换成 `TB`
