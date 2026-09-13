@@ -98,7 +98,9 @@ for (const entry of CASES) {
   }
 
   describe.skipIf(!available)(`${entry.name} 引擎`, () => {
-    const engine = (loaded as { createEngine: () => Engine }).createEngine()
+    // 没装时这个 describe 整块被跳过，但**回调仍然会执行一次**——
+    // 所以这里不能直接 `loaded!.createEngine()`，那样在 CI（不装引擎）上是崩溃不是跳过
+    const engine = loaded?.createEngine() ?? ({} as Engine)
 
     it('画得出图', async () => {
       const result = await engine.renderOne({ code: entry.code, line: 1 })
@@ -137,6 +139,7 @@ const mathjax = await import('@nekoleapuki/pamphlet-engine-mathjax').catch(() =>
 describe('MathJax 的样式表必须随图一起发', () => {
   it.skipIf(mathjax === undefined)('带框的矩阵要靠它才画得对', async () => {
     const engine = (mathjax as { createEngine: () => Engine }).createEngine()
+    if (!(await engine.probe()).available) return
     const result = await engine.renderOne({
       code: '\\begin{array}{|c|c|} \\hline a & b \\\\ \\hline \\end{array}',
       line: 1,

@@ -14,7 +14,9 @@ import { CSS_VARIABLE } from '../src/diagrams/tokens.js'
 
 // 问引擎自己装没装——它的 WASM 是引擎包的依赖，不是主包的，
 // 在这里直接 import 那个 WASM 包会解析不到
-const probe = await createEngine().probe()
+const probe = await createEngine()
+  .probe()
+  .catch(() => ({ available: false, hint: '引擎包没装' }) as const)
 if (!probe.available) {
   process.stderr.write(`跳过 Graphviz 引擎测试：${probe.hint}\n`)
 }
