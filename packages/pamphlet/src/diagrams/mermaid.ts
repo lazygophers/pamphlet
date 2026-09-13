@@ -300,7 +300,13 @@ export function createMermaidEngine(options: MermaidOptions = {}): Engine {
       return { available: true }
     },
 
-    async render(requests: RenderRequest[]) {
+    // Mermaid 是唯一实现批量的引擎——省的是浏览器往返，见 engine.ts 的注释
+    async renderOne(request: RenderRequest) {
+      const [only] = await this.renderBatch!([request])
+      return only ?? { svg: '', unmapped: [] }
+    },
+
+    async renderBatch(requests: RenderRequest[]) {
       if (requests.length === 0) return []
 
       let results: Awaited<ReturnType<MermaidRenderer>>

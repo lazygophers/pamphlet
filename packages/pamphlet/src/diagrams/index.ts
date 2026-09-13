@@ -11,7 +11,7 @@ import { createCache, cacheKey, type Cache } from './cache.js'
 import { createMermaidEngine, sizeDiagnostic } from './mermaid.js'
 import { loadEnginePackages, type MissingEngine } from './packages.js'
 import { unmappedDiagnostic } from './recolor.js'
-import type { Engine, RenderRequest, RenderedDiagram } from './engine.js'
+import { renderAll, type Engine, type RenderRequest, type RenderedDiagram } from './engine.js'
 
 export interface DiagramTask {
   lang: FenceLanguage
@@ -149,7 +149,7 @@ export async function renderDiagrams(
       code: task.code,
       line: task.line,
     }))
-    const results = await engine.render(requests)
+    const results = await renderAll(engine, requests)
 
     for (const [index, result] of results.entries()) {
       const entry = pending[index]
@@ -169,6 +169,10 @@ export async function renderDiagrams(
       report.diagnostics.push(...diagnose(engine.name, result, task))
     }
   }
+
+  // 引擎自己申明的收尾。d2 不做这一步的话，它跑渲染的那个 worker 线程会一直
+  // 吊着事件循环，`build` 编完了进程也不退出（实测 15 秒后仍活着）
+  for (const engine of loaded.engines) await engine.dispose?.()
 
   report.diagnostics.sort((a, b) => (a.start?.line ?? 0) - (b.start?.line ?? 0))
   return report

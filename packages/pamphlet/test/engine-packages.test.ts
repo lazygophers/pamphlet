@@ -10,6 +10,7 @@ import { describe, expect, it } from 'vitest'
 import { FENCE_LANGUAGES } from '../src/ast.js'
 import { parse } from '../src/parse.js'
 import { renderDiagrams } from '../src/diagrams/index.js'
+import { renderAll } from '../src/diagrams/engine.js'
 import {
   ENGINE_PACKAGES,
   installCommand,
@@ -54,6 +55,61 @@ describe('引擎包的发现', () => {
     const { engines, missing } = await loadEnginePackages([])
     expect(engines).toEqual([])
     expect(missing).toEqual([])
+  })
+})
+
+describe('引擎接口的两层', () => {
+  it('只实现基础层的引擎照样能被批量调用', async () => {
+    const calls: string[] = []
+    const engine = {
+      name: '假引擎',
+      langs: ['dot'],
+      fingerprint: 'x',
+      probe: async () => ({ available: true }) as const,
+      renderOne: async (request: { code: string; line: number }) => {
+        calls.push(request.code)
+        return { svg: `<svg>${request.code}</svg>`, unmapped: [] }
+      },
+    }
+    const results = await renderAll(engine, [
+      { code: '甲', line: 1 },
+      { code: '乙', line: 2 },
+    ])
+    expect(calls).toEqual(['甲', '乙'])
+    expect(results).toHaveLength(2)
+  })
+
+  it('实现了批量的引擎走批量那条路，不被逐张拆开', async () => {
+    let batched = 0
+    const engine = {
+      name: '假引擎',
+      langs: ['mermaid'],
+      fingerprint: 'x',
+      probe: async () => ({ available: true }) as const,
+      renderOne: async () => ({ svg: '', unmapped: [] }),
+      renderBatch: async (requests: { code: string; line: number }[]) => {
+        batched += 1
+        return requests.map((r) => ({ svg: `<svg>${r.code}</svg>`, unmapped: [] }))
+      },
+    }
+    await renderAll(engine, [
+      { code: '甲', line: 1 },
+      { code: '乙', line: 2 },
+    ])
+    expect(batched).toBe(1)
+  })
+
+  it('一张都没有时不惊动引擎', async () => {
+    const engine = {
+      name: '假引擎',
+      langs: ['dot'],
+      fingerprint: 'x',
+      probe: async () => ({ available: true }) as const,
+      renderOne: async () => {
+        throw new Error('不该被调用')
+      },
+    }
+    expect(await renderAll(engine, [])).toEqual([])
   })
 })
 

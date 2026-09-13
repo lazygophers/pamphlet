@@ -34,10 +34,39 @@ export interface Engine {
   /** 这个引擎需要的可选依赖装了没有；没装时给出安装办法 */
   probe(): Promise<{ available: true } | { available: false; hint: string }>
   /**
-   * 一次渲染一批。批量是有意的：实测一次传 3 张 455ms，
-   * 逐张是 3 × 364 = 1092ms——瓶颈不在并行度，而在每次调用的往返。
+   * 渲染一张。**每个引擎都要实现这一个**。
+   *
+   * 「一次一张」是基础形状，因为实测下来它对六个新引擎都是对的：
+   * 它们没有「每次调用的往返」这回事，开销全压在一次性初始化上，
+   * 之后每张 0–112ms（Graphviz 0ms、WaveDrom 1ms、MathJax 3ms、
+   * bytefield 3ms、Vega-Lite 4ms、d2 112ms）。
    */
-  render(requests: RenderRequest[]): Promise<(RenderedDiagram | Diagnostic)[]>
+  renderOne(request: RenderRequest): Promise<RenderedDiagram | Diagnostic>
+  /**
+   * 一次渲一批。**可选能力**，只有真能从中受益的引擎才实现。
+   *
+   * 目前只有 Mermaid：它每次调用都要和浏览器来回一趟，实测一次传 3 张 455ms，
+   * 逐张是 3 × 364 = 1092ms。省的是那个往返，不是并行度——所以这条收益
+   * **只对 Mermaid 成立**，别的引擎实现它是白写的复杂度。
+   */
+  renderBatch?(requests: RenderRequest[]): Promise<(RenderedDiagram | Diagnostic)[]>
+  /**
+   * 收尾。有需要的引擎才实现。
+   *
+   * d2 必须有：它把渲染跑在 worker 线程里，不 `dispose()` 的话
+   * 那个 `MessagePort` 会一直吊着事件循环，进程不退出（实测 15 秒后仍活着）。
+   */
+  dispose?(): Promise<void>
+}
+
+/** 渲染一批：能批量就批量，不能就逐张。调用方不必关心引擎是哪一种。 */
+export async function renderAll(
+  engine: Engine,
+  requests: RenderRequest[],
+): Promise<(RenderedDiagram | Diagnostic)[]> {
+  if (requests.length === 0) return []
+  if (engine.renderBatch) return engine.renderBatch(requests)
+  return Promise.all(requests.map((request) => engine.renderOne(request)))
 }
 
 /** 单张 SVG 超过这个字节数给警告（DIAG-302） */

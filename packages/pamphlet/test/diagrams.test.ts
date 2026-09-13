@@ -246,7 +246,7 @@ function fakeEngine(overrides: Partial<Engine> = {}): Engine {
     async probe() {
       return { available: true }
     },
-    async render(requests) {
+    async renderBatch(requests) {
       return requests.map(() => ({
         svg: `<svg><rect fill="${SENTINELS.fill}"/></svg>`,
         unmapped: [],
@@ -276,7 +276,7 @@ describe('渲染管线', () => {
     let calls = 0
     let batchSize = 0
     const engine = fakeEngine({
-      async render(requests) {
+      async renderBatch(requests) {
         calls += 1
         batchSize = requests.length
         return requests.map(() => ({ svg: '<svg/>', unmapped: [] }))
@@ -291,7 +291,7 @@ describe('渲染管线', () => {
   it('命中缓存时诊断照样报——不能「图从缓存来 = 换漏的颜色没人告诉你」', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'pf-cache-'))
     const engine = fakeEngine({
-      async render(requests) {
+      async renderBatch(requests) {
         return requests.map(() => ({ svg: '<svg><rect fill="#eaeaea"/></svg>', unmapped: ['#eaeaea'] }))
       },
     })
@@ -343,7 +343,7 @@ describe('渲染管线', () => {
 
   it('单张图失败时其余照样渲染（失败的挂占位信息）', async () => {
     const engine = fakeEngine({
-      async render(requests) {
+      async renderBatch(requests) {
         return requests.map((r, index) =>
           index === 0
             ? {
@@ -373,7 +373,7 @@ describe('渲染管线', () => {
     const cache = createCache(dir)
     let calls = 0
     const engine = fakeEngine({
-      async render(requests) {
+      async renderBatch(requests) {
         calls += 1
         return requests.map(() => ({ svg: '<svg>缓存过的</svg>', unmapped: [] }))
       },
@@ -393,7 +393,7 @@ describe('渲染管线', () => {
 
   it('引擎输出里有硬编码色值时给 DIAG-304 警告', async () => {
     const engine = fakeEngine({
-      async render(requests) {
+      async renderBatch(requests) {
         return requests.map(() => ({ svg: '<svg/>', unmapped: ['#eaeaea', '#666'] }))
       },
     })
@@ -405,7 +405,7 @@ describe('渲染管线', () => {
 
   it('SVG 过大给 DIAG-302 警告', async () => {
     const engine = fakeEngine({
-      async render(requests) {
+      async renderBatch(requests) {
         return requests.map(() => ({ svg: `<svg>${'x'.repeat(300 * 1024)}</svg>`, unmapped: [] }))
       },
     })
@@ -493,11 +493,11 @@ describe('真 Mermaid 引擎的探测与错误路径', () => {
   }, 120_000)
 
   it('空批次直接返回空数组，不碰浏览器', async () => {
-    expect(await createMermaidEngine().render([])).toEqual([])
+    expect(await createMermaidEngine().renderBatch!([])).toEqual([])
   })
 
   it('图源语法错误时给 DIAG-303，并指向 mermaid.live', async () => {
-    const results = await createMermaidEngine().render([
+    const results = await createMermaidEngine().renderBatch!([
       { code: '这不是任何一种 mermaid 图', line: 4 },
     ])
     const first = results[0]
@@ -512,7 +512,7 @@ describe('真 Mermaid 引擎的探测与错误路径', () => {
       timeoutMs: 10,
       renderer: () => new Promise(() => undefined),
     })
-    const results = await engine.render([
+    const results = await engine.renderBatch!([
       { code: 'graph TD\nA-->B', line: 1 },
       { code: 'graph TD\nC-->D', line: 9 },
     ])
@@ -528,14 +528,14 @@ describe('真 Mermaid 引擎的探测与错误路径', () => {
     const engine = createMermaidEngine({
       renderer: () => Promise.reject(new Error('浏览器起不来')),
     })
-    const results = await engine.render([{ code: 'graph TD\nA-->B', line: 2 }])
+    const results = await engine.renderBatch!([{ code: 'graph TD\nA-->B', line: 2 }])
     const first = results[0]
     expect(first && 'code' in first ? first.code : undefined).toBe('DIAG-303')
     expect(first && 'code' in first ? first.message : '').toContain('浏览器起不来')
   })
 
   it('真的渲染一张图：颜色被换成主题变量，没有漏掉的具名色', async () => {
-    const results = await createMermaidEngine().render([
+    const results = await createMermaidEngine().renderBatch!([
       { code: 'sequenceDiagram\n  甲->>乙: 你好', line: 1 },
     ])
     const first = results[0]

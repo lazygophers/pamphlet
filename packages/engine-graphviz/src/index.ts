@@ -103,36 +103,30 @@ export function createEngine(options: GraphvizOptions = {}): Engine {
       return { available: true }
     },
 
-    async render(requests: RenderRequest[]): Promise<(RenderedDiagram | Diagnostic)[]> {
-      if (requests.length === 0) return []
+    // 只实现基础层：Graphviz 没有「每次调用的往返」那回事，实测第二张起 0ms，
+    // 批量对它是白写的复杂度（那个设计是给 Mermaid 的浏览器往返用的）
+    async renderOne(request: RenderRequest): Promise<RenderedDiagram | Diagnostic> {
       const graphviz = await getGraphviz()
-
-      // 一次一张：Graphviz 没有「每次调用的往返」那回事，实测第二张起 0ms，
-      // 批量对它是白写的复杂度（那个设计是给 Mermaid 的浏览器往返用的）
-      return Promise.all(
-        requests.map(async (request) => {
-          try {
-            const canonical = graphviz.read(request.code).toDot()
-            const svg = await withTimeout(
-              Promise.resolve(graphviz.layout(withSentinels(canonical), 'svg', layout)),
-              timeoutMs,
-              () => new Error(`渲染超过 ${timeoutMs}ms`),
-            )
-            const recolored = recolor(pinIntrinsicSize(svg))
-            return { svg: recolored.svg, unmapped: recolored.unmapped }
-          } catch (error) {
-            return diagnostic(
-              'DIAG-303',
-              'error',
-              `Graphviz 画不出这张图：${error instanceof Error ? error.message : String(error)}`,
-              {
-                start: { line: request.line, column: 1 },
-                hint: '把图源贴到 https://dreampuf.github.io/GraphvizOnline 上定位，那里的报错更具体',
-              },
-            )
-          }
-        }),
-      )
+      try {
+        const canonical = graphviz.read(request.code).toDot()
+        const svg = await withTimeout(
+          Promise.resolve(graphviz.layout(withSentinels(canonical), 'svg', layout)),
+          timeoutMs,
+          () => new Error(`渲染超过 ${timeoutMs}ms`),
+        )
+        const recolored = recolor(pinIntrinsicSize(svg))
+        return { svg: recolored.svg, unmapped: recolored.unmapped }
+      } catch (error) {
+        return diagnostic(
+          'DIAG-303',
+          'error',
+          `Graphviz 画不出这张图：${error instanceof Error ? error.message : String(error)}`,
+          {
+            start: { line: request.line, column: 1 },
+            hint: '把图源贴到 https://dreampuf.github.io/GraphvizOnline 上定位，那里的报错更具体',
+          },
+        )
+      }
     },
   }
 }

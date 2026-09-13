@@ -118,7 +118,7 @@ describe('图表文字在亮暗两套主题下都要读得清', () => {
       expect(probe.available, '这层测试需要 mermaid-isomorphic 与 playwright').toBe(true)
 
       const names = Object.keys(DIAGRAMS) as (keyof typeof DIAGRAMS)[]
-      const results = await engine.render(
+      const results = await engine.renderBatch!(
         names.map((name, index) => ({ code: DIAGRAMS[name], line: index + 1 })),
       )
 

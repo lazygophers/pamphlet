@@ -28,7 +28,7 @@ describe.skipIf(!probe.available)('Graphviz 引擎', () => {
   })
 
   it('画得出图，颜色全换成主题变量', async () => {
-    const [result] = await engine.render([{ code: 'digraph { a -> b [label="次"] }', line: 1 }])
+    const result = await engine.renderOne({ code: 'digraph { a -> b [label="次"] }', line: 1 })
     expect(result).toBeDefined()
     if (!result || 'code' in result) throw new Error('渲染失败')
 
@@ -42,7 +42,7 @@ describe.skipIf(!probe.available)('Graphviz 引擎', () => {
 
   it('注入哨兵不改作者写的内容——图源里的注释和花括号照样活着', async () => {
     const code = 'digraph "带 { 花括号 的名字" {\n  // 注释里也有 {\n  甲 -> 乙\n}'
-    const [result] = await engine.render([{ code, line: 1 }])
+    const result = await engine.renderOne({ code, line: 1 })
     if (!result || 'code' in result) throw new Error('渲染失败')
     expect(result.svg).toContain('甲')
     expect(result.svg).toContain('乙')
@@ -51,9 +51,7 @@ describe.skipIf(!probe.available)('Graphviz 引擎', () => {
   it('作者自己写的颜色不会被静默丢掉', async () => {
     // 实测踩过：用 setDefault*Attr 那条 API 注入时，图源里只要有 [color=…]，
     // cgraph 就把已存在节点写成 color=""，描边回落成黑色
-    const [result] = await engine.render([
-      { code: 'digraph { a [color="#123456"]; a -> b }', line: 1 },
-    ])
+    const result = await engine.renderOne({ code: 'digraph { a [color="#123456"]; a -> b }', line: 1 })
     if (!result || 'code' in result) throw new Error('渲染失败')
     expect(result.svg).toContain('#123456')
   })
@@ -62,25 +60,26 @@ describe.skipIf(!probe.available)('Graphviz 引擎', () => {
     // ADR-0016 写的是「未知色名报 warning」——实测推翻了：WASM 里完全静默，
     // stderr 为空、不抛异常，颜色直接变 #000000。它落在别名表里映到文字色，
     // 所以至少会跟着主题走，不会变成暗色底上看不见的黑字
-    const [result] = await engine.render([
-      { code: 'digraph { a [fillcolor=nosuchcolor]; a -> b }', line: 1 },
-    ])
+    const result = await engine.renderOne({
+      code: 'digraph { a [fillcolor=nosuchcolor]; a -> b }',
+      line: 1,
+    })
     if (!result || 'code' in result) throw new Error('渲染失败')
     expect(result.svg).toContain(`var(${CSS_VARIABLE.text}`)
   })
 
   it('图源写错时给一条 DIAG-303，而不是把整个进程炸掉', async () => {
-    const [result] = await engine.render([{ code: 'digraph { a -> }', line: 7 }])
+    const result = await engine.renderOne({ code: 'digraph { a -> }', line: 7 })
     expect(result && 'code' in result ? result.code : undefined).toBe('DIAG-303')
     expect(result && 'code' in result ? result.start?.line : undefined).toBe(7)
   })
 
   it('引擎实例复用：连渲多张只加载一次 WASM', async () => {
     const started = Date.now()
-    await engine.render([{ code: 'digraph { a -> b }', line: 1 }])
+    await engine.renderOne({ code: 'digraph { a -> b }', line: 1 })
     const first = Date.now() - started
     const second = Date.now()
-    await engine.render([{ code: 'digraph { c -> d }', line: 2 }])
+    await engine.renderOne({ code: 'digraph { c -> d }', line: 2 })
     // 第二张不该再付一次 28ms 的 WASM 加载；给足余量只断言「没有更慢一个数量级」
     expect(Date.now() - second).toBeLessThanOrEqual(first + 50)
   })
