@@ -73,11 +73,17 @@ export async function startServer(
   const address = server.address()
   const actual = typeof address === 'object' && address !== null ? address.port : port
 
-  const watcher = watch(path, () => {
-    void rebuild().then(() => {
+  // 一次只跑一个 rebuild。连按两下保存会触发两次 watch 回调，两个 rebuild 并发跑时
+  // `html` 归谁看谁后写完——先保存的那一版可能后写完，页面就停在旧内容上。
+  // 排队还顺带保护了图表引擎：有的引擎（d2 实测过）并发调用会整个挂死。
+  let running: Promise<void> | undefined
+  const queueRebuild = (): void => {
+    running = (running ?? Promise.resolve()).then(rebuild).then(() => {
       for (const client of clients) client.write('data: reload\n\n')
     })
-  })
+  }
+
+  const watcher = watch(path, queueRebuild)
 
   return {
     port: actual,

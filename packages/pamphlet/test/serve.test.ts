@@ -64,6 +64,26 @@ describe('serve', () => {
     expect(html).toContain('新标题')
   }, 30_000)
 
+  it('连着改两次，页面停在最后那一版而不是先写完的那一版', async () => {
+    // 连按两下保存会触发两次 watch 回调。两个 rebuild 并发跑时，`html` 归谁看谁后写完——
+    // 先保存的那一版完全可能后写完，页面就停在旧内容上。排队之后才有「最后一次说了算」
+    const { path, port } = await start('c.md', '# 第 0 版\n')
+    expect(await (await fetch(`http://localhost:${port}/`)).text()).toContain('第 0 版')
+
+    writeFileSync(path, '# 第 1 版\n', 'utf8')
+    writeFileSync(path, '# 第 2 版\n', 'utf8')
+
+    let html = ''
+    for (let i = 0; i < 300 && !html.includes('第 2 版'); i += 1) {
+      await delay(50)
+      html = await (await fetch(`http://localhost:${port}/`)).text()
+    }
+    expect(html).toContain('第 2 版')
+    // 再等一会儿，确认没有一个迟到的 rebuild 把旧版本写回去
+    await delay(300)
+    expect(await (await fetch(`http://localhost:${port}/`)).text()).toContain('第 2 版')
+  }, 30_000)
+
   it('SSE 端点用 text/event-stream 应答', async () => {
     const { port } = await start('c.md', '# 标题\n')
 
