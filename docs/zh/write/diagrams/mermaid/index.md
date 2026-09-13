@@ -64,6 +64,12 @@ jsdom（一个纯 JavaScript 的假浏览器）没有实现 `SVGTextElement.getB
 
 `timeline` / `quadrantChart` / `journey` / `packet-beta` / `radar-beta` / `xychart-beta` 能画，但**有几处颜色不跟主题走**，会报 `DIAG-304`。原因是那几种图的配色由引擎从主色算出来，算完的值既不是我们喂进去的哨兵、又躲过了替换。
 
+### 有两处颜色它自己写死了
+
+状态图的连线标签色（`red`）和甘特图分隔线（`navy`）写死在 Mermaid 各图种的样式表里，**换不成主题变量**，每次编译会报两条 `DIAG-304`。
+
+这两条是**真警告不是误报**：暗色主题下那条 `navy` 的竖线几乎看不见。留着它们报出来，是为了将来 Mermaid 改了默认样式时我们能第一时间知道。
+
 ### 不认中文的两种
 
 `sankey-beta`（桑基图）和 `requirementDiagram`（需求图）的解析器**只认 ASCII 标识符**，中文节点名直接报 `DIAG-303`。实测于 mermaid 11.17.2。

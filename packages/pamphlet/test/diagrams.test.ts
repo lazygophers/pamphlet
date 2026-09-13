@@ -107,6 +107,55 @@ describe('颜色替换（ADR-0016）', () => {
     expect(result.replaced).toBe(1)
   })
 
+  it('href 里的 #xxx 是元素编号，不是颜色——换掉它波形图会整块消失', () => {
+    // WaveDrom 把波形砖块做成 <g id="000">，再用 <use xlink:href="#000"> 引用。
+    // 实测：42 个引用被当色值换掉 7 个，那几块波形直接不见了
+    const svg =
+      '<svg><g id="000"><rect fill="#ff0003"/></g><use xlink:href="#000" x="0"/><use href="#fff" x="20"/></svg>'
+    const result = recolor(svg)
+    expect(result.svg).toContain('xlink:href="#000"')
+    expect(result.svg).toContain('href="#fff"')
+    // 真正的颜色照换不误
+    expect(result.svg).toContain(CSS_VARIABLE.fill)
+    expect(result.unmapped).toEqual([])
+  })
+
+  it('CSS 具名色也换掉——引擎把它写死在模板里时，哨兵挤不掉它', () => {
+    // WaveDrom 的背景 <rect style="fill:white"> 写死在渲染器模板里，不在 skin 里。
+    // 不认具名色的话：换不掉，也不报，暗色下就是一块白板
+    const result = recolor('<svg><rect style="stroke:none;fill:white"/><text fill="black">甲</text></svg>')
+    expect(result.replaced).toBe(2)
+    expect(result.svg).toContain(CSS_VARIABLE.bg)
+    expect(result.svg).toContain(CSS_VARIABLE.text)
+    expect(result.unmapped).toEqual([])
+  })
+
+  it('认不出的具名色一视同仁地报上来，不分作者写的还是引擎写的', () => {
+    const result = recolor('<svg><rect fill="navy"/><path stroke="red"/></svg>')
+    expect(result.replaced).toBe(0)
+    expect(result.unmapped).toEqual(['navy', 'red'])
+  })
+
+  it('none / transparent / currentColor 不是颜色值，不碰也不报', () => {
+    const svg = '<svg><rect fill="none" stroke="transparent"/><g fill="currentColor"/></svg>'
+    const result = recolor(svg)
+    expect(result.svg).toBe(svg)
+    expect(result.unmapped).toEqual([])
+  })
+
+  it('只在颜色的位置认具名色，正文里的英文单词不动', () => {
+    const svg = '<svg><text>red means danger</text><desc>white space</desc></svg>'
+    expect(recolor(svg).svg).toBe(svg)
+    expect(recolor(svg).unmapped).toEqual([])
+  })
+
+  it('引擎附带的 CSS 也走同一套替换——MathJax 的样式表里有换不掉的蓝和红', () => {
+    const css = '.mjx-container a{fill:blue;stroke:blue}[data-mml-node="merror"]>g{fill:red}'
+    const result = recolor(css)
+    expect(result.unmapped).toEqual(['blue', 'red'])
+    expect(result.svg).toBe(css)
+  })
+
   it('只动颜色，不动别的十六进制样文本', () => {
     const svg = '<svg><path d="M0 0 L10 10"/><text>#hashtag</text></svg>'
     expect(recolor(svg).svg).toBe(svg)

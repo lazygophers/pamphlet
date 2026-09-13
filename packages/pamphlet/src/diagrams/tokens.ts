@@ -9,8 +9,9 @@
  * 再在输出里把哨兵换成对应的 CSS 变量。这样「哪个颜色对应哪个 token」不靠人维护一张表，
  * 而是渲染前就定好的。输出里出现非哨兵的色值 = 引擎有硬编码，给一条警告把它报出来。
  *
- * 只处理十六进制写法。为了让这一条成立，喂进去的哨兵必须是十六进制——
- * 实测证明这样能把引擎输出里的 CSS 具名色（`fill:black`）挤掉。
+ * 喂进去的哨兵必须是十六进制：实测证明这样能把引擎输出里大部分 CSS 具名色挤掉。
+ * 但挤不干净——WaveDrom 的背景 `fill:white` 写死在渲染器模板里，哨兵够不着它。
+ * 所以具名色也要认（见 NAMED_COLOR_ALIASES 与 recolor.ts）。
  */
 
 /** 图表专用的六个 token（docs/zh/reference/theme-tokens.md 的图表层） */
@@ -99,3 +100,62 @@ export const HARDCODED_ALIASES: Record<string, DiagramToken> = {
   // 架构图默认图标本身是一段写死颜色的 SVG，连图标带这个蓝一起塞进输出
   '#087ebf': 'accent',
 }
+
+/**
+ * CSS 具名色 → token。只认语义明确的那几个，别的具名色一律报出来。
+ *
+ * 为什么要有这张表：哨兵机制的前提是「喂十六进制能把具名色挤掉」，而 WaveDrom
+ * 是这条假设的反例——它的背景 `fill:white` 写死在渲染器模板（`insert-svg-template.js`）里，
+ * 既不在 skin 里也不受哨兵影响。不认它的话：换不掉，也不报，暗色主题下
+ * 整张波形图底下压着一块白板，正是 ADR-0016 担心的那种静默失效。
+ */
+export const NAMED_COLOR_ALIASES: Record<string, DiagramToken> = {
+  white: 'bg',
+  black: 'text',
+  gray: 'muted',
+  grey: 'muted',
+  silver: 'line',
+  lightgray: 'line',
+  lightgrey: 'line',
+  whitesmoke: 'fill',
+  gainsboro: 'fill',
+}
+
+/**
+ * 这三个不是颜色值，是「不画」「透明」「跟着继承走」——碰了反而坏事。
+ * `currentColor` 尤其：MathJax 全靠它让公式跟着正文变色。
+ */
+export const NON_COLOR_KEYWORDS = new Set(['none', 'transparent', 'currentcolor', 'inherit'])
+
+/**
+ * CSS 规范里的全部具名色（<https://www.w3.org/TR/css-color-3/#svg-color>）。
+ *
+ * 它不做替换，只回答一个问题：这个词**是不是一个颜色**。
+ * 是颜色而我们又不认识（`navy`、`crimson`…）就报 `DIAG-304`——这类多半是
+ * 作者自己在图源里写死的，报出来让他知道它不跟主题走。
+ * 不是颜色的词（`url`、字体名）连报都不报。
+ */
+export const CSS_NAMED_COLORS = new Set([
+  'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure', 'beige', 'bisque', 'black',
+  'blanchedalmond', 'blue', 'blueviolet', 'brown', 'burlywood', 'cadetblue', 'chartreuse',
+  'chocolate', 'coral', 'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan',
+  'darkgoldenrod', 'darkgray', 'darkgreen', 'darkgrey', 'darkkhaki', 'darkmagenta',
+  'darkolivegreen', 'darkorange', 'darkorchid', 'darkred', 'darksalmon', 'darkseagreen',
+  'darkslateblue', 'darkslategray', 'darkslategrey', 'darkturquoise', 'darkviolet', 'deeppink',
+  'deepskyblue', 'dimgray', 'dimgrey', 'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen',
+  'fuchsia', 'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'green', 'greenyellow',
+  'grey', 'honeydew', 'hotpink', 'indianred', 'indigo', 'ivory', 'khaki', 'lavender',
+  'lavenderblush', 'lawngreen', 'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan',
+  'lightgoldenrodyellow', 'lightgray', 'lightgreen', 'lightgrey', 'lightpink', 'lightsalmon',
+  'lightseagreen', 'lightskyblue', 'lightslategray', 'lightslategrey', 'lightsteelblue',
+  'lightyellow', 'lime', 'limegreen', 'linen', 'magenta', 'maroon', 'mediumaquamarine',
+  'mediumblue', 'mediumorchid', 'mediumpurple', 'mediumseagreen', 'mediumslateblue',
+  'mediumspringgreen', 'mediumturquoise', 'mediumvioletred', 'midnightblue', 'mintcream',
+  'mistyrose', 'moccasin', 'navajowhite', 'navy', 'oldlace', 'olive', 'olivedrab', 'orange',
+  'orangered', 'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise', 'palevioletred',
+  'papayawhip', 'peachpuff', 'peru', 'pink', 'plum', 'powderblue', 'purple', 'rebeccapurple',
+  'red', 'rosybrown', 'royalblue', 'saddlebrown', 'salmon', 'sandybrown', 'seagreen', 'seashell',
+  'sienna', 'silver', 'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow', 'springgreen',
+  'steelblue', 'tan', 'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white',
+  'whitesmoke', 'yellow', 'yellowgreen',
+])

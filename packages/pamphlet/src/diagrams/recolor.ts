@@ -1,18 +1,39 @@
 /**
- * 把渲染出来的 SVG 里的颜色换成带兜底值的 CSS 变量（ADR-0016）。
- * 只处理十六进制写法——哨兵机制保证引擎输出里的颜色都是十六进制（见 tokens.ts）。
+ * 把渲染出来的颜色换成带兜底值的 CSS 变量（ADR-0016）。
+ *
+ * 输入既可以是 SVG，也可以是**引擎随图一起发的 CSS**——MathJax 必须把它那份
+ * 约 2KB 的样式表一起发出去（漏了 `\begin{array}{|c|}` 会变成一块实心方块盖住数字），
+ * 而那份样式表里有 `fill:blue` / `fill:red`。两种输入走同一套规则。
+ *
+ * 认三种写法：十六进制、`rgb()` / `rgba()`、CSS 具名色。
  */
 
 import { diagnostic, type Diagnostic, type Point } from '../diagnostics.js'
 import {
+  CSS_NAMED_COLORS,
   CSS_VARIABLE,
   FALLBACK,
   HARDCODED_ALIASES,
+  NAMED_COLOR_ALIASES,
+  NON_COLOR_KEYWORDS,
   tokenOfSentinel,
   type DiagramToken,
 } from './tokens.js'
 
 const HEX = /#[0-9a-fA-F]{3,8}\b/g
+/**
+ * `href="#000"` 里的 `#000` 是**元素编号**，不是颜色。
+ *
+ * WaveDrom 把每块波形做成 `<g id="000">`，再用 `<use xlink:href="#000">` 引用。
+ * 不排除掉的话，`HEX` 会把这些编号当色值换成 `var(...)`，引用随之失效——
+ * 实测 42 个引用毁掉 7 个，那几块波形在图上直接消失。
+ */
+const HREF = /\b(?:xlink:)?href\s*=\s*(["'])#[^"']*\1/g
+/**
+ * 具名色只在**颜色的位置**才算数：`fill="red"` 是颜色，正文里的「red」不是。
+ * 所以按「颜色属性/属性名 + 分隔符 + 值」整体匹配，不单独去正文里抓单词。
+ */
+const NAMED = /\b(fill|stroke|color|stop-color|flood-color|lighting-color|background(?:-color)?)(\s*[:=]\s*["']?)([a-zA-Z]+)\b/g
 /**
  * 哨兵也可能以 `rgb()` / `rgba()` 的形态出现——Mermaid 的某些图种把颜色算一遍再输出。
  * 只认**原样**的哨兵三元组：调亮调暗过的值落在这里会互相撞车
@@ -29,7 +50,7 @@ export interface RecolorResult {
   unmapped: string[]
 }
 
-export function recolor(svg: string): RecolorResult {
+export function recolor(input: string): RecolorResult {
   const unmapped = new Set<string>()
   let replaced = 0
 
@@ -37,6 +58,14 @@ export function recolor(svg: string): RecolorResult {
     replaced += 1
     return `var(${CSS_VARIABLE[token]}, ${FALLBACK[token]})`
   }
+
+  // 先把 href 挖走换成占位，替换完再填回去——比在正则里写否定回顾好读，
+  // 也不依赖各 JS 引擎对回顾语法的支持程度
+  const hrefs: string[] = []
+  const svg = input.replace(HREF, (whole) => {
+    hrefs.push(whole)
+    return `\u0000href${hrefs.length - 1}\u0000`
+  })
 
   const hexDone = svg.replace(HEX, (hex) => {
     const token: DiagramToken | undefined =
@@ -70,7 +99,20 @@ export function recolor(svg: string): RecolorResult {
     return substitute(token)
   })
 
-  return { svg: out, replaced, unmapped: [...unmapped].sort() }
+  const named = out.replace(NAMED, (whole, property: string, separator: string, value: string) => {
+    const lower = value.toLowerCase()
+    if (NON_COLOR_KEYWORDS.has(lower)) return whole
+    const token = NAMED_COLOR_ALIASES[lower]
+    if (token) return `${property}${separator}${substitute(token)}`
+    // 不在 CSS 具名色表里的（`fill:url(#x)` 的 url、`font-family` 的字体名之类）不算颜色
+    if (!CSS_NAMED_COLORS.has(lower)) return whole
+    unmapped.add(lower)
+    return whole
+  })
+
+  const restored = named.replace(/\u0000href(\d+)\u0000/g, (_, index: string) => hrefs[Number(index)] ?? '')
+
+  return { svg: restored, replaced, unmapped: [...unmapped].sort() }
 }
 
 /**
