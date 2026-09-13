@@ -18,6 +18,7 @@ export {
   type RenderedDiagram,
 } from './diagrams/engine.js'
 export { recolor } from './diagrams/recolor.js'
+export { createCommandEngine, type CommandEngineOptions } from './diagrams/command.js'
 export { pinIntrinsicSize } from './diagrams/pin-size.js'
 export { SENTINELS, DIAGRAM_TOKENS, type DiagramToken } from './diagrams/tokens.js'
 export { diagnostic, type Diagnostic } from './diagnostics.js'

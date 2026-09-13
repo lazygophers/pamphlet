@@ -39,6 +39,7 @@
     "@nekoleapuki/pamphlet-engine-d2": "workspace:*",
     "@nekoleapuki/pamphlet-engine-graphviz": "workspace:*",
     "@nekoleapuki/pamphlet-engine-mathjax": "workspace:*",
+    "@nekoleapuki/pamphlet-engine-plantuml": "workspace:*",
     "@nekoleapuki/pamphlet-engine-vega-lite": "workspace:*",
     "@nekoleapuki/pamphlet-engine-wavedrom": "workspace:*",
     "@terrastruct/d2": "^0.1.33",

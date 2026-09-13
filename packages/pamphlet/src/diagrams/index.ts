@@ -5,11 +5,12 @@
 
 import { createRequire } from 'node:module'
 import type { Root, RootContent, Code } from 'mdast'
-import { isFenceLanguage, type FenceLanguage } from '../ast.js'
+import { isFenceLanguage, type EngineDeclaration, type FenceLanguage } from '../ast.js'
 import { diagnostic, type Diagnostic } from '../diagnostics.js'
 import { createCache, cacheKey, type Cache } from './cache.js'
 import { createMermaidEngine, sizeDiagnostic } from './mermaid.js'
 import { loadEnginePackages, type MissingEngine } from './packages.js'
+import { createCommandEngine } from './command.js'
 import { unmappedDiagnostic } from './recolor.js'
 import { renderAll, type Engine, type RenderRequest, type RenderedDiagram } from './engine.js'
 
@@ -54,6 +55,11 @@ export interface RenderOptions {
   cache?: Cache
   engines?: Engine[]
   timeoutMs?: number
+  /**
+   * frontmatter 里声明的自定义引擎（ADR-0007）：图源走标准输入进、SVG 走标准输出出。
+   * 它们**排在官方引擎前面**——作者在自己文档里写的声明，理应盖过缺省行为。
+   */
+  declared?: Record<string, EngineDeclaration>
 }
 
 export interface RenderReport {
@@ -78,9 +84,19 @@ export async function renderDiagrams(
     options.engines === undefined
       ? await loadEnginePackages(tasks.map((task) => task.lang))
       : { engines: [], missing: [] as MissingEngine[] }
+  const declared = Object.entries(options.declared ?? {}).map(([name, declaration]) =>
+    createCommandEngine({
+      name,
+      langs: declaration.langs,
+      command: declaration.command ?? [],
+      ...(options.timeoutMs === undefined ? {} : { timeoutMs: options.timeoutMs }),
+      probe: async () => ({ available: true }) as const,
+    }),
+  )
   const engines =
     options.engines ??
     [
+      ...declared,
       createMermaidEngine(options.timeoutMs === undefined ? {} : { timeoutMs: options.timeoutMs }),
       ...loaded.engines,
     ]

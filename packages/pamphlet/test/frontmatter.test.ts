@@ -76,13 +76,27 @@ describe('frontmatter', () => {
     expect(codes(['toc:', '  deep: 9'].join('\n'))).toEqual(['DOC-103'])
   })
 
-  it('engines 声明在本版本给警告（自定义引擎尚未实现）', () => {
+  it('engines 声明认下来，图源走标准输入进、SVG 走标准输出出（ADR-0007）', () => {
     const result = parseFrontmatter(
-      ['engines:', '  graphviz:', '    langs: [dot]', '    command: [dot, -Tsvg]'].join('\n'),
+      ['engines:', '  mydot:', '    langs: [dot]', '    command: [dot, -Tsvg]'].join('\n'),
       START,
     )
-    const warning = result.diagnostics.find((d) => d.code === 'DOC-104')
-    expect(warning?.severity).toBe('warning')
+    expect(result.diagnostics).toEqual([])
+    expect(result.frontmatter.engines).toEqual({ mydot: { langs: ['dot'], command: ['dot', '-Tsvg'] } })
+  })
+
+  it('engines 里 langs 写错类型报错', () => {
+    expect(codes(['engines:', '  x:', '    langs: dot', '    command: [dot]'].join('\n'))).toEqual([
+      'DOC-103',
+    ])
+  })
+
+  it('engines 的 http 那条路还没实现，给警告说清只支持 command', () => {
+    const result = parseFrontmatter(
+      ['engines:', '  x:', '    langs: [dot]', '    http: https://example.com/render'].join('\n'),
+      START,
+    )
+    expect(result.diagnostics.map((d) => d.code)).toEqual(['DOC-104'])
   })
 
   it('字段类型不对报错', () => {

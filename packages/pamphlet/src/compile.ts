@@ -43,10 +43,12 @@ export async function compileFile(path: string, options: CompileOptions = {}): P
   })
   diagnostics.push(...theme.diagnostics)
 
-  const diagrams = await renderDiagrams(
-    parsed.ast,
-    options.timeoutMs === undefined ? {} : { timeoutMs: options.timeoutMs },
-  )
+  const diagrams = await renderDiagrams(parsed.ast, {
+    ...(options.timeoutMs === undefined ? {} : { timeoutMs: options.timeoutMs }),
+    ...(parsed.frontmatter.engines === undefined
+      ? {}
+      : { declared: parsed.frontmatter.engines }),
+  })
   diagnostics.push(...diagrams.diagnostics)
 
   // 资源路径相对源文档所在目录，这跟 Markdown 在 GitHub 上的解释一致

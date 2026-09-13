@@ -54,12 +54,13 @@ export function installCommand(packageName: string): string {
  */
 export async function loadEnginePackages(
   langs: Iterable<FenceLanguage>,
+  table: Partial<Record<FenceLanguage, string>> = ENGINE_PACKAGES,
 ): Promise<{ engines: Engine[]; missing: MissingEngine[] }> {
   const engines: Engine[] = []
   const missing: MissingEngine[] = []
 
   for (const lang of new Set(langs)) {
-    const packageName = ENGINE_PACKAGES[lang]
+    const packageName = table[lang]
     if (packageName === undefined) continue
 
     const loaded: unknown = await import(packageName).catch(() => undefined)

@@ -164,6 +164,12 @@ importers:
         specifier: 3.2.2
         version: 3.2.2
 
+  packages/engine-plantuml:
+    devDependencies:
+      '@nekoleapuki/pamphlet-cli':
+        specifier: workspace:*
+        version: link:../pamphlet
+
   packages/engine-vega-lite:
     dependencies:
       '@nekoleapuki/pamphlet-cli':
@@ -236,6 +242,9 @@ importers:
       '@nekoleapuki/pamphlet-engine-mathjax':
         specifier: workspace:*
         version: link:../engine-mathjax
+      '@nekoleapuki/pamphlet-engine-plantuml':
+        specifier: workspace:*
+        version: link:../engine-plantuml
       '@nekoleapuki/pamphlet-engine-vega-lite':
         specifier: workspace:*
         version: link:../engine-vega-lite

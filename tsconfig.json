@@ -5,6 +5,9 @@
       "path": "packages/pamphlet"
     },
     {
+      "path": "packages/engine-plantuml"
+    },
+    {
       "path": "packages/engine-d2"
     },
     {

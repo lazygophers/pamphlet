@@ -1,0 +1,41 @@
+{
+  "name": "@nekoleapuki/pamphlet-engine-plantuml",
+  "version": "0.0.2",
+  "description": "Pamphlet 的 PlantUML 引擎：画 ```plantuml 围栏的 UML 图，需要 Java ≥ 11",
+  "type": "module",
+  "license": "AGPL-3.0-or-later",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "prepublishOnly": "tsc -b"
+  },
+  "keywords": [
+    "pamphlet",
+    "plantuml",
+    "uml",
+    "c4",
+    "diagram"
+  ],
+  "homepage": "https://lazygophers.github.io/pamphlet/",
+  "bugs": "https://github.com/lazygophers/pamphlet/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazygophers/pamphlet.git",
+    "directory": "packages/engine-plantuml"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "peerDependencies": {
+    "@nekoleapuki/pamphlet-cli": "workspace:*"
+  },
+  "devDependencies": {
+    "@nekoleapuki/pamphlet-cli": "workspace:*"
+  }
+}

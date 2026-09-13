@@ -35,20 +35,22 @@ describe('引擎包的发现', () => {
   })
 
   it('没装的引擎包不抛错，而是带着安装命令回来', async () => {
-    const { engines, missing } = await loadEnginePackages(['plantuml'])
+    const absent = { plantuml: '@nekoleapuki/pamphlet-engine-一定没装' }
+    const { engines, missing } = await loadEnginePackages(['plantuml'], absent)
     expect(engines).toEqual([])
     expect(missing).toEqual([
       {
         lang: 'plantuml',
-        package: ENGINE_PACKAGES.plantuml,
-        install: installCommand(ENGINE_PACKAGES.plantuml as string),
+        package: absent.plantuml,
+        install: installCommand(absent.plantuml),
       },
     ])
   })
 
   it('同一种语言出现多次也只说一次', async () => {
     // 一份文档里写十个 plantuml 围栏，不该得到十条一模一样的提示
-    const { missing } = await loadEnginePackages(['plantuml', 'plantuml', 'plantuml'])
+    const absent = { plantuml: '@nekoleapuki/pamphlet-engine-一定没装' }
+    const { missing } = await loadEnginePackages(['plantuml', 'plantuml', 'plantuml'], absent)
     expect(missing.map((m) => m.lang)).toEqual(['plantuml'])
   })
 
@@ -115,12 +117,21 @@ describe('引擎接口的两层', () => {
 })
 
 describe('缺引擎时作者看到什么', () => {
-  it('DIAG-301 的提示里是能直接粘贴的安装命令', async () => {
+  it('引擎包没装时，DIAG-301 的提示里是能直接粘贴的安装命令', async () => {
+    const { ast } = parse('# 标题\n\n```plantuml\n@startuml\nA -> B\n@enduml\n```\n')
+    const report = await renderDiagrams(ast, { engines: [] })
+    const missing = report.diagnostics.find((d) => d.code === 'DIAG-301')
+    expect(missing?.severity).toBe('error')
+    expect(missing?.hint).toContain('pamphlet doctor')
+  })
+
+  it('引擎包装了但它自己的依赖缺了，说的是那个依赖怎么补', async () => {
+    // PlantUML 是最典型的一例：包装好了，但 jar 或 Java 没有
     const { ast } = parse('# 标题\n\n```plantuml\n@startuml\nA -> B\n@enduml\n```\n')
     const report = await renderDiagrams(ast)
     const missing = report.diagnostics.find((d) => d.code === 'DIAG-301')
-    expect(missing?.severity).toBe('error')
-    expect(missing?.hint).toContain('npm i -D @nekoleapuki/pamphlet-engine-plantuml')
+    if (missing === undefined) return // 真装了 jar 的机器上这条不适用
+    expect(missing.hint).toMatch(/Java|jar/)
   })
 
   it('装了引擎的那种语言照常画出来', async () => {

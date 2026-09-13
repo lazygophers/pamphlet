@@ -10,6 +10,7 @@ import {
   TOC_KEYS,
   type Frontmatter,
   type TocConfig,
+  type EngineDeclaration,
 } from './ast.js'
 import { diagnostic, type Diagnostic, type Point } from './diagnostics.js'
 
@@ -131,12 +132,35 @@ export function parseFrontmatter(yamlText: string, start: Point): FrontmatterRes
           diagnostics.push(diagnostic('DOC-103', 'error', 'engines 必须是一组引擎声明', span))
           break
         }
-        diagnostics.push(
-          diagnostic('DOC-104', 'warning', 'engines（自定义引擎）尚未实现，这段声明暂时不起作用', {
-            ...span,
-            hint: '内置引擎照常工作；跑 pamphlet doctor 看装了哪些',
-          }),
-        )
+        const engines: Record<string, EngineDeclaration> = {}
+        for (const [name, declaration] of Object.entries(value)) {
+          if (!isPlainObject(declaration)) {
+            diagnostics.push(
+              diagnostic('DOC-103', 'error', `engines.${name} 必须是一个引擎声明`, span),
+            )
+            continue
+          }
+          const langs = declaration['langs']
+          const command = declaration['command']
+          if (!Array.isArray(langs) || langs.some((lang) => typeof lang !== 'string')) {
+            diagnostics.push(
+              diagnostic('DOC-103', 'error', `engines.${name}.langs 必须是一组围栏语言名`, span),
+            )
+            continue
+          }
+          if (!Array.isArray(command) || command.some((part) => typeof part !== 'string')) {
+            // `http` 那条路还没实现，所以这里只认 command
+            diagnostics.push(
+              diagnostic('DOC-104', 'warning', `engines.${name} 只支持 command（图源走标准输入进、SVG 走标准输出出）`, {
+                ...span,
+                hint: '写成 command: [my-renderer, --svg, -]',
+              }),
+            )
+            continue
+          }
+          engines[name] = { langs: langs as string[], command: command as string[] }
+        }
+        if (Object.keys(engines).length > 0) frontmatter.engines = engines
         break
       }
     }
