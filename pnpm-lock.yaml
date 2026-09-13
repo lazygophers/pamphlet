@@ -130,18 +130,20 @@ importers:
 
   packages/engine-bytefield:
     dependencies:
-      '@nekoleapuki/pamphlet-cli':
-        specifier: workspace:*
-        version: link:../pamphlet
       bytefield-svg:
         specifier: ^1.11.0
         version: 1.11.0
+    devDependencies:
+      '@nekoleapuki/pamphlet-cli':
+        specifier: workspace:*
+        version: link:../pamphlet
 
   packages/engine-d2:
     dependencies:
       '@d2lang/d2':
         specifier: 0.1.34
         version: 0.1.34
+    devDependencies:
       '@nekoleapuki/pamphlet-cli':
         specifier: workspace:*
         version: link:../pamphlet
@@ -151,18 +153,20 @@ importers:
       '@hpcc-js/wasm-graphviz':
         specifier: ^1.29.0
         version: 1.29.0
+    devDependencies:
       '@nekoleapuki/pamphlet-cli':
         specifier: workspace:*
         version: link:../pamphlet
 
   packages/engine-mathjax:
     dependencies:
-      '@nekoleapuki/pamphlet-cli':
-        specifier: workspace:*
-        version: link:../pamphlet
       mathjax-full:
         specifier: 3.2.2
         version: 3.2.2
+    devDependencies:
+      '@nekoleapuki/pamphlet-cli':
+        specifier: workspace:*
+        version: link:../pamphlet
 
   packages/engine-plantuml:
     devDependencies:
@@ -172,27 +176,29 @@ importers:
 
   packages/engine-vega-lite:
     dependencies:
-      '@nekoleapuki/pamphlet-cli':
-        specifier: workspace:*
-        version: link:../pamphlet
       vega:
         specifier: ^6.4.0
         version: 6.4.0
       vega-lite:
         specifier: ^6.4.3
         version: 6.4.3(vega@6.4.0)
-
-  packages/engine-wavedrom:
-    dependencies:
+    devDependencies:
       '@nekoleapuki/pamphlet-cli':
         specifier: workspace:*
         version: link:../pamphlet
+
+  packages/engine-wavedrom:
+    dependencies:
       onml:
         specifier: ^2.1.0
         version: 2.1.0
       wavedrom:
         specifier: ^3.7.0
         version: 3.7.0
+    devDependencies:
+      '@nekoleapuki/pamphlet-cli':
+        specifier: workspace:*
+        version: link:../pamphlet
 
   packages/pamphlet:
     dependencies:

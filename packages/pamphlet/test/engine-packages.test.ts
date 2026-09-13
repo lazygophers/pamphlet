@@ -139,7 +139,14 @@ describe('缺引擎时作者看到什么', () => {
   })
 
   it('引擎包装了但它自己的依赖缺了，说的是那个依赖怎么补', async () => {
-    // PlantUML 是最典型的一例：包装好了，但 jar 或 Java 没有
+    // PlantUML 是最典型的一例：包装好了，但 jar 或 Java 没有。
+    // CI 上连引擎包都不装，那时提示说的是「装这个包」，两种都对——
+    // 这条测的是「提示指向真正缺的那一样」，不是「提示永远说 jar」
+    const { engines } = await loadEnginePackages(['plantuml'])
+    if (engines.length === 0) {
+      process.stderr.write('跳过「缺 jar 的提示」：没装 plantuml 引擎包\n')
+      return
+    }
     const { ast } = parse('# 标题\n\n```plantuml\n@startuml\nA -> B\n@enduml\n```\n')
     const report = await renderDiagrams(ast)
     const missing = report.diagnostics.find((d) => d.code === 'DIAG-301')
