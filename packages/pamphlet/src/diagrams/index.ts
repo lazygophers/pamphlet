@@ -9,6 +9,7 @@ import { isFenceLanguage, type FenceLanguage } from '../ast.js'
 import { diagnostic, type Diagnostic } from '../diagnostics.js'
 import { createCache, cacheKey, type Cache } from './cache.js'
 import { createMermaidEngine, sizeDiagnostic } from './mermaid.js'
+import { loadEnginePackages, type MissingEngine } from './packages.js'
 import { unmappedDiagnostic } from './recolor.js'
 import type { Engine, RenderRequest, RenderedDiagram } from './engine.js'
 
@@ -72,21 +73,36 @@ export async function renderDiagrams(
   if (tasks.length === 0) return report
 
   const cache = options.cache ?? createCache()
+  // 只为文档里真的用到的那几种语言去找引擎包：没用到的连 import 都不会发生
+  const loaded =
+    options.engines === undefined
+      ? await loadEnginePackages(tasks.map((task) => task.lang))
+      : { engines: [], missing: [] as MissingEngine[] }
   const engines =
     options.engines ??
-    [createMermaidEngine(options.timeoutMs === undefined ? {} : { timeoutMs: options.timeoutMs })]
+    [
+      createMermaidEngine(options.timeoutMs === undefined ? {} : { timeoutMs: options.timeoutMs }),
+      ...loaded.engines,
+    ]
+  const missingByLang = new Map(loaded.missing.map((m) => [m.lang, m]))
 
   // 按引擎分组：一个引擎一次拿到它全部的图（批量比逐张快一倍多）
   const byEngine = new Map<Engine, DiagramTask[]>()
   for (const task of tasks) {
     const engine = engines.find((e) => e.langs.includes(task.lang))
     if (!engine) {
+      const missing = missingByLang.get(task.lang)
       report.failed += 1
       setData(task, { failed: { reason: `没有引擎认领 ${task.lang}` } })
       report.diagnostics.push(
         diagnostic('DIAG-301', 'error', `没有装能画 ${task.lang} 的引擎`, {
           start: { line: task.line, column: 1 },
-          hint: `跑 pamphlet doctor 看各引擎的安装状态`,
+          // 缺引擎会让整次构建失败，所以这条提示是作者唯一的出路：给能直接粘贴的命令，
+          // 不要只说「去跑 doctor 看看」
+          hint:
+            missing === undefined
+              ? '跑 pamphlet doctor 看各引擎的安装状态'
+              : `装上它：${missing.install}（跑 pamphlet doctor 看各引擎的安装状态）`,
         }),
       )
       continue

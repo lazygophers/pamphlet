@@ -128,6 +128,15 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0(@types/node@22.20.1)(@vitest/coverage-v8@5.0.0)(vite@7.3.6(@types/node@22.20.1)(yaml@2.9.0))
 
+  packages/engine-graphviz:
+    dependencies:
+      '@hpcc-js/wasm-graphviz':
+        specifier: ^1.29.0
+        version: 1.29.0
+      '@nekoleapuki/pamphlet-cli':
+        specifier: workspace:*
+        version: link:../pamphlet
+
   packages/pamphlet:
     dependencies:
       '@nekoleapuki/pamphlet-runtime':
@@ -164,6 +173,9 @@ importers:
         specifier: ^2.7.0
         version: 2.9.0
     devDependencies:
+      '@nekoleapuki/pamphlet-engine-graphviz':
+        specifier: workspace:*
+        version: link:../engine-graphviz
       '@terrastruct/d2':
         specifier: ^0.1.33
         version: 0.1.33
@@ -390,6 +402,9 @@ packages:
   '@fortawesome/fontawesome-free@6.7.2':
     resolution: {integrity: sha512-JUOtgFW6k9u4Y+xeIaEiLr3+cjoUPiAuLXoyKOJSia6Duzb7pq+A76P9ZdPDoAoxHdHzq6gE9/jKBGXlZT8FbA==}
     engines: {node: '>=6'}
+
+  '@hpcc-js/wasm-graphviz@1.29.0':
+    resolution: {integrity: sha512-irr5OCt1G5s5j75jlGZm3Y5fb6DboE2c/aWiM/Fv/b3NygbJY/Rp8335kS5Qeklsib0dWInjAYCj4UEClIYQmQ==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -2236,6 +2251,8 @@ snapshots:
     optional: true
 
   '@fortawesome/fontawesome-free@6.7.2': {}
+
+  '@hpcc-js/wasm-graphviz@1.29.0': {}
 
   '@iconify/types@2.0.0': {}
 

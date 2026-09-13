@@ -8,7 +8,8 @@
     "pamphlet": "./dist/bin.js"
   },
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/index.js",
+    "./engine-kit": "./dist/engine-kit.js"
   },
   "files": [
     "dist"
@@ -34,6 +35,7 @@
     "yaml": "^2.7.0"
   },
   "devDependencies": {
+    "@nekoleapuki/pamphlet-engine-graphviz": "workspace:*",
     "@terrastruct/d2": "^0.1.33",
     "@types/fontkit": "^2.0.9",
     "@types/mdast": "^4.0.4",

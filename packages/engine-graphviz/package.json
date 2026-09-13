@@ -1,0 +1,40 @@
+{
+  "name": "@nekoleapuki/pamphlet-engine-graphviz",
+  "version": "0.0.2",
+  "description": "Pamphlet 的 Graphviz 引擎：画 ```dot 围栏，无浏览器、无 Java，WASM 2.1MB",
+  "type": "module",
+  "license": "AGPL-3.0-or-later",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "prepublishOnly": "tsc -b"
+  },
+  "keywords": [
+    "pamphlet",
+    "graphviz",
+    "dot",
+    "diagram"
+  ],
+  "homepage": "https://lazygophers.github.io/pamphlet/",
+  "bugs": "https://github.com/lazygophers/pamphlet/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazygophers/pamphlet.git",
+    "directory": "packages/engine-graphviz"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@hpcc-js/wasm-graphviz": "^1.29.0"
+  },
+  "peerDependencies": {
+    "@nekoleapuki/pamphlet-cli": "workspace:*"
+  }
+}
