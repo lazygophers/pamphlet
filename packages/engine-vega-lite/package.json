@@ -1,0 +1,41 @@
+{
+  "name": "@nekoleapuki/pamphlet-engine-vega-lite",
+  "version": "0.0.2",
+  "description": "Pamphlet 的 Vega-Lite 引擎：画 ```vega-lite 围栏的数据图表",
+  "type": "module",
+  "license": "AGPL-3.0-or-later",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "prepublishOnly": "tsc -b"
+  },
+  "keywords": [
+    "pamphlet",
+    "vega",
+    "vega-lite",
+    "chart"
+  ],
+  "homepage": "https://lazygophers.github.io/pamphlet/",
+  "bugs": "https://github.com/lazygophers/pamphlet/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazygophers/pamphlet.git",
+    "directory": "packages/engine-vega-lite"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "vega": "^6.4.0",
+    "vega-lite": "^6.4.3"
+  },
+  "peerDependencies": {
+    "@nekoleapuki/pamphlet-cli": "workspace:*"
+  }
+}

@@ -46,9 +46,10 @@ describe('引擎包的发现', () => {
     ])
   })
 
-  it('一次把缺的都说完，不让作者装一个编一次', async () => {
-    const { missing } = await loadEnginePackages(['plantuml', 'wavedrom', 'plantuml'])
-    expect(missing.map((m) => m.lang)).toEqual(['plantuml', 'wavedrom'])
+  it('同一种语言出现多次也只说一次', async () => {
+    // 一份文档里写十个 plantuml 围栏，不该得到十条一模一样的提示
+    const { missing } = await loadEnginePackages(['plantuml', 'plantuml', 'plantuml'])
+    expect(missing.map((m) => m.lang)).toEqual(['plantuml'])
   })
 
   it('没用到的语言连 import 都不发生', async () => {

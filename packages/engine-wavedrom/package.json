@@ -1,0 +1,41 @@
+{
+  "name": "@nekoleapuki/pamphlet-engine-wavedrom",
+  "version": "0.0.2",
+  "description": "Pamphlet 的 WaveDrom 引擎：画 ```wavedrom 围栏的数字波形图",
+  "type": "module",
+  "license": "AGPL-3.0-or-later",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "prepublishOnly": "tsc -b"
+  },
+  "keywords": [
+    "pamphlet",
+    "wavedrom",
+    "waveform",
+    "timing"
+  ],
+  "homepage": "https://lazygophers.github.io/pamphlet/",
+  "bugs": "https://github.com/lazygophers/pamphlet/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazygophers/pamphlet.git",
+    "directory": "packages/engine-wavedrom"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "wavedrom": "^3.7.0",
+    "onml": "^2.1.0"
+  },
+  "peerDependencies": {
+    "@nekoleapuki/pamphlet-cli": "workspace:*"
+  }
+}

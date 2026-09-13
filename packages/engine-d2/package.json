@@ -1,0 +1,40 @@
+{
+  "name": "@nekoleapuki/pamphlet-engine-d2",
+  "version": "0.0.2",
+  "description": "Pamphlet 的 d2 引擎：画 ```d2 围栏的架构图",
+  "type": "module",
+  "license": "AGPL-3.0-or-later",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "prepublishOnly": "tsc -b"
+  },
+  "keywords": [
+    "pamphlet",
+    "d2",
+    "architecture",
+    "diagram"
+  ],
+  "homepage": "https://lazygophers.github.io/pamphlet/",
+  "bugs": "https://github.com/lazygophers/pamphlet/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazygophers/pamphlet.git",
+    "directory": "packages/engine-d2"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@d2lang/d2": "^0.1.34"
+  },
+  "peerDependencies": {
+    "@nekoleapuki/pamphlet-cli": "workspace:*"
+  }
+}

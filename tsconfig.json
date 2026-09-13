@@ -5,6 +5,21 @@
       "path": "packages/pamphlet"
     },
     {
+      "path": "packages/engine-d2"
+    },
+    {
+      "path": "packages/engine-wavedrom"
+    },
+    {
+      "path": "packages/engine-vega-lite"
+    },
+    {
+      "path": "packages/engine-bytefield"
+    },
+    {
+      "path": "packages/engine-mathjax"
+    },
+    {
       "path": "packages/engine-graphviz"
     },
     {
