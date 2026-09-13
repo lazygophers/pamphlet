@@ -16,9 +16,37 @@
 
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
-import { createCommandEngine, type Engine } from '@nekoleapuki/pamphlet-cli/engine-kit'
+import { SENTINELS, createCommandEngine, type Engine } from '@nekoleapuki/pamphlet-cli/engine-kit'
 
 const run = promisify(execFile)
+
+/**
+ * 哨兵靠 `skinparam` 注进去，插在 `@startuml` 那一行后面。
+ *
+ * 插在后面而不是前面：`@startuml` 必须是第一行，前面塞东西整份图就废了。
+ * 作者自己写的 `skinparam` 在这几行之后，所以**他写的仍然盖过我们的默认值**。
+ */
+const SKINPARAMS = [
+  `skinparam backgroundColor ${SENTINELS.bg}`,
+  `skinparam defaultFontColor ${SENTINELS.text}`,
+  `skinparam ArrowColor ${SENTINELS.line}`,
+  `skinparam ArrowFontColor ${SENTINELS.muted}`,
+  `skinparam BorderColor ${SENTINELS.line}`,
+  `skinparam shadowing false`,
+  ...['Participant', 'Actor', 'Sequence', 'Class', 'Component', 'Usecase', 'Activity', 'State', 'Note', 'Package', 'Rectangle'].flatMap(
+    (kind) => [
+      `skinparam ${kind}BackgroundColor ${SENTINELS.fill}`,
+      `skinparam ${kind}BorderColor ${SENTINELS.line}`,
+      `skinparam ${kind}FontColor ${SENTINELS.text}`,
+    ],
+  ),
+].join('\n')
+
+function withSentinels(code: string): string {
+  const at = code.indexOf('\n')
+  if (at === -1 || !code.trimStart().startsWith('@start')) return code
+  return `${code.slice(0, at)}\n${SKINPARAMS}${code.slice(at)}`
+}
 
 /** jar 放在哪：环境变量优先，其次假设它在当前目录 */
 function jarPath(): string {
@@ -51,7 +79,8 @@ export function createEngine(options: { timeoutMs?: number } = {}): Engine {
       '-charset',
       'UTF-8',
     ],
-    fingerprint: `plantuml-svg-${jarPath()}`.slice(0, 24),
+    fingerprint: `plantuml-${SKINPARAMS.length}-${Object.values(SENTINELS).join('')}`.slice(0, 24),
+    transform: withSentinels,
     ...(options.timeoutMs === undefined ? {} : { timeoutMs: options.timeoutMs }),
 
     /**

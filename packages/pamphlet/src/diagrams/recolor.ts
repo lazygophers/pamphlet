@@ -30,6 +30,14 @@ const HEX = /#[0-9a-fA-F]{3,8}\b/g
  */
 const HREF = /\b(?:xlink:)?href\s*=\s*(["'])#[^"']*\1/g
 /**
+ * `&#22238;` 是**数字字符引用**（这个是「回」字），不是颜色。
+ *
+ * 引擎把非 ASCII 文字转义成实体时就会出现它，而 `HEX` 会把 `#22238` 当成一个
+ * 六位色值换掉，于是那个字变成一串 `var(--pf-…)` 乱码。实测 PlantUML 画中文
+ * 时每个字都踩一次。
+ */
+const ENTITY = /&#\d+;/g
+/**
  * 具名色只在**颜色的位置**才算数：`fill="red"` 是颜色，正文里的「red」不是。
  * 所以按「颜色属性/属性名 + 分隔符 + 值」整体匹配，不单独去正文里抓单词。
  */
@@ -62,10 +70,11 @@ export function recolor(input: string): RecolorResult {
   // 先把 href 挖走换成占位，替换完再填回去——比在正则里写否定回顾好读，
   // 也不依赖各 JS 引擎对回顾语法的支持程度
   const hrefs: string[] = []
-  const svg = input.replace(HREF, (whole) => {
+  const stash = (whole: string): string => {
     hrefs.push(whole)
     return `\u0000href${hrefs.length - 1}\u0000`
-  })
+  }
+  const svg = input.replace(HREF, stash).replace(ENTITY, stash)
 
   const hexDone = svg.replace(HEX, (hex) => {
     const token: DiagramToken | undefined =

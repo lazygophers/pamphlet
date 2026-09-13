@@ -46,7 +46,7 @@ The fence holds JSON:
 
 ## Install it once
 
-It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (约 26MB，纯 JS):
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (about 26MB, pure JS):
 
 ```bash
 npm i -D @nekoleapuki/pamphlet-engine-vega-lite

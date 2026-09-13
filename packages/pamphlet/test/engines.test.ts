@@ -73,6 +73,14 @@ const CASES: Case[] = [
     unmapped: [],
     broken: 'a -> : 箭头右边什么都没有',
   },
+  {
+    name: 'plantuml',
+    load: () => import('@nekoleapuki/pamphlet-engine-plantuml'),
+    code: '@startuml\nAlice -> Bob: 请求\nBob --> Alice: 回复\n@enduml',
+    contains: ['<svg', 'Alice'],
+    unmapped: [],
+    broken: '@startuml\n((((\n@enduml',
+  },
 ]
 
 for (const entry of CASES) {
@@ -83,7 +91,10 @@ for (const entry of CASES) {
   const probe = loaded === undefined ? undefined : await loaded.createEngine().probe()
   const available = probe?.available === true
   if (!available) {
-    process.stderr.write(`跳过 ${entry.name} 引擎测试：没装那个包\n`)
+    // 跳过要看得见，否则它会被当成通过。PlantUML 最常落在这里：
+    // 包装了但 jar 或 Java 没有，`PLANTUML_JAR` 指向那个 jar 就能跑起来
+    const why = probe?.available === false ? probe.hint : '没装那个包'
+    process.stderr.write(`跳过 ${entry.name} 引擎测试：${why}\n`)
   }
 
   describe.skipIf(!available)(`${entry.name} 引擎`, () => {

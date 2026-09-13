@@ -73,6 +73,6 @@ npm i -D @nekoleapuki/pamphlet-engine-d2
 
 - **容器里的形状要用点号引用**：`外层.内层 -> 另一个.形状`
 - 连线引用的是形状的**键**，不是它显示出来的标签
-- WASM 包约 60MB，是七个引擎里最大的一个
+- 解包约 91.4MB，是七个引擎里最大的一个——正因为它大，「一个引擎一个包」在它身上最划算
 
 > 出处：[ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

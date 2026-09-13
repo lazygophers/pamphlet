@@ -66,11 +66,13 @@ Thirteen. **Each has two pages**: one for Pamphlet's own syntax and one for the 
 
 `timeline` / `quadrantChart` / `journey` / `packet-beta` / `radar-beta` / `xychart-beta` draw, but **a few colours do not follow the theme** and they report `DIAG-304`. The engine computes those colours from the primary colour, and the computed values are neither our sentinels nor caught by the substitution.
 
-### Two colours it hard-codes
+### Two colours it hard-codes (known not to follow the theme)
 
 The state diagram's edge-label colour (`red`) and the Gantt separator (`navy`) are written into Mermaid's own per-kind stylesheets and **cannot be substituted with theme variables**, so every build reports two `DIAG-304` warnings.
 
-They are **real warnings, not noise**: in dark mode that `navy` rule is nearly invisible. Leaving them reported is how we find out the day Mermaid changes its defaults.
+These two are **known not to follow the theme**: this repository's own `examples/demo.md` reports them too, and that is not a mistake in the demo.
+
+They stay reported rather than claimed in the alias table because they are **real warnings, not noise** — in dark mode that `navy` rule is nearly invisible. It is also how we find out the day Mermaid changes its defaults.
 
 ### Two kinds reject non-ASCII labels
 

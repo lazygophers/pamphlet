@@ -120,6 +120,15 @@ describe('颜色替换（ADR-0016）', () => {
     expect(result.unmapped).toEqual([])
   })
 
+  it('&#22238; 是「回」字不是颜色——换掉它中文会变成一串乱码', () => {
+    // 引擎把非 ASCII 转义成数字字符引用时就会出现它。实测 PlantUML 画中文时每个字踩一次
+    const svg = '<svg><text>&#22238;&#22797;</text><rect fill="#ff0003"/></svg>'
+    const result = recolor(svg)
+    expect(result.svg).toContain('&#22238;&#22797;')
+    expect(result.svg).toContain(CSS_VARIABLE.fill)
+    expect(result.unmapped).toEqual([])
+  })
+
   it('CSS 具名色也换掉——引擎把它写死在模板里时，哨兵挤不掉它', () => {
     // WaveDrom 的背景 <rect style="fill:white"> 写死在渲染器模板里，不在 skin 里。
     // 不认具名色的话：换不掉，也不报，暗色下就是一块白板

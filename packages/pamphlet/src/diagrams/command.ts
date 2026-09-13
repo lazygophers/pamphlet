@@ -33,6 +33,11 @@ export interface CommandEngineOptions {
   timeoutMs?: number
   /** 没装时怎么说。缺引擎会让整次构建失败，所以这句话要能直接照做 */
   probe?: () => Promise<{ available: true } | { available: false; hint: string }>
+  /**
+   * 送进标准输入之前改一手图源。哨兵色靠它注进去——每种引擎的注法都不一样，
+   * 而这一层只管「怎么跑一个进程」。不给就原样送。
+   */
+  transform?: (code: string) => string
 }
 
 interface CommandResult {
@@ -109,7 +114,7 @@ export function createCommandEngine(options: CommandEngineOptions): Engine {
 
       let result: CommandResult
       try {
-        result = await run(options.command, request.code, timeoutMs)
+        result = await run(options.command, options.transform?.(request.code) ?? request.code, timeoutMs)
       } catch (error) {
         return fail(
           `${options.name} 跑不起来：${error instanceof Error ? error.message : String(error)}`,

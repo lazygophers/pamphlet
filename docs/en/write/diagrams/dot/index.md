@@ -34,7 +34,7 @@ For an undirected graph write `graph` instead of `digraph` and `--` instead of `
 
 ## Install it once
 
-It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (WASM 2.1MB，七个里最省的一个):
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (WASM 2.1MB, the smallest of the seven):
 
 ```bash
 npm i -D @nekoleapuki/pamphlet-engine-graphviz

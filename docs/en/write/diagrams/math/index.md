@@ -26,7 +26,7 @@ What goes in the fence is ordinary TeX, the same as in a paper.
 
 ## Install it once
 
-It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (约 50MB，纯 JS):
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (about 50MB, pure JS):
 
 ```bash
 npm i -D @nekoleapuki/pamphlet-engine-mathjax

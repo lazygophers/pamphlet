@@ -39,7 +39,7 @@ Bob --> Alice: Authentication Response
 
 ## Install it once
 
-It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (一个 jar，**还要 Java ≥ 11**):
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (a jar, and **Java ≥ 11** on top):
 
 ```bash
 npm i -D @nekoleapuki/pamphlet-engine-plantuml

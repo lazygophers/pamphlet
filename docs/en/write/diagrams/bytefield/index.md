@@ -34,7 +34,7 @@ The fence holds its own DSL (it looks like Clojure because it is Clojure):
 
 ## Install it once
 
-It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (2.1MB，七个里体积最小的):
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (2.1MB, the smallest of the seven):
 
 ```bash
 npm i -D @nekoleapuki/pamphlet-engine-bytefield

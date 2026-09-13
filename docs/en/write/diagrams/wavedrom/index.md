@@ -30,7 +30,7 @@ The fence holds JSON (WaveJSON); one character of a `wave` string is one time sl
 
 ## Install it once
 
-It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (3.3MB，纯 JS):
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (3.3MB, pure JS):
 
 ```bash
 npm i -D @nekoleapuki/pamphlet-engine-wavedrom

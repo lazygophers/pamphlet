@@ -104,6 +104,8 @@ export const HARDCODED_ALIASES: Record<string, DiagramToken> = {
   '#444444': 'muted',
   // 架构图默认图标本身是一段写死颜色的 SVG，连图标带这个蓝一起塞进输出
   '#087ebf': 'accent',
+  // PlantUML 画线和文字的那个近黑色，skinparam 盖不到（实测 plantuml-lgpl 1.2025.4）
+  '#181818': 'text',
 }
 
 /**

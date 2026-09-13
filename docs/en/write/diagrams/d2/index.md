@@ -51,7 +51,7 @@ checkout: {
 
 ## Install it once
 
-It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (解包约 91.4MB，七个里最大的一个):
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (about 91.4MB unpacked, the largest of the seven):
 
 ```bash
 npm i -D @nekoleapuki/pamphlet-engine-d2
@@ -73,6 +73,6 @@ Licence: MPL-2.0.
 
 - **Shapes inside a container are referenced with dots**: `outer.inner -> another.shape`
 - A connection references a shape's **key**, not the label it displays
-- The WASM bundle is about 60MB, the largest of the seven engines
+- About 91.4MB unpacked, the largest of the seven — which is exactly why per-engine packages pay off most here
 
 > Sources: [ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

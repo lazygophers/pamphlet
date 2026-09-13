@@ -140,7 +140,7 @@ importers:
   packages/engine-d2:
     dependencies:
       '@d2lang/d2':
-        specifier: ^0.1.34
+        specifier: 0.1.34
         version: 0.1.34
       '@nekoleapuki/pamphlet-cli':
         specifier: workspace:*
