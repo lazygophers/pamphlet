@@ -58,4 +58,4 @@ npm i -D @nekoleapuki/pamphlet-engine-bytefield
 - 一行默认十六个字节，要改用 `(def boxes-per-row 4)`
 - 数字直接写会渲染成两位十六进制——这是故意的，提醒你那是一个字节
 
-> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）
+> 出处：[ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

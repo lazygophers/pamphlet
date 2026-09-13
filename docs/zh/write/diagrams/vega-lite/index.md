@@ -70,4 +70,4 @@ npm i -D @nekoleapuki/pamphlet-engine-vega-lite
 - JSON 写错不会「差不多能看」，是整张图画不出来
 - 数据直接写在 `values` 里；引用外部 URL 的数据在自包含产物里取不到
 
-> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）
+> 出处：[ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

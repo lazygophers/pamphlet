@@ -110,7 +110,13 @@ export function recolor(input: string): RecolorResult {
     return whole
   })
 
-  const restored = named.replace(/\u0000href(\d+)\u0000/g, (_, index: string) => hrefs[Number(index)] ?? '')
+  const restored = named.replace(/\u0000href(\d+)\u0000/g, (_, index: string) => {
+    const href = hrefs[Number(index)]
+    // 取不回来说明占位逻辑本身坏了。吞掉它等于让图上的引用凭空消失——
+    // 正是这段代码要防的那个故障，所以在这里炸掉而不是留个空字符串
+    if (href === undefined) throw new Error(`href 占位符 ${index} 丢了`)
+    return href
+  })
 
   return { svg: restored, replaced, unmapped: [...unmapped].sort() }
 }

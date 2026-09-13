@@ -65,4 +65,4 @@ Two more things: the diagrams it generates belong to whoever wrote the source an
 - On Unix it must be invoked with `-Djava.awt.headless=true`, otherwise it reaches for X11 graphics libraries (<https://plantuml.com/faq-install>)
 - It is a jar rather than an npm package, so installing it looks nothing like the other six
 
-> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)
+> Sources: [ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

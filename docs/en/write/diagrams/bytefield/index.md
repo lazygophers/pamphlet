@@ -58,4 +58,4 @@ Seven border lines end up using the text colour rather than the line colour: the
 - A row holds sixteen bytes by default; change it with `(def boxes-per-row 4)`
 - A bare number renders as two hex digits — deliberately, to remind you it is one byte
 
-> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)
+> Sources: [ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

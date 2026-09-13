@@ -75,4 +75,4 @@ Licence: MPL-2.0.
 - A connection references a shape's **key**, not the label it displays
 - The WASM bundle is about 60MB, the largest of the seven engines
 
-> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)
+> Sources: [ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

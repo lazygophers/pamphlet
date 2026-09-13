@@ -14,6 +14,7 @@ import {
   SENTINELS,
   diagnostic,
   pinIntrinsicSize,
+  probeImport,
   recolor,
   withTimeout,
   type Diagnostic,
@@ -95,17 +96,7 @@ export function createEngine(options: { timeoutMs?: number } = {}): Engine {
     langs: ['vega-lite'],
     fingerprint: `vl-${JSON.stringify(CONFIG).length}-${Object.values(SENTINELS).join('')}`.slice(0, 24),
 
-    async probe() {
-      try {
-        await import('vega-lite')
-      } catch {
-        return {
-          available: false,
-          hint: '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-vega-lite（约 26MB，纯 JS，不需要浏览器）',
-        }
-      }
-      return { available: true }
-    },
+    probe: () => probeImport(() => import('vega-lite'), '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-vega-lite（约 26MB，纯 JS，不需要浏览器）'),
 
     async renderOne(request: RenderRequest): Promise<RenderedDiagram | Diagnostic> {
       try {

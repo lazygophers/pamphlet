@@ -87,6 +87,36 @@ describe('外部命令引擎', () => {
   })
 })
 
+describe('外部命令引擎的边角', () => {
+  it('命令是空的时候说清楚，而不是拿 undefined 去 spawn', async () => {
+    const empty = createCommandEngine({
+      name: '假引擎',
+      langs: ['plantuml'],
+      command: [],
+      probe: async () => ({ available: true }) as const,
+    })
+    const result = await empty.renderOne({ code: 'x', line: 1 })
+    expect('code' in result ? result.message : '').toContain('命令是空的')
+  })
+
+  it('不给 probe 时默认报「没装」，并说出缺的是哪个程序', async () => {
+    const engine = createCommandEngine({
+      name: '假引擎',
+      langs: ['plantuml'],
+      command: ['某个渲染器', '--svg'],
+    })
+    const probe = await engine.probe()
+    expect(probe.available).toBe(false)
+    expect(probe.available === false ? probe.hint : '').toContain('某个渲染器')
+  })
+
+  it('不给 fingerprint 时用命令本身当指纹——命令变了缓存就该失效', () => {
+    const a = createCommandEngine({ name: 'x', langs: ['plantuml'], command: ['a', '--svg'] })
+    const b = createCommandEngine({ name: 'x', langs: ['plantuml'], command: ['b', '--svg'] })
+    expect(a.fingerprint).not.toBe(b.fingerprint)
+  })
+})
+
 describe('frontmatter 里声明的自定义引擎', () => {
   it('作者自己声明一条命令，那种围栏就画得出来了', async () => {
     const source = [

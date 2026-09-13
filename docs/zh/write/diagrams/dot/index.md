@@ -59,4 +59,4 @@ npm i -D @nekoleapuki/pamphlet-engine-graphviz
 - 边标签把版面挤歪时，换成 `[xlabel="文字"]`——它在所有节点排好之后才放，不参与布局
 - WASM 包只有 2.1MB，是七个里最小的
 
-> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）
+> 出处：[ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

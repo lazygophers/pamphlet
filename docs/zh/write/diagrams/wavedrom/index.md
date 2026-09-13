@@ -54,4 +54,4 @@ npm i -D @nekoleapuki/pamphlet-engine-wavedrom
 - `wave` 字符串的长度就是时间轴的长度，几条信号要对齐就得一样长
 - WaveJSON 用的是宽松 JSON（键不加引号），和标准 JSON 不完全一样
 
-> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）
+> 出处：[ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

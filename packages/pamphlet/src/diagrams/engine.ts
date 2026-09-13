@@ -106,3 +106,26 @@ export function withTimeout<T>(
     )
   })
 }
+
+/**
+ * 「这个包装了没有」——六个引擎包逐字同形的那段探针。
+ *
+ * 收的是一个**加载函数**而不是包名：动态 import 按调用它的那个模块的位置解析，
+ * 引擎的依赖装在引擎包里，在主包这边按名字 import 会解析不到（踩过）。
+ * 所以 `import()` 必须写在引擎包自己的代码里，这里只负责怎么处理失败。
+ *
+ * 只吞「没装」。装了却导入失败（少了 peer 依赖、包自己写错了）要抛出去：
+ * 把它说成「没装」的话，作者会照着安装命令去查一个不存在的问题。
+ */
+export async function probeImport(
+  load: () => Promise<unknown>,
+  hint: string,
+): Promise<{ available: true } | { available: false; hint: string }> {
+  try {
+    await load()
+  } catch (error) {
+    if ((error as { code?: string } | undefined)?.code !== 'ERR_MODULE_NOT_FOUND') throw error
+    return { available: false, hint }
+  }
+  return { available: true }
+}

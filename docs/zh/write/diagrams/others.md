@@ -68,4 +68,4 @@ engines:
 
 这条路不需要写任何 JavaScript，所以构建期不会跑第三方代码。官方的 PlantUML 引擎内部走的就是它。详见[接一个自定义图表引擎](/howto/custom-engine)。
 
-> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> 出处：[ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md)、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)

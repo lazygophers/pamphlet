@@ -38,13 +38,8 @@ describe('引擎包的发现', () => {
     const absent = { plantuml: '@nekoleapuki/pamphlet-engine-一定没装' }
     const { engines, missing } = await loadEnginePackages(['plantuml'], absent)
     expect(engines).toEqual([])
-    expect(missing).toEqual([
-      {
-        lang: 'plantuml',
-        package: absent.plantuml,
-        install: installCommand(absent.plantuml),
-      },
-    ])
+    expect(missing).toEqual([{ lang: 'plantuml', package: absent.plantuml }])
+    expect(installCommand(absent.plantuml)).toBe(`npm i -D ${absent.plantuml}`)
   })
 
   it('同一种语言出现多次也只说一次', async () => {
@@ -52,6 +47,20 @@ describe('引擎包的发现', () => {
     const absent = { plantuml: '@nekoleapuki/pamphlet-engine-一定没装' }
     const { missing } = await loadEnginePackages(['plantuml', 'plantuml', 'plantuml'], absent)
     expect(missing.map((m) => m.lang)).toEqual(['plantuml'])
+  })
+
+  it('包装了但它自己导入失败时，抛出去而不是说成「没装」', async () => {
+    // 说成「没装」的话，作者会照着 npm i 去查一个不存在的问题——
+    // 真实的原因可能是少了 peer 依赖，或者那个包自己写错了
+    const broken = { plantuml: 'node:不是一个真模块' }
+    await expect(loadEnginePackages(['plantuml'], broken)).rejects.toThrow()
+  })
+
+  it('导入到的东西不是引擎包时当场炸掉，而不是留个半死不活的引擎', async () => {
+    // 装了一个同名但不是引擎的包，是配置问题不是「没装」，
+    // 留着它往下走的话，报错会出现在离原因很远的地方
+    const wrong = { plantuml: 'node:path' }
+    await expect(loadEnginePackages(['plantuml'], wrong)).rejects.toThrow('createEngine')
   })
 
   it('没用到的语言连 import 都不发生', async () => {

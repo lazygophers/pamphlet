@@ -54,4 +54,4 @@ Its three semantic colours (warning yellow, error red, success green) **delibera
 - The length of a `wave` string is the length of the time axis; signals that should line up must be the same length
 - WaveJSON is relaxed JSON (unquoted keys), not quite standard JSON
 
-> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)
+> Sources: [ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

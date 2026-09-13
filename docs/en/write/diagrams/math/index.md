@@ -50,4 +50,4 @@ Formula colours are entirely `currentColor`, inherited from the surrounding text
 - For a superscript or subscript without invoking the maths engine, use raw HTML `<sub>` / `<sup>` ([raw HTML passes through](/en/write/html))
 - The `mathjax-full` package is about 42MB, 8MB of which is `speech-rule-engine`
 
-> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)
+> Sources: [ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

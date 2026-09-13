@@ -16,6 +16,7 @@ import {
   DEFAULT_TIMEOUT_MS,
   diagnostic,
   pinIntrinsicSize,
+  probeImport,
   recolor,
   type Diagnostic,
   type Engine,
@@ -95,17 +96,7 @@ export function createEngine(options: { timeoutMs?: number } = {}): Engine {
     // 公式的颜色全靠 currentColor，没有哨兵注入，所以指纹只认版本
     fingerprint: 'mathjax-3.2.2-local-fontcache',
 
-    async probe() {
-      try {
-        await import('mathjax-full/js/mathjax.js')
-      } catch {
-        return {
-          available: false,
-          hint: '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-mathjax（约 50MB，纯 JS，不需要浏览器）',
-        }
-      }
-      return { available: true }
-    },
+    probe: () => probeImport(() => import('mathjax-full/js/mathjax.js'), '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-mathjax（约 50MB，纯 JS，不需要浏览器）'),
 
     async renderOne(request: RenderRequest): Promise<RenderedDiagram | Diagnostic> {
       void timeoutMs

@@ -14,6 +14,7 @@ import {
   SENTINELS,
   diagnostic,
   pinIntrinsicSize,
+  probeImport,
   recolor,
   withTimeout,
   type Diagnostic,
@@ -91,17 +92,7 @@ export function createEngine(options: GraphvizOptions = {}): Engine {
     // 注入的哨兵和布局算法都决定输出，所以它们进缓存键
     fingerprint: `${layout}-${Object.values(SENTINELS).join('')}`.slice(0, 24),
 
-    async probe() {
-      try {
-        await import('@hpcc-js/wasm-graphviz')
-      } catch {
-        return {
-          available: false,
-          hint: '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-graphviz（WASM 2.1MB，不需要浏览器）',
-        }
-      }
-      return { available: true }
-    },
+    probe: () => probeImport(() => import('@hpcc-js/wasm-graphviz'), '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-graphviz（WASM 2.1MB，不需要浏览器）'),
 
     // 只实现基础层：Graphviz 没有「每次调用的往返」那回事，实测第二张起 0ms，
     // 批量对它是白写的复杂度（那个设计是给 Mermaid 的浏览器往返用的）

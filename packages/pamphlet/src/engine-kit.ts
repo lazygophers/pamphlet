@@ -12,6 +12,7 @@
 export {
   DEFAULT_TIMEOUT_MS,
   SVG_SIZE_WARN_BYTES,
+  probeImport,
   withTimeout,
   type Engine,
   type RenderRequest,

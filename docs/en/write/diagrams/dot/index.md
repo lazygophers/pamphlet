@@ -59,4 +59,4 @@ Injecting theme colours does not touch a character of your source: the compiler 
 - When edge labels distort the layout, use `[xlabel="text"]` instead — it is placed after every node is positioned and takes no part in the layout
 - The WASM bundle is only 2.1MB, the smallest of the seven
 
-> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)
+> Sources: [ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

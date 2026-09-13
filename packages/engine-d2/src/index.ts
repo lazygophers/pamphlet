@@ -15,6 +15,7 @@ import {
   SENTINELS,
   diagnostic,
   pinIntrinsicSize,
+  probeImport,
   recolor,
   withTimeout,
   type Diagnostic,
@@ -89,17 +90,7 @@ export function createEngine(options: { timeoutMs?: number } = {}): Engine {
     langs: ['d2'],
     fingerprint: `d2-${Object.values(SENTINELS).join('')}`.slice(0, 24),
 
-    async probe() {
-      try {
-        await import('@d2lang/d2')
-      } catch {
-        return {
-          available: false,
-          hint: '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-d2（解包约 91MB，是七个引擎里最大的）',
-        }
-      }
-      return { available: true }
-    },
+    probe: () => probeImport(() => import('@d2lang/d2'), '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-d2（解包约 91MB，是七个引擎里最大的）'),
 
     async renderOne(request: RenderRequest): Promise<RenderedDiagram | Diagnostic> {
       try {

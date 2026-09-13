@@ -50,4 +50,4 @@ npm i -D @nekoleapuki/pamphlet-engine-mathjax
 - 要上标下标又不想动公式引擎，用裸 HTML 的 `<sub>` / `<sup>`（[裸 HTML 原样通过](/write/html)）
 - `mathjax-full` 包约 42MB，其中 `speech-rule-engine` 占 8MB
 
-> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）
+> 出处：[ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

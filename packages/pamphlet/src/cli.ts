@@ -20,7 +20,7 @@ import { artifactPath, compileFile } from './compile.js'
 import { extract } from './assemble/index.js'
 import { createMermaidEngine } from './diagrams/mermaid.js'
 import { STRUCTURED_KINDS, SELF_DRAWN_KINDS } from './diagrams/structured/index.js'
-import { ENGINE_PACKAGES, loadEnginePackages } from './diagrams/packages.js'
+import { ENGINE_PACKAGES, installCommand, loadEnginePackages } from './diagrams/packages.js'
 import { serveUntilInterrupt } from './serve.js'
 import { countBySeverity, formatDiagnostic, type FileReport } from './diagnostics.js'
 import type { SizeReport } from './assemble/report.js'
@@ -297,7 +297,7 @@ async function runDoctor(): Promise<number> {
   }
   for (const gap of loaded.missing) {
     // 没装不算「环境坏了」——它是这一版的常态，所以不计进退出码，只把装法说清楚
-    process.stdout.write(`· ${gap.lang}：没装 ${gap.package}，要用就跑 ${gap.install}\n`)
+    process.stdout.write(`· ${gap.lang}：没装 ${gap.package}，要用就跑 ${installCommand(gap.package)}\n`)
   }
   // 结构化写法是指令不是引擎，但作者关心的是同一个问题：这张图我现在画不画得出来
   const selfDrawn = new Set<string>(SELF_DRAWN_KINDS)

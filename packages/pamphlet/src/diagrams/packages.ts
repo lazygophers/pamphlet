@@ -38,12 +38,16 @@ function isEnginePackage(module: unknown): module is EnginePackage {
 export interface MissingEngine {
   lang: FenceLanguage
   package: string
-  /** 装它的命令，直接粘贴就能跑——缺引擎会让整次构建失败，这条提示是作者唯一的出路 */
-  install: string
 }
 
+/** 装它的命令，直接粘贴就能跑——缺引擎会让整次构建失败，这条提示是作者唯一的出路 */
 export function installCommand(packageName: string): string {
   return `npm i -D ${packageName}`
+}
+
+/** 没装，和「装了但它自己有毛病」是两回事 */
+function isNotInstalled(error: unknown): boolean {
+  return (error as { code?: string } | undefined)?.code === 'ERR_MODULE_NOT_FOUND'
 }
 
 /**
@@ -63,10 +67,19 @@ export async function loadEnginePackages(
     const packageName = table[lang]
     if (packageName === undefined) continue
 
-    const loaded: unknown = await import(packageName).catch(() => undefined)
-    if (!isEnginePackage(loaded)) {
-      missing.push({ lang, package: packageName, install: installCommand(packageName) })
+    let loaded: unknown
+    try {
+      loaded = await import(packageName)
+    } catch (error) {
+      // 「没装」是这一版的常态，记下来配上安装命令。
+      // 但**装了却导入失败**（少了 peer 依赖、包自己写错了）完全是另一回事——
+      // 把它也说成「没装」，作者会照着 npm i 去查一个不存在的问题
+      if (!isNotInstalled(error)) throw error
+      missing.push({ lang, package: packageName })
       continue
+    }
+    if (!isEnginePackage(loaded)) {
+      throw new Error(`${packageName} 不是一个引擎包：它没有导出 createEngine()`)
     }
     engines.push(loaded.createEngine())
   }

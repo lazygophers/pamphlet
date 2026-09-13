@@ -9,7 +9,7 @@ import { isFenceLanguage, type EngineDeclaration, type FenceLanguage } from '../
 import { diagnostic, type Diagnostic } from '../diagnostics.js'
 import { createCache, cacheKey, type Cache } from './cache.js'
 import { createMermaidEngine, sizeDiagnostic } from './mermaid.js'
-import { loadEnginePackages, type MissingEngine } from './packages.js'
+import { installCommand, loadEnginePackages, type MissingEngine } from './packages.js'
 import { createCommandEngine } from './command.js'
 import { unmappedDiagnostic } from './recolor.js'
 import { renderAll, type Engine, type RenderRequest, type RenderedDiagram } from './engine.js'
@@ -118,7 +118,7 @@ export async function renderDiagrams(
           hint:
             missing === undefined
               ? '跑 pamphlet doctor 看各引擎的安装状态'
-              : `装上它：${missing.install}（跑 pamphlet doctor 看各引擎的安装状态）`,
+              : `装上它：${installCommand(missing.package)}（跑 pamphlet doctor 看各引擎的安装状态）`,
         }),
       )
       continue

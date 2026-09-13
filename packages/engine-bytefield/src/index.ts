@@ -15,6 +15,7 @@ import {
   SENTINELS,
   diagnostic,
   pinIntrinsicSize,
+  probeImport,
   recolor,
   type Diagnostic,
   type Engine,
@@ -56,17 +57,7 @@ export function createEngine(): Engine {
     langs: ['bytefield'],
     fingerprint: `bytefield-${Object.values(SENTINELS).join('')}`.slice(0, 24),
 
-    async probe() {
-      try {
-        await import('bytefield-svg')
-      } catch {
-        return {
-          available: false,
-          hint: '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-bytefield（2.1MB，纯 JS，不需要浏览器）',
-        }
-      }
-      return { available: true }
-    },
+    probe: () => probeImport(() => import('bytefield-svg'), '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-bytefield（2.1MB，纯 JS，不需要浏览器）'),
 
     async renderOne(request: RenderRequest): Promise<RenderedDiagram | Diagnostic> {
       try {

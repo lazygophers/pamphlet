@@ -124,7 +124,7 @@ export function createCommandEngine(options: CommandEngineOptions): Engine {
       }
 
       const svg = result.stdout.trim()
-      if (!svg.startsWith('<svg') && !svg.includes('<svg')) {
+      if (!svg.includes('<svg')) {
         return fail(
           `${options.name} 没有吐出 SVG`,
           '外部命令引擎的约定是：图源走标准输入进、SVG 走标准输出出',

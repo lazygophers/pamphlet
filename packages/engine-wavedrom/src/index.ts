@@ -19,6 +19,7 @@ import {
   SENTINELS,
   diagnostic,
   pinIntrinsicSize,
+  probeImport,
   recolor,
   type Diagnostic,
   type Engine,
@@ -109,17 +110,7 @@ export function createEngine(): Engine {
     langs: ['wavedrom'],
     fingerprint: `wd-${Object.keys(SKIN_COLORS).length}-${Object.values(SENTINELS).join('')}`.slice(0, 24),
 
-    async probe() {
-      try {
-        await import('wavedrom')
-      } catch {
-        return {
-          available: false,
-          hint: '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-wavedrom（3.3MB，纯 JS，不需要浏览器）',
-        }
-      }
-      return { available: true }
-    },
+    probe: () => probeImport(() => import('wavedrom'), '装一次就好：npm i -D @nekoleapuki/pamphlet-engine-wavedrom（3.3MB，纯 JS，不需要浏览器）'),
 
     async renderOne(request: RenderRequest): Promise<RenderedDiagram | Diagnostic> {
       try {

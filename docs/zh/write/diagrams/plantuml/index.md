@@ -65,4 +65,4 @@ npm i -D @nekoleapuki/pamphlet-engine-plantuml
 - Unix 上必须带 `-Djava.awt.headless=true` 调用，否则它去找 X11 图形库（<https://plantuml.com/faq-install>）
 - 它是 jar 不是 npm 包，所以装法和另外六个都不一样
 
-> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）
+> 出处：[ADR-0048](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0048-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）
