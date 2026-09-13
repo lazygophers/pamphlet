@@ -1,4 +1,4 @@
-# MathJax（还没实现）
+# MathJax
 
 ## 这是什么
 
@@ -24,13 +24,25 @@ E = mc^2
 
 围栏里写的就是标准 TeX，和你在论文里写的一样。
 
-## 现在什么状态
+## 先装一次
 
-**围栏语言 `math` 认得，但引擎还没写。** 写了会得到 `DIAG-301`「没有装能画 math 的引擎」，并且**构建失败**——不是画不出来留个占位框，是整次编译不通过。
+它不跟着 Pamphlet 一起装——用到才装，不用的人一个字节都不多（约 50MB，纯 JS）：
 
-将来的依赖形态是npm，纯 JS，原生输出 SVG，和其余六个一样列为可选依赖：装 `@nekoleapuki/pamphlet-cli` 只得到编译器本体，一个引擎都不带。为什么这么安排见[其余七种引擎](/write/diagrams/others)。
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-mathjax
+```
 
-现在要画这种图，先用 [Mermaid 围栏](/write/diagrams/mermaid/)里最接近的一种顶着。
+装完跑 `pamphlet doctor` 确认：
+
+```
+✓ mathjax（math）
+```
+
+**没装就用这种围栏会怎样**：得到 `DIAG-301` 并且**整次编译失败**（不是留个占位框），提示里就是上面那条命令。
+
+许可证：Apache-2.0。
+
+公式的颜色全靠 `currentColor`，跟着正文走——切深色模式时它自己就变了，不需要换色那一套。
 
 ## 坑
 
@@ -38,4 +50,4 @@ E = mc^2
 - 要上标下标又不想动公式引擎，用裸 HTML 的 `<sub>` / `<sup>`（[裸 HTML 原样通过](/write/html)）
 - `mathjax-full` 包约 42MB，其中 `speech-rule-engine` 占 8MB
 
-> 出处：[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

@@ -1,4 +1,4 @@
-# Graphviz (not implemented yet)
+# Graphviz
 
 ## What it is
 
@@ -32,13 +32,25 @@ For an undirected graph write `graph` instead of `digraph` and `--` instead of `
 
 > Source: <https://graphviz.org/doc/info/lang.html>
 
-## Where it stands
+## Install it once
 
-**The fence language `dot` is recognised, but the engine is not written yet.** Using it reports `DIAG-301` ("no engine installed that can draw dot") and **fails the build** — not a placeholder box, the whole compile stops.
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (WASM 2.1MB，七个里最省的一个):
 
-The planned dependency shape is npm, WASM, no browser, optional like the other six: installing `@nekoleapuki/pamphlet-cli` gets you the compiler and no engines at all. [The other seven engines](/en/write/diagrams/others) explains why.
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-graphviz
+```
 
-Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
+Then confirm with `pamphlet doctor`:
+
+```
+✓ graphviz（dot）
+```
+
+**Using the fence without installing it**: you get `DIAG-301` and **the whole build fails** (no placeholder box), with that command in the hint.
+
+Licence: Apache-2.0.
+
+Injecting theme colours does not touch a character of your source: the compiler has Graphviz canonicalise it first, then inserts default colours after the graph header. A colour you wrote on purpose stays, and is reported so you know it will not follow the theme.
 
 ## Traps
 
@@ -47,4 +59,4 @@ Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
 - When edge labels distort the layout, use `[xlabel="text"]` instead — it is placed after every node is positioned and takes no part in the layout
 - The WASM bundle is only 2.1MB, the smallest of the seven
 
-> Source: [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

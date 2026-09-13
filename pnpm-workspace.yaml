@@ -1,5 +1,10 @@
 packages:
   - packages/*
+
+# 引擎包 peer 依赖主包，主包又把它们列为 devDependencies（测试要真装真渲染），
+# 于是 pnpm 看到一个环。这个环是有意的：宿主的测试要用到它的插件。
+# 构建顺序不受影响——TypeScript 的 project references 是单向的（引擎 → 主包）。
+ignoreWorkspaceCycles: true
 allowBuilds:
   esbuild: set this to true or false
 dangerouslyAllowAllBuilds: true

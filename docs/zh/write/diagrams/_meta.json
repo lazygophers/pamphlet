@@ -91,7 +91,7 @@
   },
   {
     "type": "custom-link",
-    "label": "其余七种引擎（还没实现）",
+    "label": "其余七个引擎（各装各的）",
     "link": "/write/diagrams/others",
     "collapsed": true,
     "items": [

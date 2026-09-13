@@ -1,4 +1,4 @@
-# d2 (not implemented yet)
+# d2
 
 ## What it is
 
@@ -49,13 +49,25 @@ checkout: {
 
 > Sources: <https://d2lang.com/tour/shapes>, <https://d2lang.com/tour/connections>, <https://d2lang.com/tour/sequence-diagrams>
 
-## Where it stands
+## Install it once
 
-**The fence language `d2` is recognised, but the engine is not written yet.** Using it reports `DIAG-301` ("no engine installed that can draw d2") and **fails the build** — not a placeholder box, the whole compile stops.
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (解包约 91.4MB，七个里最大的一个):
 
-The planned dependency shape is npm, WASM, no browser, optional like the other six: installing `@nekoleapuki/pamphlet-cli` gets you the compiler and no engines at all. [The other seven engines](/en/write/diagrams/others) explains why.
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-d2
+```
 
-Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
+Then confirm with `pamphlet doctor`:
+
+```
+✓ d2（d2）
+```
+
+**Using the fence without installing it**: you get `DIAG-301` and **the whole build fails** (no placeholder box), with that command in the hint.
+
+Licence: MPL-2.0.
+
+**A note on the package name**: upstream renamed `@terrastruct/d2` to `@d2lang/d2`, and the old name carries no deprecation marker — installing it warns about nothing, yet the old package never lets the process exit. The engine package pins the new name, so this is not your problem.
 
 ## Traps
 
@@ -63,4 +75,4 @@ Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
 - A connection references a shape's **key**, not the label it displays
 - The WASM bundle is about 60MB, the largest of the seven engines
 
-> Source: [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

@@ -1,4 +1,4 @@
-# Vega-Lite（还没实现）
+# Vega-Lite
 
 ## 这是什么
 
@@ -44,13 +44,25 @@ Mermaid 也有柱状折线（`xychart-beta`），但很弱，而且它的颜色�
 
 > 出处：<https://vega.github.io/vega-lite/examples/bar.html>
 
-## 现在什么状态
+## 先装一次
 
-**围栏语言 `vega-lite` 认得，但引擎还没写。** 写了会得到 `DIAG-301`「没有装能画 vega-lite 的引擎」，并且**构建失败**——不是画不出来留个占位框，是整次编译不通过。
+它不跟着 Pamphlet 一起装——用到才装，不用的人一个字节都不多（约 26MB，纯 JS）：
 
-将来的依赖形态是npm 库（`vega` + `vega-lite`），和其余六个一样列为可选依赖：装 `@nekoleapuki/pamphlet-cli` 只得到编译器本体，一个引擎都不带。为什么这么安排见[其余七种引擎](/write/diagrams/others)。
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-vega-lite
+```
 
-现在要画这种图，先用 [Mermaid 围栏](/write/diagrams/mermaid/)里最接近的一种顶着。
+装完跑 `pamphlet doctor` 确认：
+
+```
+✓ vega-lite（vega-lite）
+```
+
+**没装就用这种围栏会怎样**：得到 `DIAG-301` 并且**整次编译失败**（不是留个占位框），提示里就是上面那条命令。
+
+许可证：BSD-3-Clause。
+
+数据直接写在 `data.values` 里。引用外部 URL 的数据在自包含的产物里取不到——产物要能双击打开、不联网。
 
 ## 坑
 
@@ -58,4 +70,4 @@ Mermaid 也有柱状折线（`xychart-beta`），但很弱，而且它的颜色�
 - JSON 写错不会「差不多能看」，是整张图画不出来
 - 数据直接写在 `values` 里；引用外部 URL 的数据在自包含产物里取不到
 
-> 出处：[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

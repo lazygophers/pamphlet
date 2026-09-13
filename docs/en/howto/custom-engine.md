@@ -1,12 +1,10 @@
 # Adding a custom diagram engine
 
-:::danger Not implemented
-This page describes a shape that is **decided but not built**. Writing `engines` today only produces a `DOC-104` warning: "engines (custom engines) is not implemented; this declaration has no effect".
-
-The built-in Mermaid works as usual.
+:::info `command` only
+The `command` path (an external program) works today. The `http` path (a remote rendering service) is not built yet; writing it earns a `DOC-104` note.
 :::
 
-## The intended shape
+## How to write it
 
 Describe an engine as an external command in frontmatter:
 

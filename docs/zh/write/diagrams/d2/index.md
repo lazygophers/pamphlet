@@ -1,4 +1,4 @@
-# d2（还没实现）
+# d2
 
 ## 这是什么
 
@@ -49,13 +49,25 @@ d2 是 Terrastruct 做的图形描述语言，和 Mermaid 一样「写文字、�
 
 > 出处：<https://d2lang.com/tour/shapes>、<https://d2lang.com/tour/connections>、<https://d2lang.com/tour/sequence-diagrams>
 
-## 现在什么状态
+## 先装一次
 
-**围栏语言 `d2` 认得，但引擎还没写。** 写了会得到 `DIAG-301`「没有装能画 d2 的引擎」，并且**构建失败**——不是画不出来留个占位框，是整次编译不通过。
+它不跟着 Pamphlet 一起装——用到才装，不用的人一个字节都不多（解包约 91.4MB，七个里最大的一个）：
 
-将来的依赖形态是npm，WASM，无浏览器，和其余六个一样列为可选依赖：装 `@nekoleapuki/pamphlet-cli` 只得到编译器本体，一个引擎都不带。为什么这么安排见[其余七种引擎](/write/diagrams/others)。
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-d2
+```
 
-现在要画这种图，先用 [Mermaid 围栏](/write/diagrams/mermaid/)里最接近的一种顶着。
+装完跑 `pamphlet doctor` 确认：
+
+```
+✓ d2（d2）
+```
+
+**没装就用这种围栏会怎样**：得到 `DIAG-301` 并且**整次编译失败**（不是留个占位框），提示里就是上面那条命令。
+
+许可证：MPL-2.0。
+
+**注意包名**：官方从 `@terrastruct/d2` 改名到 `@d2lang/d2`，而旧包名没打 deprecated 标记——装错了不会有任何警告，但旧包渲染完进程不退出。引擎包已经钉死新包名，你不用管这件事。
 
 ## 坑
 
@@ -63,4 +75,4 @@ d2 是 Terrastruct 做的图形描述语言，和 Mermaid 一样「写文字、�
 - 连线引用的是形状的**键**，不是它显示出来的标签
 - WASM 包约 60MB，是七个引擎里最大的一个
 
-> 出处：[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

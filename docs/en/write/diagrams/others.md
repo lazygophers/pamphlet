@@ -1,22 +1,22 @@
-# The other seven diagram types
+# The other seven engines
 
-The fence languages are recognised, but **the engines are not written yet**. Using one gets `DIAG-301`, "no engine installed that can draw X", and the build fails.
+Mermaid ships inside Pamphlet. **The other seven are each their own package — install the one you need.** Everyone else downloads nothing: all seven together weigh about 340MB, and d2 alone is 91.4MB.
 
-| Fence language | Engine | Future dependency shape |
-|---|---|---|
-| [`d2`](/en/write/diagrams/d2) | d2 | npm, WASM, no browser |
-| [`dot`](/en/write/diagrams/dot) | Graphviz | npm, WASM, no browser |
-| [`math`](/en/write/diagrams/math) | MathJax v3 | npm, pure JS, emits SVG natively |
-| [`vega-lite`](/en/write/diagrams/vega-lite) | Vega-Lite | npm library |
-| [`wavedrom`](/en/write/diagrams/wavedrom) | WaveDrom | npm library |
-| [`bytefield`](/en/write/diagrams/bytefield) | bytefield-svg | npm, pure JS |
-| [`plantuml`](/en/write/diagrams/plantuml) | PlantUML | **jar, needs Java ≥ 11** |
+| Fence language | Engine | Install | Size |
+|---|---|---|---|
+| [`dot`](/en/write/diagrams/dot) | Graphviz | `npm i -D @nekoleapuki/pamphlet-engine-graphviz` | 2.1MB |
+| [`math`](/en/write/diagrams/math) | MathJax | `npm i -D @nekoleapuki/pamphlet-engine-mathjax` | 50MB |
+| [`vega-lite`](/en/write/diagrams/vega-lite) | Vega-Lite | `npm i -D @nekoleapuki/pamphlet-engine-vega-lite` | 26MB |
+| [`wavedrom`](/en/write/diagrams/wavedrom) | WaveDrom | `npm i -D @nekoleapuki/pamphlet-engine-wavedrom` | 3.3MB |
+| [`bytefield`](/en/write/diagrams/bytefield) | bytefield-svg | `npm i -D @nekoleapuki/pamphlet-engine-bytefield` | 2.1MB |
+| [`d2`](/en/write/diagrams/d2) | d2 | `npm i -D @nekoleapuki/pamphlet-engine-d2` | 91.4MB |
+| [`plantuml`](/en/write/diagrams/plantuml) | PlantUML | `npm i -D @nekoleapuki/pamphlet-engine-plantuml` | jar + Java |
 
-**Each has its own page** — follow the first column: what it is, what it draws, what the fence looks like, and where it stands today.
+**Each has its own page** — follow the first column: what it is, what it draws, how the fence looks, and what the traps are.
 
-`packages/pamphlet/src/diagrams/` currently contains only `mermaid.ts`. The shape is settled in [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md); it just is not written.
+Using a fence without its engine reports `DIAG-301` and **fails the whole build** (no placeholder box), with the command from the third column in the hint. `pamphlet doctor` lists all seven at once.
 
-## Why every engine is optional
+## Why not just bundle them all
 
 Installing `@nekoleapuki/pamphlet-cli` gives you **the compiler only**, with no engine attached.
 
@@ -57,6 +57,15 @@ Using the `vega` + `vega-lite` libraries (`view.toSVG()`) and the `wavedrom` lib
 
 ## Bringing your own engine
 
-The `engines` frontmatter field exists for this, but **it is not implemented yet** — writing it only produces a `DOC-104` warning. See [Adding a custom diagram engine](/en/howto/custom-engine).
+Describe an external command in the `engines` frontmatter field — **source in on stdin, SVG out on stdout**:
 
-> Source: [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+```yaml
+engines:
+  my-engine:
+    langs: [mylang]
+    command: [my-renderer, --svg, -]
+```
+
+No JavaScript from you means no third-party code at build time. See [Adding a custom diagram engine](/en/howto/custom-engine).
+
+> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)

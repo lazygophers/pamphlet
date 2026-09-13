@@ -26,7 +26,7 @@ Six of them. Anything else reports a `DOC-102` warning listing this set — **ne
 | `theme` | string | `default` | Which built-in theme to use |
 | `lang` | string | `zh-CN` | The output's `<html lang="…">` |
 | `toc` | boolean or object | off | Table of contents |
-| `engines` | object | — | ⚠️ not implemented |
+| `engines` | object | — | Custom engines: an external command, source in on stdin, SVG out on stdout |
 
 ## spec
 
@@ -127,11 +127,11 @@ engines:
     command: [mytool, --svg]
 ```
 
-:::warning Not implemented
-This produces a `DOC-104` warning: "engines (custom engines) is not implemented; this declaration has no effect". Built-in engines work as usual.
+:::info `command` only
+The `command` path works today; `http` (a remote rendering service) is not built yet and earns a `DOC-104` note.
 :::
 
-The intended shape is described in [Adding a custom diagram engine](/en/howto/custom-engine).
+The full shape is described in [Adding a custom diagram engine](/en/howto/custom-engine).
 
 ## Diagnostics point at the field
 

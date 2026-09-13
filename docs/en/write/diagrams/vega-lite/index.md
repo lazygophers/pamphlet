@@ -1,4 +1,4 @@
-# Vega-Lite (not implemented yet)
+# Vega-Lite
 
 ## What it is
 
@@ -44,13 +44,25 @@ The fence holds JSON:
 
 > Source: <https://vega.github.io/vega-lite/examples/bar.html>
 
-## Where it stands
+## Install it once
 
-**The fence language `vega-lite` is recognised, but the engine is not written yet.** Using it reports `DIAG-301` ("no engine installed that can draw vega-lite") and **fails the build** — not a placeholder box, the whole compile stops.
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (约 26MB，纯 JS):
 
-The planned dependency shape is npm libraries (`vega` + `vega-lite`), optional like the other six: installing `@nekoleapuki/pamphlet-cli` gets you the compiler and no engines at all. [The other seven engines](/en/write/diagrams/others) explains why.
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-vega-lite
+```
 
-Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
+Then confirm with `pamphlet doctor`:
+
+```
+✓ vega-lite（vega-lite）
+```
+
+**Using the fence without installing it**: you get `DIAG-301` and **the whole build fails** (no placeholder box), with that command in the hint.
+
+Licence: BSD-3-Clause.
+
+Put the data inline in `data.values`. An external URL is unreachable from a self-contained output — the artifact must open by double-click with no network.
 
 ## Traps
 
@@ -58,4 +70,4 @@ Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
 - Malformed JSON does not degrade gracefully; the whole diagram fails to draw
 - Put the data inline in `values`; an external URL is unreachable from a self-contained output
 
-> Source: [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

@@ -72,7 +72,7 @@ Pamphlet 在标准 Markdown 之上加的五种，统称[容器指令](/write/com
 | [数据图表](/write/diagrams/chart) | `:::chart` | — Mermaid 画不了 |
 | [组织架构图](/write/diagrams/orgchart) | `:::orgchart` | — Mermaid 画不了 |
 
-**前十三种由 [Mermaid](/write/diagrams/mermaid) 画**（要先装一次），自有写法会被翻译成它的图源；**后四种 Mermaid 画不了**，由 Pamphlet 自己算布局、自己出 SVG，编译时不需要浏览器。其余七种引擎**都还没实现**，写了报 `DIAG-301` 并且构建失败——它们各有一页：[d2](/write/diagrams/d2) · [Graphviz](/write/diagrams/dot) · [MathJax](/write/diagrams/math) · [Vega-Lite](/write/diagrams/vega-lite) · [WaveDrom](/write/diagrams/wavedrom) · [bytefield-svg](/write/diagrams/bytefield) · [PlantUML](/write/diagrams/plantuml)，共同的取舍写在[其余七种引擎](/write/diagrams/others)。
+**前十三种由 [Mermaid](/write/diagrams/mermaid) 画**（要先装一次），自有写法会被翻译成它的图源；**后四种 Mermaid 画不了**，由 Pamphlet 自己算布局、自己出 SVG，编译时不需要浏览器。其余七个引擎**各自是一个包，用到哪个装哪个**（没装就报 `DIAG-301` 并且整次构建失败）——它们各有一页：[d2](/write/diagrams/d2) · [Graphviz](/write/diagrams/dot) · [MathJax](/write/diagrams/math) · [Vega-Lite](/write/diagrams/vega-lite) · [WaveDrom](/write/diagrams/wavedrom) · [bytefield-svg](/write/diagrams/bytefield) · [PlantUML](/write/diagrams/plantuml)，共同的取舍和装法写在[其余七个引擎](/write/diagrams/others)。
 
 图片单独一页：[图片与资源](/write/diagrams/images)。
 
@@ -95,7 +95,7 @@ Pamphlet 在标准 Markdown 之上加的五种，统称[容器指令](/write/com
 | 写了会怎样 | |
 |---|---|
 | **脚注** `[^1]` | 报 `DOC-105` **错误**。静默丢掉意味着你写的注释凭空消失，所以宁可报错。替代写法见[强调](/write/text/emphasis)旁边的括注，或用 `:::info` |
-| **行内公式** `$x$` | 不支持，只有块级 ` ```math ` 围栏，而它本身还没实现 |
+| **行内公式** `$x$` | 不支持，只有块级 ` ```math ` 围栏（装 [MathJax 引擎](/write/diagrams/math)后可用） |
 | **`:::callout`** | 报 `DIR-201` 警告。`callout` 是四种提示块的统称，不是指令名 |
 | **单行指令** `::name[内容]` | 报 `DIR-202`。九个指令全部是容器指令，必须成对冒号包住内容 |
 

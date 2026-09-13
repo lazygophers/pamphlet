@@ -72,7 +72,7 @@ The structured syntax does not render on GitHub; the fence does. Which you want 
 | [Data charts](/en/write/diagrams/chart) | `:::chart` | — Mermaid cannot |
 | [Org charts](/en/write/diagrams/orgchart) | `:::orgchart` | — Mermaid cannot |
 
-**The first thirteen are drawn by [Mermaid](/en/write/diagrams/mermaid)** (installed once); the structured syntax is translated into its source. **The last four Mermaid cannot draw** — Pamphlet lays those out and emits the SVG itself, with no browser needed at compile time. The other seven engines are **not implemented**; using one reports `DIAG-301` and fails the build. Each has its own page: [d2](/en/write/diagrams/d2) · [Graphviz](/en/write/diagrams/dot) · [MathJax](/en/write/diagrams/math) · [Vega-Lite](/en/write/diagrams/vega-lite) · [WaveDrom](/en/write/diagrams/wavedrom) · [bytefield-svg](/en/write/diagrams/bytefield) · [PlantUML](/en/write/diagrams/plantuml); the shared trade-offs live in [The other seven engines](/en/write/diagrams/others).
+**The first thirteen are drawn by [Mermaid](/en/write/diagrams/mermaid)** (installed once); the structured syntax is translated into its source. **The last four Mermaid cannot draw** — Pamphlet lays those out and emits the SVG itself, with no browser needed at compile time. The other seven engines are **each their own package — install the one you need** (without it you get `DIAG-301` and the build fails). Each has its own page: [d2](/en/write/diagrams/d2) · [Graphviz](/en/write/diagrams/dot) · [MathJax](/en/write/diagrams/math) · [Vega-Lite](/en/write/diagrams/vega-lite) · [WaveDrom](/en/write/diagrams/wavedrom) · [bytefield-svg](/en/write/diagrams/bytefield) · [PlantUML](/en/write/diagrams/plantuml); the shared trade-offs live in [The other seven engines](/en/write/diagrams/others).
 
 Images have their own page: [Images and assets](/en/write/diagrams/images).
 
@@ -95,7 +95,7 @@ Full details in the [frontmatter reference](/en/reference/frontmatter).
 | If you write it | |
 |---|---|
 | **Footnotes** `[^1]` | `DOC-105`, an **error**. Dropping them silently would make your notes vanish, so it errors instead. Use a parenthetical or a `:::info` block |
-| **Inline maths** `$x$` | Unsupported; only a block ` ```math ` fence exists, and that is not implemented either |
+| **Inline maths** `$x$` | Not supported; only the block-level ` ```math ` fence (install the [MathJax engine](/en/write/diagrams/math)) |
 | **`:::callout`** | `DIR-201` warning. `callout` is the collective name for the four callouts, not a directive |
 | **Single-line directives** `::name[content]` | `DIR-202`. All nine directives are container directives |
 

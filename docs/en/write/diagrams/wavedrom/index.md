@@ -1,4 +1,4 @@
-# WaveDrom (not implemented yet)
+# WaveDrom
 
 ## What it is
 
@@ -28,13 +28,25 @@ The fence holds JSON (WaveJSON); one character of a `wave` string is one time sl
 
 > Source: <https://wavedrom.com/tutorial.html>
 
-## Where it stands
+## Install it once
 
-**The fence language `wavedrom` is recognised, but the engine is not written yet.** Using it reports `DIAG-301` ("no engine installed that can draw wavedrom") and **fails the build** — not a placeholder box, the whole compile stops.
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (3.3MB，纯 JS):
 
-The planned dependency shape is an npm library (`wavedrom`), optional like the other six: installing `@nekoleapuki/pamphlet-cli` gets you the compiler and no engines at all. [The other seven engines](/en/write/diagrams/others) explains why.
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-wavedrom
+```
 
-Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
+Then confirm with `pamphlet doctor`:
+
+```
+✓ wavedrom（wavedrom）
+```
+
+**Using the fence without installing it**: you get `DIAG-301` and **the whole build fails** (no placeholder box), with that command in the hint.
+
+Licence: MIT.
+
+Its three semantic colours (warning yellow, error red, success green) **deliberately do not follow the theme** — red, yellow and green should stay red, yellow and green in either mode. Each waveform therefore reports three `DIAG-304` warnings, and that is expected.
 
 ## Traps
 
@@ -42,4 +54,4 @@ Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
 - The length of a `wave` string is the length of the time axis; signals that should line up must be the same length
 - WaveJSON is relaxed JSON (unquoted keys), not quite standard JSON
 
-> Source: [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

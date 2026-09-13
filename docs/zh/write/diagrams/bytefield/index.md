@@ -1,4 +1,4 @@
-# bytefield-svg（还没实现）
+# bytefield-svg
 
 ## 这是什么
 
@@ -32,13 +32,25 @@ bytefield-svg 画**位域图**：一个协议报文、一段内存布局里，�
 
 > 出处：<https://bytefield-svg.deepsymmetry.org/bytefield-svg/1.11.0/intro.html>
 
-## 现在什么状态
+## 先装一次
 
-**围栏语言 `bytefield` 认得，但引擎还没写。** 写了会得到 `DIAG-301`「没有装能画 bytefield 的引擎」，并且**构建失败**——不是画不出来留个占位框，是整次编译不通过。
+它不跟着 Pamphlet 一起装——用到才装，不用的人一个字节都不多（2.1MB，七个里体积最小的）：
 
-将来的依赖形态是npm，纯 JS，和其余六个一样列为可选依赖：装 `@nekoleapuki/pamphlet-cli` 只得到编译器本体，一个引擎都不带。为什么这么安排见[其余七种引擎](/write/diagrams/others)。
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-bytefield
+```
 
-现在要画这种图，先用 [Mermaid 围栏](/write/diagrams/mermaid/)里最接近的一种顶着。
+装完跑 `pamphlet doctor` 确认：
+
+```
+✓ bytefield（bytefield）
+```
+
+**没装就用这种围栏会怎样**：得到 `DIAG-301` 并且**整次编译失败**（不是留个占位框），提示里就是上面那条命令。
+
+许可证：EPL-2.0。
+
+有 7 处边框线换不成线条色，用的是文字色——那几条线的默认颜色写死在它源码里，DSL 层够不着。颜色仍然跟着主题变，只是语义偏了一点。
 
 ## 坑
 
@@ -46,4 +58,4 @@ bytefield-svg 画**位域图**：一个协议报文、一段内存布局里，�
 - 一行默认十六个字节，要改用 `(def boxes-per-row 4)`
 - 数字直接写会渲染成两位十六进制——这是故意的，提醒你那是一个字节
 
-> 出处：[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）

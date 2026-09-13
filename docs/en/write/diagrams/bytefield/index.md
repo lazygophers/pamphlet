@@ -1,4 +1,4 @@
-# bytefield-svg (not implemented yet)
+# bytefield-svg
 
 ## What it is
 
@@ -32,13 +32,25 @@ The fence holds its own DSL (it looks like Clojure because it is Clojure):
 
 > Source: <https://bytefield-svg.deepsymmetry.org/bytefield-svg/1.11.0/intro.html>
 
-## Where it stands
+## Install it once
 
-**The fence language `bytefield` is recognised, but the engine is not written yet.** Using it reports `DIAG-301` ("no engine installed that can draw bytefield") and **fails the build** — not a placeholder box, the whole compile stops.
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (2.1MB，七个里体积最小的):
 
-The planned dependency shape is npm, pure JS, optional like the other six: installing `@nekoleapuki/pamphlet-cli` gets you the compiler and no engines at all. [The other seven engines](/en/write/diagrams/others) explains why.
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-bytefield
+```
 
-Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
+Then confirm with `pamphlet doctor`:
+
+```
+✓ bytefield（bytefield）
+```
+
+**Using the fence without installing it**: you get `DIAG-301` and **the whole build fails** (no placeholder box), with that command in the hint.
+
+Licence: EPL-2.0.
+
+Seven border lines end up using the text colour rather than the line colour: their defaults are hard-coded in its source where the DSL cannot reach. They still follow the theme; only the semantics are slightly off.
 
 ## Traps
 
@@ -46,4 +58,4 @@ Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
 - A row holds sixteen bytes by default; change it with `(def boxes-per-row 4)`
 - A bare number renders as two hex digits — deliberately, to remind you it is one byte
 
-> Source: [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

@@ -85,7 +85,7 @@ Writing `[^1]` now **fails with `DOC-105`** rather than vanishing silently. Alte
 
 ## Can I write inline maths
 
-No. Only the block ` ```math ` fence — and that engine is not implemented yet.
+No. Only the block ` ```math ` fence — install the [MathJax engine](/en/write/diagrams/math) and it works.
 
 `$` is everywhere in technical writing (`$ npm install`, `$HOME`, `$99`), and a false positive would turn ordinary prose into a formula.
 

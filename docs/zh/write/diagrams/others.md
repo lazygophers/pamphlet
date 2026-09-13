@@ -1,22 +1,22 @@
-# 其余七种图表
+# 其余七个引擎
 
-围栏语言认得，但**引擎还没写**。写了会得到 `DIAG-301`「没有装能画 X 的引擎」，构建失败。
+Mermaid 内置在 Pamphlet 里，**其余七个各自是一个包，用到哪个装哪个**。不装的人一个字节都不多——七个全装约 340MB，其中 d2 一个就 91.4MB。
 
-| 围栏语言 | 引擎 | 将来的依赖形态 |
-|---|---|---|
-| [`d2`](/write/diagrams/d2) | d2 | npm，WASM，无浏览器 |
-| [`dot`](/write/diagrams/dot) | Graphviz | npm，WASM，无浏览器 |
-| [`math`](/write/diagrams/math) | MathJax v3 | npm，纯 JS，原生输出 SVG |
-| [`vega-lite`](/write/diagrams/vega-lite) | Vega-Lite | npm 库 |
-| [`wavedrom`](/write/diagrams/wavedrom) | WaveDrom | npm 库 |
-| [`bytefield`](/write/diagrams/bytefield) | bytefield-svg | npm，纯 JS |
-| [`plantuml`](/write/diagrams/plantuml) | PlantUML | **jar，需 Java ≥ 11** |
+| 围栏语言 | 引擎 | 装什么 | 体积 |
+|---|---|---|---|
+| [`dot`](/write/diagrams/dot) | Graphviz | `npm i -D @nekoleapuki/pamphlet-engine-graphviz` | 2.1MB |
+| [`math`](/write/diagrams/math) | MathJax | `npm i -D @nekoleapuki/pamphlet-engine-mathjax` | 50MB |
+| [`vega-lite`](/write/diagrams/vega-lite) | Vega-Lite | `npm i -D @nekoleapuki/pamphlet-engine-vega-lite` | 26MB |
+| [`wavedrom`](/write/diagrams/wavedrom) | WaveDrom | `npm i -D @nekoleapuki/pamphlet-engine-wavedrom` | 3.3MB |
+| [`bytefield`](/write/diagrams/bytefield) | bytefield-svg | `npm i -D @nekoleapuki/pamphlet-engine-bytefield` | 2.1MB |
+| [`d2`](/write/diagrams/d2) | d2 | `npm i -D @nekoleapuki/pamphlet-engine-d2` | 91.4MB |
+| [`plantuml`](/write/diagrams/plantuml) | PlantUML | `npm i -D @nekoleapuki/pamphlet-engine-plantuml` | jar + Java |
 
-**每一种一页**，点上表第一列进去：那一页写清它是什么、能画哪些图、围栏里怎么写、现在什么状态。
+**每一种一页**，点上表第一列进去：那一页写清它是什么、能画哪些图、围栏里怎么写、有什么坑。
 
-源码里 `packages/pamphlet/src/diagrams/` 目前只有 `mermaid.ts`。形态在 [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) 里已经定了，只是还没写。
+没装就用那种围栏会得到 `DIAG-301` 并且**整次编译失败**（不是留个占位框），提示里就是上表第三列那条命令。`pamphlet doctor` 一次列全七个装了没有。
 
-## 为什么引擎全是可选依赖
+## 为什么不干脆全内置
 
 装 `@nekoleapuki/pamphlet-cli` 只得到**编译器本体**，一个引擎都不带。
 
@@ -57,6 +57,15 @@ E = mc^2
 
 ## 自己接一个引擎
 
-frontmatter 里的 `engines` 字段是为这件事准备的，但**目前尚未实现**，写了只会得到 `DOC-104` 警告。详见[接一个自定义图表引擎](/howto/custom-engine)。
+上面七个是官方包。要接别的渲染器，用 frontmatter 里的 `engines` 字段描述一条外部命令——**图源走标准输入进、SVG 走标准输出出**：
 
-> 出处：[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+```yaml
+engines:
+  my-engine:
+    langs: [mylang]
+    command: [my-renderer, --svg, -]
+```
+
+这条路不需要写任何 JavaScript，所以构建期不会跑第三方代码。官方的 PlantUML 引擎内部走的就是它。详见[接一个自定义图表引擎](/howto/custom-engine)。
+
+> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)

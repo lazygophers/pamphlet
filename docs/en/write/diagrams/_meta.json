@@ -91,7 +91,7 @@
   },
   {
     "type": "custom-link",
-    "label": "The other seven engines (not yet)",
+    "label": "The other seven engines",
     "link": "/en/write/diagrams/others",
     "collapsed": true,
     "items": [

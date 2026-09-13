@@ -26,7 +26,7 @@ toc:
 | `theme` | 字符串 | `default` | 用哪一套内置主题 |
 | `lang` | 字符串 | `zh-CN` | 产物 `<html lang="…">` |
 | `toc` | 布尔或对象 | 关 | 目录 |
-| `engines` | 对象 | — | ⚠️ 尚未实现 |
+| `engines` | 对象 | — | 自定义引擎：外部命令，图源走 stdin、SVG 走 stdout |
 
 ## spec
 
@@ -127,8 +127,8 @@ engines:
     command: [mytool, --svg]
 ```
 
-:::warning 尚未实现
-写了会得到 `DOC-104` 警告：「engines（自定义引擎）尚未实现，这段声明暂时不起作用」。内置引擎照常工作。
+:::info 只支持 command
+`command` 这条路可以用了；`http`（远程渲染服务）还没写，写了会得到一条 `DOC-104` 说明。
 :::
 
 将来的形态见[接一个自定义图表引擎](/howto/custom-engine)。

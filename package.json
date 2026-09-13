@@ -16,7 +16,8 @@
     "themes:shots": "pnpm -r build && node packages/pamphlet/scripts/theme-shots.mjs",
     "skills:sync": "pnpm -r build && node packages/pamphlet/scripts/skills-sync.mjs",
     "docs:preview": "rspress preview",
-    "demo:build": "pnpm -r build && node packages/pamphlet/dist/bin.js build examples/demo.md -o docs/public/demo/index.html"
+    "demo:build": "pnpm -r build && node packages/pamphlet/dist/bin.js build examples/demo.md -o docs/public/demo/index.html",
+    "test:engines": "pnpm -r build && vitest run test/engines.test.ts test/engine-graphviz.test.ts test/engine-packages.test.ts test/command-engine.test.ts --root packages/pamphlet"
   },
   "devDependencies": {
     "@rspress/core": "^2.0.21",

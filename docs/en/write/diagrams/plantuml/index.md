@@ -1,4 +1,4 @@
-# PlantUML (not implemented yet)
+# PlantUML
 
 ## What it is
 
@@ -37,13 +37,27 @@ Bob --> Alice: Authentication Response
 
 > Source: <https://plantuml.com/sequence-diagram>
 
-## Where it stands
+## Install it once
 
-**The fence language `plantuml` is recognised, but the engine is not written yet.** Using it reports `DIAG-301` ("no engine installed that can draw plantuml") and **fails the build** — not a placeholder box, the whole compile stops.
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (一个 jar，**还要 Java ≥ 11**):
 
-The planned dependency shape is **a jar, needs Java ≥ 11**, optional like the other six: installing `@nekoleapuki/pamphlet-cli` gets you the compiler and no engines at all. [The other seven engines](/en/write/diagrams/others) explains why.
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-plantuml
+```
 
-Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
+Then confirm with `pamphlet doctor`:
+
+```
+✓ plantuml（plantuml）
+```
+
+**Using the fence without installing it**: you get `DIAG-301` and **the whole build fails** (no placeholder box), with that command in the hint.
+
+Licence: LGPL (take the `plantuml-lgpl` jar).
+
+It is not like the other six: not an npm package, so after installing the engine package you still **download the jar yourself**. Take `plantuml-lgpl` (no embedded GraphViz — Pamphlet wires Graphviz separately) and point `PLANTUML_JAR` at it.
+
+Two more things: the diagrams it generates belong to whoever wrote the source and are not covered by the GPL; and **PlantUML occasionally shows sponsor messages on its welcome and error images** (never on a working diagram) — that is not something Pamphlet inserted.
 
 ## Traps
 
@@ -51,4 +65,4 @@ Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
 - On Unix it must be invoked with `-Djava.awt.headless=true`, otherwise it reaches for X11 graphics libraries (<https://plantuml.com/faq-install>)
 - It is a jar rather than an npm package, so installing it looks nothing like the other six
 
-> Source: [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

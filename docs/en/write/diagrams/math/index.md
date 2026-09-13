@@ -1,4 +1,4 @@
-# MathJax (not implemented yet)
+# MathJax
 
 ## What it is
 
@@ -24,13 +24,25 @@ E = mc^2
 
 What goes in the fence is ordinary TeX, the same as in a paper.
 
-## Where it stands
+## Install it once
 
-**The fence language `math` is recognised, but the engine is not written yet.** Using it reports `DIAG-301` ("no engine installed that can draw math") and **fails the build** — not a placeholder box, the whole compile stops.
+It does not come with Pamphlet — install it when you need it, and everyone else downloads nothing (约 50MB，纯 JS):
 
-The planned dependency shape is npm, pure JS, emits SVG natively, optional like the other six: installing `@nekoleapuki/pamphlet-cli` gets you the compiler and no engines at all. [The other seven engines](/en/write/diagrams/others) explains why.
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-mathjax
+```
 
-Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
+Then confirm with `pamphlet doctor`:
+
+```
+✓ mathjax（math）
+```
+
+**Using the fence without installing it**: you get `DIAG-301` and **the whole build fails** (no placeholder box), with that command in the hint.
+
+Licence: Apache-2.0.
+
+Formula colours are entirely `currentColor`, inherited from the surrounding text, so dark mode just works without any colour substitution.
 
 ## Traps
 
@@ -38,4 +50,4 @@ Until then, reach for the closest [Mermaid fence](/en/write/diagrams/mermaid/).
 - For a superscript or subscript without invoking the maths engine, use raw HTML `<sub>` / `<sup>` ([raw HTML passes through](/en/write/html))
 - The `mathjax-full` package is about 42MB, 8MB of which is `speech-rule-engine`
 
-> Source: [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> Sources: [ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md) (engines as separate packages), [ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md) (why these seven)

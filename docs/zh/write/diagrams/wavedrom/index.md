@@ -1,4 +1,4 @@
-# WaveDrom（还没实现）
+# WaveDrom
 
 ## 这是什么
 
@@ -28,13 +28,25 @@ WaveDrom 画**数字波形图**——时钟、信号在时间上的高低变化�
 
 > 出处：<https://wavedrom.com/tutorial.html>
 
-## 现在什么状态
+## 先装一次
 
-**围栏语言 `wavedrom` 认得，但引擎还没写。** 写了会得到 `DIAG-301`「没有装能画 wavedrom 的引擎」，并且**构建失败**——不是画不出来留个占位框，是整次编译不通过。
+它不跟着 Pamphlet 一起装——用到才装，不用的人一个字节都不多（3.3MB，纯 JS）：
 
-将来的依赖形态是npm 库（`wavedrom`），和其余六个一样列为可选依赖：装 `@nekoleapuki/pamphlet-cli` 只得到编译器本体，一个引擎都不带。为什么这么安排见[其余七种引擎](/write/diagrams/others)。
+```bash
+npm i -D @nekoleapuki/pamphlet-engine-wavedrom
+```
 
-现在要画这种图，先用 [Mermaid 围栏](/write/diagrams/mermaid/)里最接近的一种顶着。
+装完跑 `pamphlet doctor` 确认：
+
+```
+✓ wavedrom（wavedrom）
+```
+
+**没装就用这种围栏会怎样**：得到 `DIAG-301` 并且**整次编译失败**（不是留个占位框），提示里就是上面那条命令。
+
+许可证：MIT。
+
+它的三个语义色（警告黄、错误红、成功绿）**故意不跟主题**——红黄绿在深浅两种主题下本来就该是红黄绿。每张波形图因此会报三条 `DIAG-304`，那是预期之内的。
 
 ## 坑
 
@@ -42,4 +54,4 @@ WaveDrom 画**数字波形图**——时钟、信号在时间上的高低变化�
 - `wave` 字符串的长度就是时间轴的长度，几条信号要对齐就得一样长
 - WaveJSON 用的是宽松 JSON（键不加引号），和标准 JSON 不完全一样
 
-> 出处：[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)
+> 出处：[ADR-0041](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0041-engines-are-separate-packages.md)（引擎各自成包）、[ADR-0008](https://github.com/lazygophers/pamphlet/blob/master/docs/adr/0008-builtin-engines.md)（为什么是这七个）
