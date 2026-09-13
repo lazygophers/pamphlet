@@ -9,7 +9,19 @@ export default defineConfig({
       // 测试跑源码，不依赖 dist —— 否则每次改 runtime 都要先 build 才能跑测试
       '@nekoleapuki/pamphlet-runtime': resolvePath('./packages/runtime/src/index.ts'),
       '@nekoleapuki/pamphlet-themes': resolvePath('./packages/themes/src/index.ts'),
+      // 子路径要排在裸包名前面：alias 按顺序前缀匹配，反过来写 `/engine-kit` 永远命不中。
+      // 少了这一条，从仓库根跑 vitest 时引擎包解析不到主包（实测 ERR_MODULE_NOT_FOUND，
+      // 而从 packages/pamphlet 里跑却是好的——差别正是解析的起点在哪）
+      '@nekoleapuki/pamphlet-cli/engine-kit': resolvePath('./packages/pamphlet/src/engine-kit.ts'),
       '@nekoleapuki/pamphlet-cli': resolvePath('./packages/pamphlet/src/index.ts'),
+      ...Object.fromEntries(
+        ['graphviz', 'mathjax', 'vega-lite', 'bytefield', 'wavedrom', 'd2', 'plantuml'].map(
+          (engine) => [
+            `@nekoleapuki/pamphlet-engine-${engine}`,
+            resolvePath(`./packages/engine-${engine}/src/index.ts`),
+          ],
+        ),
+      ),
     },
   },
   test: {
