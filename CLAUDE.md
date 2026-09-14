@@ -39,13 +39,11 @@ pnpm test:engines
 
 ### Issue tracker
 
-Issues 存 GitHub：<https://github.com/lazygophers/pamphlet/issues>，用 `gh` 命令行读写。见 `docs/agents/issue-tracker.md`。
+票是本地 markdown，存在 `.scratch/issues/` 下，`open/` 和 `done/` 两个目录分开。见 `docs/agents/issue-tracker.md`。
 
-2026-09-11 从本地 markdown 换过来的，理由不是偏好：`.scratch/` 被 `.gitignore` 排除，写在那儿的票从来没进过版本库——上一个功能的五张票连同 spec 随目录一起没了，git 里找不回来。
+**`.scratch/` 不进版本库**（`.gitignore` 第 7 行）。这是明知的选择，代价是票只活在这台机器上——所以**重要结论不要只写在票里**，实测数据和设计决策要落到 `docs/adr/`、`CONTEXT.md` 或代码注释里。
 
-### Triage labels
-
-默认五角色，标签串等于角色名（`needs-triage` / `needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`）。见 `docs/agents/triage-labels.md`。
+2026-09-14 从 GitHub Issues 换回来时，把那 48 张票连同评论导出到了本地；GitHub 上的原票没删，仍是那批数据真正的备份。
 
 ### Domain docs
 

@@ -1,51 +1,77 @@
-# Issue tracker: GitHub
+# Issue tracker：本地 markdown
 
-Issues and specs for this repo live as GitHub issues at
-<https://github.com/lazygophers/pamphlet/issues>. Use the `gh` CLI for all operations.
+票是 markdown 文件，存在 `.scratch/issues/` 下，按**开着还是做完了**分两个目录：
 
-> Changed from local markdown (`.scratch/`) on 2026-09-11. The reason was concrete rather than
-> theoretical: `.scratch/` is covered by `.gitignore`, so tickets written there were never
-> committed — and the previous feature's five tickets plus its spec were lost when the directory
-> was removed, with nothing in git to restore them from.
+```
+.scratch/issues/
+├── open/    还没做完的
+└── done/    做完了的
+```
 
-## Conventions
+一张票一个文件，文件名 `NN-<短标题>.md`。
 
-- **Create an issue**: `gh issue create --title "..." --body "..."`. Use a heredoc for multi-line bodies.
-- **Read an issue**: `gh issue view <number> --comments`, filtering comments by `jq` and also fetching labels.
-- **List issues**: `gh issue list --state open --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'` with appropriate `--label` and `--state` filters.
-- **Comment on an issue**: `gh issue comment <number> --body "..."`
-- **Apply / remove labels**: `gh issue edit <number> --add-label "..."` / `--remove-label "..."`
-- **Close**: `gh issue close <number> --comment "..."`
+> 2026-09-14 从 GitHub Issues 换回来的（此前 2026-09-11 从本地换去过 GitHub）。
+> 换回来时把 GitHub 上那 48 张票连同全部评论导出到了 `done/` 和 `open/`，
+> GitHub 上的原票没有删，还在 <https://github.com/lazygophers/pamphlet/issues>。
 
-Infer the repo from `git remote -v`; `gh` does this automatically when run inside a clone.
+## ⚠️ `.scratch/` 不进版本库
 
-## Pull requests as a triage surface
+`.gitignore` 第 7 行排除 `.scratch/`。**这是明知的选择**（2026-09-14 用户确认），但代价要写在这里，因为它踩过一次：
 
-**PRs as a request surface: no.** _(Set to `yes` if this repo treats external PRs as feature requests; `/triage` reads this flag.)_
+> 2026-09-11 从本地换去 GitHub 的原因就是这个——上一个功能的五张票连同 spec 随 `.scratch/` 一起没了，git 里找不回来。
 
-When set to `yes`, PRs run through the same labels and states as issues, using the `gh pr` equivalents:
+所以：
 
-- **Read a PR**: `gh pr view <number> --comments` and `gh pr diff <number>` for the diff.
-- **List external PRs for triage**: `gh pr list --state open --json number,title,body,labels,author,authorAssociation,comments` then keep only `authorAssociation` of `CONTRIBUTOR`, `FIRST_TIME_CONTRIBUTOR`, or `NONE` (drop `OWNER`/`MEMBER`/`COLLABORATOR`).
-- **Comment / label / close**: `gh pr comment`, `gh pr edit --add-label`/`--remove-label`, `gh pr close`.
+- 票只活在这台机器上，`rm -rf` 或换台机器就没了
+- **重要结论不要只写在票里**。实测数据、设计决策、术语，该落到 `docs/adr/`、`CONTEXT.md` 或代码注释里——那些进版本库
+- 导出的那 48 张票同理：它们是本地副本，真正的备份是 GitHub 上那些没删的原票
 
-GitHub shares one number space across issues and PRs, so a bare `#42` may be either: resolve with `gh pr view 42` and fall back to `gh issue view 42`.
+## 没有 triage 标签
 
-## When a skill says "publish to the issue tracker"
+这个仓库不用五角色标签（2026-09-14 用户确认）。票只有两种状态，**靠它在哪个目录表示**：
 
-Create a GitHub issue.
+- `open/` = 还没做完
+- `done/` = 做完了，`git mv` 过去（它不进 git，所以其实就是 `mv`）
 
-## When a skill says "fetch the relevant ticket"
+`triage` 这个 skill 的五个角色在这里用不上。
 
-Run `gh issue view <number> --comments`.
+## 约定
 
-## Wayfinding operations
+- **建一张票**：在 `.scratch/issues/open/` 下写一个 `NN-<短标题>.md`，`NN` 取当前最大号加一
+- **读一张票**：直接读那个文件
+- **列全部**：`ls .scratch/issues/open/`
+- **搜**：`grep -rl "关键词" .scratch/issues/`
+- **关掉**：`mv .scratch/issues/open/NN-*.md .scratch/issues/done/`
+- **评论**：追加在文件末尾，用 `---` 分隔，写清是谁什么时候写的
 
-Used by `/wayfinder`. The **map** is a single issue with **child** issues as tickets.
+## 票的模板
 
-- **Map**: a single issue labelled `wayfinder:map`, holding the Notes / Decisions-so-far / Fog body. `gh issue create --label wayfinder:map`.
-- **Child ticket**: an issue linked to the map as a GitHub sub-issue (`gh api` on the sub-issues endpoint). Where sub-issues aren't enabled, add the child to a task list in the map body and put `Part of #<map>` at the top of the child body. Labels: `wayfinder:<type>` (`research`/`prototype`/`grilling`/`task`). Once claimed, the ticket is assigned to the driving dev.
-- **Blocking**: GitHub's **native issue dependencies**, the canonical, UI-visible representation. Add an edge with `gh api --method POST repos/<owner>/<repo>/issues/<child>/dependencies/blocked_by -F issue_id=<blocker-db-id>`, where `<blocker-db-id>` is the blocker's numeric **database id** (`gh api repos/<owner>/<repo>/issues/<n> --jq .id`, _not_ the `#number` or `node_id`). GitHub reports `issue_dependencies_summary.blocked_by` (open blockers only, the live gate). Where dependencies aren't available, fall back to a `Blocked by: #<n>, #<n>` line at the top of the child body. A ticket is unblocked when every blocker is closed.
-- **Frontier query**: list the map's open children (`gh issue list --state open`, scoped to the map's sub-issues / task list), drop any with an open blocker (`issue_dependencies_summary.blocked_by > 0`, or an open issue in the `Blocked by` line) or an assignee; first in map order wins.
-- **Claim**: `gh issue edit <n> --add-assignee @me`, the session's first write.
-- **Resolve**: `gh issue comment <n> --body "<answer>"`, then `gh issue close <n>`, then append a context pointer (gist + link) to the map's Decisions-so-far.
+```markdown
+# NN: 标题
+
+**要做出什么：** 做完之后从使用者角度看是什么样，不是分层的实现清单。
+
+**被谁挡着：** 哪几张票做完了它才能开始，或者「没有，随时能开」。
+
+- [ ] 验收条件 1
+- [ ] 验收条件 2
+```
+
+## skill 说「发布到 issue tracker」时
+
+在 `.scratch/issues/open/` 下建一个 markdown 文件。
+
+## skill 说「取那张票」时
+
+读 `.scratch/issues/*/NN-*.md`。
+
+## wayfinder 用到的那几样
+
+`/wayfinder` 需要「地图 + 子票 + 阻塞关系 + 前沿」，本地目录上这样表示：
+
+- **地图**：`.scratch/issues/open/NN-map-<名字>.md`，正文含「目的地 / Notes / Decisions so far / Not yet specified / Out of scope」五段
+- **子票**：普通票文件，正文头一行写 `Part of NN`
+- **阻塞**：票里写一行 `**被谁挡着：** NN, NN`
+- **前沿**：`open/` 里那些「被谁挡着」列的票都已经在 `done/` 里的
+- **认领**：票里写一行 `**在做：** <名字>`
+- **解决**：把答案追加到票末尾，`mv` 进 `done/`，再把一行摘要加到地图的 Decisions so far
