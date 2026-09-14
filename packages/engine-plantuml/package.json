@@ -1,6 +1,6 @@
 {
   "name": "@nekoleapuki/pamphlet-engine-plantuml",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pamphlet 的 PlantUML 引擎：画 ```plantuml 围栏的 UML 图，需要 Java ≥ 11",
   "type": "module",
   "license": "AGPL-3.0-or-later",
@@ -33,7 +33,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "@nekoleapuki/pamphlet-cli": "workspace:*"
+    "@nekoleapuki/pamphlet-cli": "workspace:^"
   },
   "devDependencies": {
     "@nekoleapuki/pamphlet-cli": "workspace:*"

@@ -1,6 +1,6 @@
 {
   "name": "@nekoleapuki/pamphlet-engine-wavedrom",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pamphlet 的 WaveDrom 引擎：画 ```wavedrom 围栏的数字波形图",
   "type": "module",
   "license": "AGPL-3.0-or-later",
@@ -36,7 +36,7 @@
     "onml": "^2.1.0"
   },
   "peerDependencies": {
-    "@nekoleapuki/pamphlet-cli": "workspace:*"
+    "@nekoleapuki/pamphlet-cli": "workspace:^"
   },
   "devDependencies": {
     "@nekoleapuki/pamphlet-cli": "workspace:*"

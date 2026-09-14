@@ -1,6 +1,6 @@
 {
   "name": "@nekoleapuki/pamphlet-engine-mathjax",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pamphlet 的 MathJax 引擎：画 ```math 围栏里的 TeX 公式",
   "type": "module",
   "license": "AGPL-3.0-or-later",
@@ -36,7 +36,7 @@
     "mathjax-full": "3.2.2"
   },
   "peerDependencies": {
-    "@nekoleapuki/pamphlet-cli": "workspace:*"
+    "@nekoleapuki/pamphlet-cli": "workspace:^"
   },
   "devDependencies": {
     "@nekoleapuki/pamphlet-cli": "workspace:*"
